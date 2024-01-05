@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {},
+  "extends": "expo/tsconfig.base",
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "Screens/Authentication/Loginscreen.js",
+    "Screens/Authentication/Register.js",
+    "Screens/Authentication/AuthContext.js",
+    "App.js"
+  ]
+}
