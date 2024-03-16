@@ -8,7 +8,7 @@ Router.use(authController.protect);
 
 Router.get("/month/:year/:month", calenderController.monthEvent)
   .get("/day/:year/:month/:day", calenderController.dayEvent)
-  .post("/day/:year/:month/:day/new", calenderController.createPersonelEvent)
+  .post("/day", calenderController.createPersonelEvent)
   .post("/day/:year/:month/:day/club", calenderController.createClubEvent)
   .get("/all", calenderController.AllEvents);
 

@@ -10,7 +10,8 @@ router.use(authController.protect);
 router
   .get("/:type", notesController.GetNotesBytype)
   .get("/", notesController.getAllNotess)
-  .post("/addNotes", notesController.getPdf, notesController.uploadPdf);
+  .post("/addNotes", notesController.getPdf, notesController.uploadPdf)
+  .post("/favourite", notesController.FavouritePdf);
 
 router.use(authController.restrictTo("admin"));
 

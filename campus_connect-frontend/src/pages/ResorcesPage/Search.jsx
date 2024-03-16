@@ -18,14 +18,12 @@ function Search() {
     const LightTheme = useSelector((state) => state.themeKey)
     const [searchQuery , setSearchQuery] = useState("");
     const favoriteList = useSelector((state) => state.favourite.id);
-    console.log(favoriteList);
+   
 
     const AllPdf = async()=>{
       const result = await ViewPdf();
-      console.log(result.data.data);
       setPdfList(result.data.data);
     }
-
     useEffect(()=>{
       AllPdf();
     },[])
@@ -51,15 +49,11 @@ function Search() {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-         
-
           <div className="pdfcol" style={{display:"flex", flex:1 , flexWrap:"wrap" , overflow:"scroll"}}>
-          {pdfList.map((pdfItem, index) => {
-            console.log(favoriteList);
-            return(
+          {pdfList.map((pdfItem, index) => (
   <div className="pdf" key={index}>
     <div style={{ display: "flex", justifyContent: "center", height: "80%" }}>
-      <img onClick={() => nav("/resource/view")} src={pdf} height={100} width={100} alt="pdf" />
+      <img onClick={() => nav(`/resource/view/${pdfItem.Pdf}`)} src={pdf} height={100} width={100} alt="pdf" />
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
         <IconButton className="specialIcon"><DownloadIcon className="specialIcon" /></IconButton>
         <IconButton className="specialIcon" onClick={() => toggleFavorite(pdfItem._id)}>
@@ -71,8 +65,9 @@ function Search() {
     <p style={{ display: "flex", color: "#909090", justifyContent: "center", alignItems: "center", padding: "0px 10px", fontWeight: "bold" }}>
       {pdfItem.Title}
     </p>
+    
   </div>
-)})}
+))}
             
           </div>
           

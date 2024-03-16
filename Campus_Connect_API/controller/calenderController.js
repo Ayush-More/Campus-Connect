@@ -124,7 +124,7 @@ exports.dayEvent = catchAsync(async (req, res) => {
 
 exports.createPersonelEvent = catchAsync(async (req, res, next) => {
   const newEvent = await personal.create(req.body);
-
+  console.log(req.body);
   if (!newEvent) {
     return res.status(400).json({
       status: "Error",

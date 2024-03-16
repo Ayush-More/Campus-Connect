@@ -4,13 +4,37 @@ import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import GradeIcon from '@mui/icons-material/Grade';
 import pdf from "./../../assets/images/pdf2.png";
 import { useNavigate } from 'react-router-dom';
-import {useSelector } from "react-redux";
+import {useSelector , useDispatch } from "react-redux";
 import logo from "./../../assets/images/live-chat_16px.png"
+import { favouritePdf } from '../../service/Pdf/resource';
+import { useEffect , useState } from 'react';
+import { removeFavourities, setFavourities } from "../../store/Slice/FavouriteSlice";
+import PdfViewer from './pdfViewer';
 
-function FavioritePage() {
-    
+function FavioritePage () {
+    const List = useSelector((state)=> state.favourite.id);
+    const favoriteList = useSelector((state) => state.favourite.id);
+    const [Pdf , setPdf] = useState([]);
     const nav = useNavigate();
+    const dispatch = useDispatch();
+
+    const AllPdf = async()=>{
+      const result = await favouritePdf({list: List});
+      setPdf(result.data.data);
+    }
     const LightTheme = useSelector((state)=> (state.themeKey));
+    useEffect(()=>{
+      AllPdf();
+    },[List])
+    const toggleFavorite = (pdfItemId) => {
+      if (favoriteList.includes(pdfItemId)) {
+        dispatch(removeFavourities(pdfItemId));
+      } else {
+        dispatch(setFavourities(pdfItemId));
+      }
+    };
+    console.log(Pdf.Pdf);
+    
   return (
     <>
     <div className={`list-container ${LightTheme ? "" : "con-dark"}`}>
@@ -21,76 +45,27 @@ function FavioritePage() {
             <p className="chatArea-text ">Favourite PDF</p>
           </div>
     <div className="pdfcol" style={{display:"flex", flex:1 , flexWrap:"wrap" , overflow:"scroll"}}>
-            <div className="pdf" onClick={() => nav("view")}>
-                
-                <div style={{ display:"flex", justifyContent:"center", height:"80%" }}>
-                <img src={pdf} height={100} width={100} alt="pdf"/>
-                <div style={{ display:"flex", flexDirection:"column", alignItems:"center" }}>
-                <IconButton className="specialIcon"><DownloadIcon className="specialIcon"/></IconButton>
-                <IconButton className="specialIcon"><StarOutlineIcon /></IconButton>
-                <IconButton  className="specialIcon"><GradeIcon/></IconButton>
-                </div>
-                
-                </div>
-                <p style={{display:"flex"  ,color: "#909090", justifyContent:"center", alignItems:"center", padding:" 0px 10px" , fontWeight:"bold"}}>COA Notes AL
-                </p>
-            </div>
-            <div className="pdf" onClick={() => nav("view")}>
-                
-                <div style={{ display:"flex", justifyContent:"center", height:"80%" }}>
-                <img src={pdf} height={100} width={100} alt="pdf"/>
-                <div style={{ display:"flex", flexDirection:"column", alignItems:"center" }}>
-                <IconButton className="specialIcon"><DownloadIcon className="specialIcon"/></IconButton>
-                <IconButton className="specialIcon"><StarOutlineIcon /></IconButton>
-                <IconButton  className="specialIcon"><GradeIcon/></IconButton>
-                </div>
-                
-                </div>
-                <p style={{display:"flex"  ,color: "#909090", justifyContent:"center", alignItems:"center", padding:" 0px 10px" , fontWeight:"bold"}}>COA Notes AL
-                </p>
-            </div>
-            <div className="pdf" onClick={() => nav("view")}>
-                
-                <div style={{ display:"flex", justifyContent:"center", height:"80%" }}>
-                <img src={pdf} height={100} width={100} alt="pdf"/>
-                <div style={{ display:"flex", flexDirection:"column", alignItems:"center" }}>
-                <IconButton className="specialIcon"><DownloadIcon className="specialIcon"/></IconButton>
-                <IconButton className="specialIcon"><StarOutlineIcon /></IconButton>
-                <IconButton  className="specialIcon"><GradeIcon/></IconButton>
-                </div>
-                
-                </div>
-                <p style={{display:"flex"  ,color: "#909090", justifyContent:"center", alignItems:"center", padding:" 0px 10px" , fontWeight:"bold"}}>COA Notes AL
-                </p>
-            </div>
-            <div className="pdf" onClick={() => nav("view")}>
-                
-                <div style={{ display:"flex", justifyContent:"center", height:"80%" }}>
-                <img src={pdf} height={100} width={100} alt="pdf"/>
-                <div style={{ display:"flex", flexDirection:"column", alignItems:"center" }}>
-                <IconButton className="specialIcon"><DownloadIcon className="specialIcon"/></IconButton>
-                <IconButton className="specialIcon"><StarOutlineIcon /></IconButton>
-                <IconButton  className="specialIcon"><GradeIcon/></IconButton>
-                </div>
-                
-                </div>
-                <p style={{display:"flex"  ,color: "#909090", justifyContent:"center", alignItems:"center", padding:" 0px 10px" , fontWeight:"bold"}}>COA Notes AL
-                </p>
-            </div>
-            <div className="pdf" onClick={() => nav("view")}>
-                
-                <div style={{ display:"flex", justifyContent:"center", height:"80%" }}>
-                <img src={pdf} height={100} width={100} alt="pdf"/>
-                <div style={{ display:"flex", flexDirection:"column", alignItems:"center" }}>
-                <IconButton className="specialIcon"><DownloadIcon className="specialIcon"/></IconButton>
-                <IconButton className="specialIcon"><StarOutlineIcon /></IconButton>
-                <IconButton  className="specialIcon"><GradeIcon/></IconButton>
-                </div>
-                
-                </div>
-                <p style={{display:"flex"  ,color: "#909090", justifyContent:"center", alignItems:"center", padding:" 0px 10px" , fontWeight:"bold"}}>COA Notes AL
-                </p>
-            </div>
+      {Pdf.map((favItem , index)=>{
+        console.log(favItem.Pdf);
+      return(
+        <div className="pdf" key={index}>
+        <div style={{ display: "flex", justifyContent: "center", height: "80%" }}>
+          <img onClick={() => nav("/resource/view")} src={pdf} height={100} width={100} alt="pdf" />
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <IconButton className="specialIcon"><DownloadIcon className="specialIcon" /></IconButton>
+            <IconButton className="specialIcon" onClick={() => toggleFavorite(favItem._id)}>
+                        {favoriteList.includes(favItem._id) ? <GradeIcon /> :<StarOutlineIcon /> }
+                      </IconButton>
+            <IconButton className="specialIcon"><GradeIcon /></IconButton>
+          </div>
+        </div>
+        <p style={{ display: "flex", color: "#909090", justifyContent: "center", alignItems: "center", padding: "0px 10px", fontWeight: "bold" }}>
+          {favItem.Title}
+        </p>
+      </div>
+      )})}
+            
+           
           </div>
     </div>
     </>

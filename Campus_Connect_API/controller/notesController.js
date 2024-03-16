@@ -1,4 +1,5 @@
 const multer = require("multer");
+const path = require("path");
 const notes = require("../model/notesModel");
 //const AppError = require("../utility/AppError");
 const catchAsync = require("../utility/catchAsync");
@@ -8,12 +9,14 @@ const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(
       null,
-      "F:/Workspace/Personel project/chat app/campus_connect-frontend/src/assets/pdf"
+      "F:/Workspace/Personel project/chat app/Campus-Connect/campus_connect-frontend/src/assets/pdf"
     );
   },
   filename: function (req, file, cb) {
-    const fileSuffix = Date.now();
-    const filename = file.fieldname + fileSuffix;
+    const uniqueSuffix = Date.now();
+    const extname = path.extname(file.originalname);
+
+    const filename = file.fieldname + uniqueSuffix + extname;
     cb(null, filename);
   },
 });
@@ -53,10 +56,17 @@ exports.uploadPdf = catchAsync(async (req, res) => {
 exports.FavouritePdf = catchAsync(async (req, res) => {
   try {
     const FavouriteList = req.body.list;
+    const documents = await notes.find({ _id: { $in: FavouriteList } }); // Assuming YourModel is your Mongoose model
+    res.status(200).json({
+      status: "success",
+      data: documents,
+    });
   } catch (error) {
     console.log(error);
+    res.status(500).json({ status: "error", message: "Internal Server Error" });
   }
 });
+
 exports.GetNotesBytype = catchAsync(async (req, res) => {
   const requestedType = req.params.type;
   // Syntax to directly find by database

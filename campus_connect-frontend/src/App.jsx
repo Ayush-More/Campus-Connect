@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import MainContainer from "./pages/chatPage/ChatOverview";
-import Login from "./Components/Auth.jsx";
+import Login from "./pages/auth/Auth.jsx";
 import ChatArea from "./pages/chatPage/chatArea";
 import Welcome from "./pages/chatPage/Welcome";
 import Groups from "./pages/chatPage/Groups";
@@ -26,12 +26,15 @@ import PdfSearch from "./pages/ResorcesPage/Search.jsx";
 import PdfViewer from "./pages/ResorcesPage/pdfViewer.jsx";
 import PdfFavourite from "./pages/ResorcesPage/favioritePage.jsx";
 import RoadmapOverview from "./pages/Roadmap/RoadmapOverview.jsx";
+import ChangePassword from "./pages/auth/ChangePassword.jsx";
+import AuthOverview from "./pages/auth/authOverview.jsx";
+import ResetPassword from "./pages/auth/ResetPassword.jsx";
 
 export function PrivateRoute(props) {
   let { component: Component } = props;
   const {token} = useSelector((state) => state.auth);
   const isLoggedIn = token != null && token != undefined;
-
+  
   return isLoggedIn ? <Component /> : <Navigate to="/login" />;
 }
 
@@ -39,9 +42,26 @@ function App() {
   const LightTheme = useSelector((state) => state.themeKey);
 
     const router= createBrowserRouter([{
-        path: "/login",
-        element: <Login/>,
+        path: "/auth",
+        element: <AuthOverview/>,
         errorElement: <ErrorPage/>,
+        children:[
+          {
+            path: "",
+            element: <Login/>,
+          
+        },
+        {
+          path: "changePassword",
+          element:  <PrivateRoute  component={ChangePassword}/>,
+        
+      },
+      {
+        path: "resetPassword/:token",
+        element:  <ResetPassword/>,
+      
+    },
+        ]
         },
         {
           path: "/",
@@ -52,7 +72,6 @@ function App() {
             path: "/profile",
             element:   <PrivateRoute  component={Profile}/>,
             errorElement: <ErrorPage/>,
-          
         },
         {
             path: "/chat",
@@ -125,7 +144,7 @@ function App() {
                     element:  <PrivateRoute  component={PdfSearch}/>,               
                 },
                 {
-                  path: "view",
+                  path: "view/:name",
                   element:  <PrivateRoute  component={PdfViewer}/>,               
               },{
                 path: "favourite",
@@ -166,6 +185,9 @@ function App() {
                   path: "/admin",
                   element: <Adminoverview/>,
                   errorElement: <ErrorPage/>,
+                  // children:[
+                  //   path:
+                  // ]
                 },
                 {
                   path: "/roadmap",
@@ -180,10 +202,6 @@ function App() {
     <div className={`App ${LightTheme ? "" : "App-dark"}`}>
      <RouterProvider router={router}/>
     </div>
-  
-   
-     
- 
   )
 }
 

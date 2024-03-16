@@ -13,7 +13,7 @@ function Profile() {
   const handleLogout = async () => {
       dispatch(logout())
       console.log("logout")
-      nav("/login");
+      nav("/auth");
   };
   const profileDetail = JSON.parse(localStorage.getItem("user"));
   console.log(profileDetail)
@@ -29,7 +29,7 @@ function Profile() {
       <Button style={{backgroundColor:"#63d7b0"}} variant="contained" startIcon={<LogoutIcon />} onClick={()=> handleLogout()}>
   logout
 </Button>
-<Button style={{backgroundColor:"#63d7b0"}}  variant="contained" startIcon={<ChangeCircleIcon />}>
+<Button onClick={()=>nav("/auth/changePassword")} style={{backgroundColor:"#63d7b0"}}  variant="contained" startIcon={<ChangeCircleIcon />}>
   Change password
 </Button></div>
     </div>
@@ -37,5 +37,4 @@ function Profile() {
    </>
   )
 }
-
 export default Profile

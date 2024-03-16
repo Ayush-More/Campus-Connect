@@ -1,4 +1,5 @@
 import {TextField , Box , Button } from '@mui/material';
+import { useState } from 'react';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
@@ -9,6 +10,8 @@ import Tooltip from '@mui/material/Tooltip';
 import Stack from '@mui/material/Stack';
 import { useSelector } from 'react-redux';
 import GroupsIcon from '@mui/icons-material/Groups';
+import { getPersonelEvent } from '../../service/calender/calender';
+
 const ProSpan = styled('span')({
   display: 'inline-block',
   height: '1em',
@@ -48,6 +51,30 @@ function Label({ componentName, valueType, isProOnly }) {
 }
 
 function Form() {
+  const [formData , setFormData] = useState({
+    Title:"",
+    date:"",
+    time:"",
+    discription:"",
+    conferenceLink:"",
+  });
+  console.log(formData);
+  const handleSubmit = async()=>{
+    try{
+      console.log(formData.Title);
+      const data = await getPersonelEvent({formData});
+      console.log(data);
+      if(data){
+        alert("details updated");
+      }
+    }catch(error){
+      console.log(error)
+    }
+  }
+
+  const handleInputChange = (fieldName , value)=>{
+    setFormData(prevState =>({...prevState, [fieldName]: value}))
+  }
   const LightTheme = useSelector((state) => state.themeKey)
   return (
     <>
@@ -62,7 +89,7 @@ function Form() {
       autoComplete="off"
       className='eventDetails'
     >
-      <TextField id="standard-basic" label="Add Tittle" variant="standard" className={`menuItem ${LightTheme ? "" : "dark"}`} />
+      <TextField id="standard-basic" label="Add Tittle" variant="standard" className={`menuItem ${LightTheme ? "" : "dark"}`} onChange={(e)=> {handleInputChange("Title" , e.target.value)}} />
      
         <LocalizationProvider dateAdapter={AdapterDayjs} className={`menuItem ${LightTheme ? "" : "dark"}`}>
       <DemoContainer
@@ -73,10 +100,10 @@ function Form() {
         ]}
       >
         <Box mb={1} className={`menuItem ${LightTheme ? "" : "dark"}`}><DemoItem className={`menuItem ${LightTheme ? "" : "dark"}`} label={<Label componentName="DatePicker" valueType="date" className={`menuItem ${LightTheme ? "" : "dark"}`} />}>
-          <DatePicker className={`menuItem ${LightTheme ? "" : "dark"}`}/>
+          <DatePicker value={formData.date} onChange={(e)=> {handleInputChange("date" , e) ; console.log(e)}}  className={`menuItem ${LightTheme ? "" : "dark"}`}/>
         </DemoItem></Box>
          <Box mb={1}> <DemoItem label={<Label componentName="TimePicker" valueType="time" />}>
-          <TimePicker />
+          <TimePicker value={formData.time} onChange={(e)=> handleInputChange("time" , e)}/>
         </DemoItem></Box>
        
 
@@ -89,15 +116,16 @@ function Form() {
           multiline
           rows={3}
           aria-colcount={6}
-          defaultValue="Default Value"
+          onChange={(e)=> handleInputChange("discription" , e.target.value)}
+          defaultValue="Meeting"
           sx={{ width: '100%' }}
         />
 
 <Box sx={{ display: 'flex' }}>
         <GroupsIcon sx={{ color: 'action.active', mr: 1, my: 1 }} className={`menuItem ${LightTheme ? "" : "dark"}`} />
-        <TextField  sx={{ width: '100%' }} id="outlined-required" className={`menuItem ${LightTheme ? "" : "dark"}`} label="Meet Link" variant="outlined" />
+        <TextField onChange={(e)=> handleInputChange("conferenceLink" , e.target.value)}  sx={{ width: '100%' }} id="outlined-required" className={`menuItem ${LightTheme ? "" : "dark"}`} label="Meet Link" variant="outlined" />
       </Box>
-        <div><Button variant="contained" size="large">
+        <div><Button variant="contained" size="large" onClick={handleSubmit}>
           Save
         </Button></div>
           

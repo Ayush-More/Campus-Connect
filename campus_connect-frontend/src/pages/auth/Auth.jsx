@@ -1,11 +1,10 @@
 import{ useState } from "react";
-import logo from "./../assets/images/login_image.png";
 import { Backdrop, CircularProgress } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthLogin , AuthSignUp } from "../service/auth/authorization";
-import AlertToast from "./Toast/toast";
-import { setCredentials } from "../store/Slice/AuthSlice";
+import { AuthLogin , AuthSignUp , AuthforgotPassword } from "./../../service/auth/authorization";
+import { setCredentials } from "./../../store/Slice/AuthSlice";
+import AlertDialog from "./../../Components/dialog/Dialog";
 
 function Login() {
   const dispatch = useDispatch();
@@ -20,7 +19,8 @@ function Login() {
   const handleForm = () => {
     setForm(!form);
   };
-  
+  const [showDialog, setShowDialog] = useState(false);
+
   const [signUpFormData, setSignUpFormData] = useState({
     name: "",
     email: "",
@@ -87,12 +87,12 @@ function Login() {
       >
         <CircularProgress color="secondary" />
       </Backdrop>
-      {/* {alert && <AlertToast severity={alert.severity} message={alert.message} />} */}
-      <div className={`login-container ${LightTheme ? "" : "con-dark"}`}>
+    
+      {/*<div className={`login-container ${LightTheme ? "" : "con-dark"}`}>
         <div className="image-container">
           <img src={logo} alt="Logo" className="welcome-logo" />
         </div>
-        <div className={`form-box ${LightTheme ? "" : "dark"}`}>
+        <div className={`form-box ${LightTheme ? "" : "dark"}`}> */}
           {form ? (
             <div className={`login-form ${LightTheme ? "" : "con-dark"}`}>
               <h3 style={{ marginBottom: "10px", color: "#00005C" }}>LOGIN</h3>
@@ -109,7 +109,7 @@ function Login() {
                 placeholder="Password"
               />
               <h5>
-                <Link href="#">Forgot password?</Link>
+                <Link onClick={() => setShowDialog(true)} href="#">Forgot password?</Link>
               </h5>
               <button
                 className="enter-btn"
@@ -185,8 +185,13 @@ function Login() {
               </h5>
             </div>
           )}
-        </div>
-      </div>
+      {showDialog && (
+    <AlertDialog open={showDialog} onClose={() => setShowDialog(false)} content="Type the email that you entered dueing login so that we can send the email" head="Forgot Password" onSubmit ={async(email) => {
+      console.log(email);
+      const result = await AuthforgotPassword({email: email});
+      console.log(result.data.resetToken);
+    }} />
+  )}
     </>
   );
 }

@@ -27,4 +27,17 @@ const ViewPdf = async () => {
   }
 };
 
-export { UploadPdf, ViewPdf };
+const favouritePdf = async (value) => {
+  try {
+    const result = await axiosAuth.post("/notes/favourite", value, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+      },
+    });
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { UploadPdf, ViewPdf, favouritePdf };

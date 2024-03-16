@@ -68,7 +68,7 @@ function LandPageOverview() {
                
               )}
               {!loggedIn && (
-               <Button onClick={()=> nav("/login")} style={{ backgroundColor:"#63d7b0"}} variant="contained" size="medium">
+               <Button onClick={()=> nav("/auth")} style={{ backgroundColor:"#63d7b0"}} variant="contained" size="medium">
                Login
              </Button>
               )}

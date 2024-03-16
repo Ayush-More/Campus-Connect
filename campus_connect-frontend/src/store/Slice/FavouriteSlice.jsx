@@ -7,12 +7,10 @@ const FavouriteSlice = createSlice({
     },
     reducers:{
         setFavourities:(state , action)=>{
-            console.log(action.payload);
             state.id.push(action.payload);
             
         },
         removeFavourities:(state , action)=>{
-            console.log(action.payload);
             state.id.pop(action.payload);
            
         }

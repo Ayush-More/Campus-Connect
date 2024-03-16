@@ -1,5 +1,4 @@
 import axiosAuth from "./../axios/axios";
-var resetToken = null;
 const AuthLogin = async (value) => {
   try {
     console.log(value);
@@ -20,17 +19,20 @@ const AuthSignUp = async (value) => {
 };
 const AuthforgotPassword = async (value) => {
   try {
+    console.log(value);
     const resData = await axiosAuth.post("/user/forgotPassword", value);
-    resetToken = resData.resetToken;
+
     return resData;
   } catch (error) {
     console.log(error);
   }
 };
-const AuthResetPassword = async (value) => {
+
+const AuthResetPassword = async (value, resetToken) => {
   try {
-    const resData = await axiosAuth.post(
-      `/user/restPassword/${resetToken}`,
+    console.log(resetToken);
+    const resData = await axiosAuth.patch(
+      `/user/resetPassword/${resetToken}`,
       value
     );
     return resData;
@@ -39,4 +41,22 @@ const AuthResetPassword = async (value) => {
   }
 };
 
-export { AuthLogin, AuthSignUp, AuthforgotPassword, AuthResetPassword };
+const updatePassword = async (value) => {
+  try {
+    const resData = await axiosAuth.post("/user/changePassword", value, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+      },
+    });
+    return resData;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export {
+  AuthLogin,
+  AuthSignUp,
+  updatePassword,
+  AuthforgotPassword,
+  AuthResetPassword,
+};
