@@ -29,7 +29,8 @@ exports.uploadPdf = catchAsync(async (req, res) => {
     req.body.Category,
     req.body.SubCategory,
     req.file.filename,
-    req.body.discription
+    req.body.discription,
+    req.body.createdBy
   );
   if (
     req.body.Title &&
@@ -45,6 +46,7 @@ exports.uploadPdf = catchAsync(async (req, res) => {
     SubCategory: req.body.SubCategory,
     Pdf: req.file.filename,
     discription: req.body.discription,
+    createdBy: req.body.createdBy,
   });
   console.log(note);
   res.status(200).json({

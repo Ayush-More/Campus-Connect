@@ -32,6 +32,10 @@ const notesSchema = new mongoose.Schema({
     default: Date.now(),
     select: false,
   },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 const notes = mongoose.model("notes", notesSchema);

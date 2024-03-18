@@ -13,6 +13,7 @@ const globalErrorHandler = require("./controller/errorController");
 const AppError = require("./utility/catchAsync");
 const chatRoute = require("./routes/chatRoute");
 const messageRoute = require("./routes/messageRoute");
+const adminRoute = require("./routes/adminRoute");
 
 const app = express();
 app.use(cors());
@@ -40,6 +41,7 @@ app.use("/api/v1/calender", calenderRoute);
 app.use("/api/v1/internship", tnpRoute);
 app.use("/api/v1/chat", chatRoute);
 app.use("/api/v1/messages", messageRoute);
+app.use("/api/v1/admin", adminRoute);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

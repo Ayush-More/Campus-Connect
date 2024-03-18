@@ -14,13 +14,11 @@ exports.internship = catchAsync(async (req, res) => {
   const now = new Date();
   const formattedDate = formatDateToDDMMYYYY(now);
   console.log(formattedDate); // Output: "21-09-2023"
-
-  const Available = await tnpModel.find({
-    deadline: { $gte: formattedDate },
-  });
-
   const expired = await tnpModel.deleteMany({
     deadline: { $lt: formattedDate },
+  });
+  const Available = await tnpModel.find({
+    deadline: { $gte: formattedDate },
   });
   console.log(`${expired.deletedCount} expired documents deleted`);
   console.log("The expired data is deleted");

@@ -12,12 +12,12 @@ const clubEventSchema = new mongoose.Schema({
   },
   date: {
     type: String,
-    validate: {
-      validator: function (value) {
-        const DateFormat = /^\d{2}-\d{2}-\d{4}$/;
-        return DateFormat.test(value);
-      },
-    },
+    // validate: {
+    //   validator: function (value) {
+    //     const DateFormat = /^\d{2}/\d{2}/\d{4}$/;
+    //     return DateFormat.test(value);
+    //   },
+    // },
     required: [true, "The Date is required"],
   },
   time: {

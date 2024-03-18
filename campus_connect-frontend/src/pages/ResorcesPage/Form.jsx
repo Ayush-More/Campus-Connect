@@ -63,6 +63,7 @@ function Form() {
     "Hashmap",
     "Trees",
    ]
+  const userId = JSON.Parse(localStorage.getItem("user"));
   const [title , setTitle] = useState()
   const [description , setDescription] = useState("Nice book")
   const [subCategory , setSubCategory] = useState([])
@@ -70,6 +71,7 @@ function Form() {
   const LightTheme = useSelector((state) => state.themeKey)
   const [category, setCategory] = useState();
   const [pdfFile , setPdfFile] = useState(null);
+  
     // const [pdfView , setPdfView] = useState(null);
     const handleSubCategory = (event) => {
       const {
@@ -118,6 +120,7 @@ const handleSubmit = async() =>{
     SubCategory: subCategoryValue,
     Pdf: pdfFile,
     discription: description,
+    createdBy : userId._id
     })
     if(result){
       alert("Book uploaded successfully");
