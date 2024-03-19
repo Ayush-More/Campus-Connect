@@ -8,7 +8,9 @@ import ViewListIcon from '@mui/icons-material/ViewList';
 import ViewWeekIcon from '@mui/icons-material/ViewWeek';
 import { Outlet } from "react-router-dom";
 import ViewNotes from "./ViewNotes";
-
+import AllUsers from "./AllUser";
+import AddMentor from "./AddMentor";
+import AddEvent from "./AddEvent";
 function AdminOverview() {
 
   const LightTheme = useSelector((state) => state.themeKey)
@@ -23,14 +25,13 @@ function AdminOverview() {
 <div className="RoadmapTag">
 <p style={{justifyContent:"start"}} className="tag" ><WysiwygIcon style={{padding:"0px 13px"}} className={`${LightTheme ? "" : "dark"}`}/> View Notes</p>
 <p style={{justifyContent:"start"}} className="tag"><PersonAddIcon style={{padding:"0px 13px"}} className={` ${LightTheme ? "" : "dark"}`}/> Add New Mentor</p>
-<p style={{justifyContent:"start"}} className="tag"><ViewWeekIcon style={{padding:"0px 13px"}} className={`${LightTheme ? "" : "dark"}`}/> View All Mentor</p>
 <p style={{justifyContent:"start"}} className="tag"><ContactsIcon style={{padding:"0px 13px"}} className={` ${LightTheme ? "" : "dark"}`}/> View All User</p>
 <p style={{justifyContent:"start"}} className="tag"> <AddCardIcon style={{padding:"0px 13px"}} className={` ${LightTheme ? "" : "dark"}`}/> Add Event</p>
 <p style={{justifyContent:"start"}} className="tag"><ViewListIcon style={{padding:"0px 13px"}} className={` ${LightTheme ? "" : "dark"}`}/> View All Event</p>
              </div>
       </div>
  </div>
- <ViewNotes/>
+ <AddMentor/>
     </div>
   )
 }

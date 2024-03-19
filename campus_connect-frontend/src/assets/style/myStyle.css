@@ -477,7 +477,7 @@
   justify-content: space-between;
 }
 .eventDetails {
-  padding: 15px;
+  padding: 15px 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -756,11 +756,16 @@ footer {
 
 .strip {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   background-color: white;
   padding: 5px;
   margin: 10px;
   border-radius: 15px;
   height: 40px;
   width: 95%;
+  align-items: center;
+}
+
+.display {
+  display: none;
 }

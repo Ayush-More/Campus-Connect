@@ -24,7 +24,7 @@ const ProSpan = styled('span')({
   backgroundImage: 'url(https://mui.com/static/x/pro.svg)',
 });
 
-function Label({ componentName, valueType, isProOnly }) {
+function Label({ componentName,valueType,isProOnly }) {
   const content = (
     <span>
      
@@ -71,7 +71,6 @@ function Form() {
       console.log(error)
     }
   }
-
   const handleInputChange = (fieldName , value)=>{
     setFormData(prevState =>({...prevState, [fieldName]: value}))
   }

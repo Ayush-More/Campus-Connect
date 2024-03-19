@@ -63,7 +63,7 @@ function Form() {
     "Hashmap",
     "Trees",
    ]
-  const userId = JSON.Parse(localStorage.getItem("user"));
+  const userId = JSON.parse(localStorage.getItem("user"));
   const [title , setTitle] = useState()
   const [description , setDescription] = useState("Nice book")
   const [subCategory , setSubCategory] = useState([])
@@ -99,7 +99,6 @@ function Form() {
 //     console.log("please select");
 //   }
 // }
-
 const handleSubChange =() =>{
   if (category === "Subject"){
     setSubCategory(subject)
@@ -109,9 +108,6 @@ const handleSubChange =() =>{
     setSubCategory(DSA)
   }
 }
-
-
-
 const handleSubmit = async() =>{
   try{
     const result = await UploadPdf({
@@ -155,7 +151,7 @@ const handleSubmit = async() =>{
      
        
          <Box sx={{ minWidth: '43ch' }} className={`menuItem ${LightTheme ? "" : "dark"}`}>
-      <FormControl fullWidth>
+      `<FormControl fullWidth>
         <InputLabel id="demo-simple-select-label" className={`menuItem ${LightTheme ? "" : "dark"}`}>Category</InputLabel>
         <Select
         className={`menuItem ${LightTheme ? "" : "dark"}`}
@@ -168,7 +164,7 @@ const handleSubmit = async() =>{
           <MenuItem value="Development" className={`menuItem ${LightTheme ? "" : "dark"}`}>Development</MenuItem>
           <MenuItem value="DSA" className={`menuItem ${LightTheme ? "" : "dark"}`}>DSA</MenuItem>
         </Select>
-      </FormControl>
+      </FormControl>`
     </Box>
 
     <Box sx={{ minWidth: '43ch' }}>
@@ -218,7 +214,7 @@ const handleSubmit = async() =>{
           sx={{ width: '100%' }}
         />
         <div>
-          <Button style={{backgroundColor:"#63d7b0"}} variant="contained" size="large" onClick={handleSubmit}>
+          <Button style={{backgroundColor:"#63d7b0"}} variant="contained" size="large" onClick={handleSubmit()}>
           UPLOAD 
         </Button></div>
           
