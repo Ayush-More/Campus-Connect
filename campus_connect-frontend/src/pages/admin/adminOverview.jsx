@@ -5,14 +5,11 @@ import AddCardIcon from '@mui/icons-material/AddCard';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ContactsIcon from '@mui/icons-material/Contacts';
 import ViewListIcon from '@mui/icons-material/ViewList';
-import ViewWeekIcon from '@mui/icons-material/ViewWeek';
+import { useNavigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
-import ViewNotes from "./ViewNotes";
-import AllUsers from "./AllUser";
-import AddMentor from "./AddMentor";
-import AddEvent from "./AddEvent";
-function AdminOverview() {
 
+function AdminOverview() {
+  const nav = useNavigate()
   const LightTheme = useSelector((state) => state.themeKey)
   return (
     <div className={`main-container ${LightTheme ? "" : "con-dark"}`}>
@@ -23,15 +20,15 @@ function AdminOverview() {
 <p  className={`eventTitle ${LightTheme ? "" : "dark"}`} style={{fontSize:"30px", paddingTop:"10px"}}>Category</p>
 
 <div className="RoadmapTag">
-<p style={{justifyContent:"start"}} className="tag" ><WysiwygIcon style={{padding:"0px 13px"}} className={`${LightTheme ? "" : "dark"}`}/> View Notes</p>
-<p style={{justifyContent:"start"}} className="tag"><PersonAddIcon style={{padding:"0px 13px"}} className={` ${LightTheme ? "" : "dark"}`}/> Add New Mentor</p>
-<p style={{justifyContent:"start"}} className="tag"><ContactsIcon style={{padding:"0px 13px"}} className={` ${LightTheme ? "" : "dark"}`}/> View All User</p>
-<p style={{justifyContent:"start"}} className="tag"> <AddCardIcon style={{padding:"0px 13px"}} className={` ${LightTheme ? "" : "dark"}`}/> Add Event</p>
-<p style={{justifyContent:"start"}} className="tag"><ViewListIcon style={{padding:"0px 13px"}} className={` ${LightTheme ? "" : "dark"}`}/> View All Event</p>
+<p onClick={() =>nav("AllNotes")} style={{justifyContent:"start"}} className="tag" ><WysiwygIcon style={{padding:"0px 13px"}} className={`${LightTheme ? "" : "dark"}`}/> View Notes</p>
+<p onClick={() =>nav("addMentor")} style={{justifyContent:"start"}} className="tag"><PersonAddIcon style={{padding:"0px 13px"}} className={` ${LightTheme ? "" : "dark"}`}/> Add New Mentor</p>
+<p onClick={() =>nav("")} style={{justifyContent:"start"}} className="tag"><ContactsIcon style={{padding:"0px 13px"}} className={` ${LightTheme ? "" : "dark"}`}/> View All User</p>
+<p onClick={() =>nav("AddEvent")} style={{justifyContent:"start"}} className="tag"> <AddCardIcon style={{padding:"0px 13px"}} className={` ${LightTheme ? "" : "dark"}`}/> Add Event</p>
+<p onClick={()=>nav("event")} style={{justifyContent:"start"}} className="tag"><ViewListIcon style={{padding:"0px 13px"}} className={` ${LightTheme ? "" : "dark"}`}/> View All Event</p>
              </div>
       </div>
  </div>
- <AddMentor/>
+ <Outlet/>
     </div>
   )
 }

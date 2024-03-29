@@ -29,6 +29,11 @@ import RoadmapOverview from "./pages/Roadmap/RoadmapOverview.jsx";
 import ChangePassword from "./pages/auth/ChangePassword.jsx";
 import AuthOverview from "./pages/auth/authOverview.jsx";
 import ResetPassword from "./pages/auth/ResetPassword.jsx";
+import AddEvent from "./pages/admin/AddEvent.jsx";
+import AllEvent from "./pages/admin/AllEvent.jsx";
+import AddMentor from "./pages/admin/AddMentor.jsx";
+import AllUsers from "./pages/admin/AllUser.jsx";
+import ViewNotes from "./pages/admin/ViewNotes.jsx";
 
 export function PrivateRoute(props) {
   let { component: Component } = props;
@@ -185,9 +190,29 @@ function App() {
                   path: "/admin",
                   element: <Adminoverview/>,
                   errorElement: <ErrorPage/>,
-                  // children:[
-                  //   path:
-                  // ]
+                  
+                  children:[
+                    {
+                      path:"",
+                      element:  <PrivateRoute component={AllUsers}/>
+                    },
+                    {
+                      path:"event",
+                      element:  <PrivateRoute component={AllEvent}/>
+                    },
+                    {
+                      path:"AddEvent",
+                      element:  <PrivateRoute component={AddEvent}/>
+                    },
+                    {
+                      path:"AllNotes",
+                      element:  <PrivateRoute component={ViewNotes}/>
+                    },
+                    {
+                      path:"addMentor",
+                      element:  <PrivateRoute component={AddMentor}/>
+                    }
+                  ]
                 },
                 {
                   path: "/roadmap",
