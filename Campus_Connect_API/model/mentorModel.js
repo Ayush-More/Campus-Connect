@@ -22,7 +22,7 @@ const studentMentorSchema = new mongoose.Schema({
     required: [true, "Please provide the club"],
   },
   CompanyName: {
-    type: [String],
+    type: String,
     required: [true, "Please provide the company"],
   },
   Cgpa: {

@@ -32,11 +32,12 @@ const DSA = [
  "Python",
  ]
 function AddMentor() {
+  const [userId , setUserId] = useState();
   const [SubjectName, setSubjectName] = useState([]);
     const [showPassword, setShowPassword] = useState(false);
     const [step, setStep] = useState(1);
     const [mentorDetail , setMentorDetail] = useState({
-      users:"",
+      users:userId,
       programmingLanguages: SubjectName,
       role:"",
       intustryExperience: "",
@@ -44,6 +45,10 @@ function AddMentor() {
       CompanyName: "",
       Cgpa:"",
     })
+
+    const detailChange = (e) => {
+      setMentorDetail({ ...mentorDetail, [e.target.name]: e.target.value });
+    };
     const [formData , setFormData] = useState({
       name :"",
       email:"",
@@ -51,25 +56,60 @@ function AddMentor() {
       passwordConfirm:"",
       role:"mentor"
     })
+    const Change = (e) => {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  const result = createMentor(mentorDetail);
-  const details = AuthSignUp(formData);
-    const LightTheme = useSelector((state)=> state.themeKey);
-    const handleNextStep = () => {
+
+  const handlementordetails = async()=>{
+    try{
+      console.log(mentorDetail);
+      const details = await  createMentor(mentorDetail);
+  if(details){
+    alert("Successful");
+    setUserId(details.data)
+    console.log(details.data);
+  }
+    }catch(error){
+      console.log(error)
+
+    }
+  }
+
+  const handlementor = async()=>{
+    try{
+      console.log(formData);
+      const details =await  AuthSignUp(formData);
+  if(details){
+    alert("Successful");
+    setMentorDetail(prevState => ({
+      ...prevState,
+      users: details.data.user._id
+    }));
+    console.log(details.data.user._id);
       setStep(step + 1);
-    };
+  }
+    }catch(error){
+      console.log(error)
+
+    }
+  }
+    const LightTheme = useSelector((state)=> state.themeKey);
+    
     const handleSubChange = (event) => {
       const {
         target: { value },
       } = event;
-      setSubjectName(
-        // On autofill we get a stringified value.
-        typeof value === 'string' ? value.split(',') : value,
-      );
+      const selectedLanguages = typeof value === 'string' ? value.split(',') : value;
+  setSubjectName(selectedLanguages);
+      setMentorDetail(prevState => ({
+        ...prevState,
+        programmingLanguages: selectedLanguages
+      }));
     };
   
     const renderFormStep = () => {
@@ -85,13 +125,14 @@ function AddMentor() {
             autoComplete="off"
             className='eventDetails'
           >
-           <TextField id="outlined-basic" onChange={()=> setFormData(formData.name)} label="Name" variant="outlined" />
-           <TextField id="standard-basic" onChange={()=> setFormData(formData.email)} label="Email" variant="standard" />
+           <TextField id="outlined-basic" onChange={Change} name="name" label="Name" variant="outlined" />
+           <TextField id="standard-basic" onChange={Change} name="email" label="Email" variant="standard" />
            <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                 <OutlinedInput
                   id="outlined-adornment-password"
-                  onChange={()=> setFormData(formData.password)}
+                  onChange={Change}
+                  name="password"
                   type={showPassword ? 'text' : 'password'}
                   endAdornment={
                     <InputAdornment position="end">
@@ -111,7 +152,8 @@ function AddMentor() {
               <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
                 <OutlinedInput
-                  onChange={()=> setFormData(formData.passwordConfirm)}
+                  onChange={Change}
+                  name="passwordConfirm"
                   id="outlined-adornment-password"
                   type={showPassword ? 'text' : 'password'}
                   endAdornment={
@@ -129,7 +171,7 @@ function AddMentor() {
                   label="Password"
                 />
               </FormControl>
-              <Button style={{backgroundColor:"#63d7b0"}} variant="contained" size="large" onClick={() => handleNextStep()}>
+              <Button style={{backgroundColor:"#63d7b0"}} variant="contained" size="large" onClick={() => handlementor()}>
                 UPLOAD 
               </Button>
           </Box>
@@ -153,7 +195,7 @@ function AddMentor() {
               noValidate
               autoComplete="off"
             >
-                <TextField onChange={()=> setMentorDetail(mentorDetail.intustryExperience)} id="outlined-basic" label="Industry Expeirence" variant="outlined" />
+                <TextField onChange={detailChange}name="intustryExperience" id="outlined-basic" label="Industry Expeirence" variant="outlined" />
             </Box>
             <Box
               component="form"
@@ -163,7 +205,7 @@ function AddMentor() {
               noValidate
               autoComplete="off"
             >
-                <TextField onChange={()=> setMentorDetail(mentorDetail.ClubWithPosition)} id="outlined-basic" label="Club With Position" variant="outlined" />
+                <TextField onChange={detailChange}  name="ClubWithPosition" id="outlined-basic" label="Club With Position" variant="outlined" />
             </Box>
             </div>
             <div style={{display:"flex", width:"100%", justifyContent:"center"}}>
@@ -175,7 +217,7 @@ function AddMentor() {
               noValidate
               autoComplete="off"
             >
-                <TextField onChange={()=>{setMentorDetail(mentorDetail.CompanyName)}} id="standard-basic" label="Company" variant="standard" />
+                <TextField onChange={detailChange} name="CompanyName" id="standard-basic" label="Company" variant="standard" />
             </Box>
             <Box
               component="form"
@@ -185,7 +227,7 @@ function AddMentor() {
               noValidate
               autoComplete="off"
             >
-                <TextField onChange={()=> setMentorDetail(mentorDetail.role)} id="standard-basic" label="Role" variant="standard" />
+                <TextField onChange={detailChange} name="role" id="standard-basic" label="Role" variant="standard" />
             </Box>
             </div>
             <div style={{display:"flex", width:"100%", justifyContent:"center"}}>
@@ -207,17 +249,18 @@ function AddMentor() {
               noValidate
               autoComplete="off"
             >
-                 <TextField onChange={()=> setMentorDetail(mentorDetail.Cgpa)} id="outlined-basic"  variant="outlined" />
+                 <TextField onChange={detailChange} name="Cgpa" id="outlined-basic"  variant="outlined" />
             </Box>
             </div>
             
             <div className={`dropDown ${LightTheme ? "" : "dark"}`}>
         <FormControl sx={{ m: 1, width: 500 }} sy={{m:2}}>
-        <InputLabel id="demo-multiple-checkbox-label" className={`checkbox-label ${LightTheme ? "" : "dark"}`}>Subject</InputLabel>
+        <InputLabel id="demo-multiple-checkbox-label" className={`checkbox-label ${LightTheme ? "" : "dark"}`}>Programming Languages</InputLabel>
         <Select
         className={`multiple-checkbox ${LightTheme ? "" : "dark"}`}
           labelId="demo-multiple-checkbox-label"
           id="demo-multiple-checkbox"
+          name="programmingLanguages"
           multiple
           value={SubjectName}
           onChange={handleSubChange}
@@ -242,7 +285,7 @@ function AddMentor() {
         </div>
               <div style={{display:"flex" , justifyContent:"space-between"}}>
             
-                <Button variant="contained" size="large" >
+                <Button variant="contained" size="large" onClick={handlementordetails}>
                   SUBMIT
                 </Button>
             </div>

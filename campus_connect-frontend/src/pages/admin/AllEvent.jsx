@@ -7,47 +7,25 @@ import "swiper/css";
 import "swiper/css/effect-creative";
 import "./../../assets/style/myStyle.css";
 import {Mousewheel, EffectCreative } from "swiper/modules";
+import {SeeEvent} from "./../../service/admin/admin"
+import { useEffect , useState} from "react";
+// import image from "./../../assets/images/image1711797448530.jpg";
 
 function AllEvent() {
     const LightTheme = useSelector((state)=> state.themeKey);
-    const clubEvent = [
-        {
-          "title": "Tech Seminar",
-          "venue": "Conference Hall A",
-          "date": "2024-04-15",
-          "time": "09:00:00",
-          "Description": "A seminar on latest technology trends",
-          "queryContact": 1234567890,
-          "Registrationlink": "https://example.com/tech-seminar-registration",
-          "type": "Seminar",
-          "mode": "Offline",
-          "dressCode": "Formal",
-          "Department": "Information Technology"
-        },
-        {
-          "title": "Hackathon Challenge",
-          "venue": "Online",
-          "date": "2024-05-20",
-          "time": "14:00:00",
-          "Description": "A hackathon to solve real-world problems",
-          "queryContact": 9876543210,
-          "Registrationlink": "https://example.com/hackathon-registration",
-          "type": "Hackathon",
-          "mode": "Online"
-        },
-        {
-          "title": "Recruitment Drive",
-          "venue": "Campus Auditorium",
-          "date": "2024-06-10",
-          "time": "10:00:00",
-          "Description": "Recruitment drive for various companies",
-          "queryContact": 1357924680,
-          "Registrationlink": "https://example.com/recruitment-drive-registration",
-          "type": "Recruitment",
-          "mode": "Offline"
+    const [clubEvent , setClubEvent] = useState([]);
+      const handleEvent = async() =>{
+        const result = await SeeEvent();
+        if(result){
+          setClubEvent(result.data.data);
+          console.log(result);
+          console.log("Success");
         }
-      ]
-      
+      }
+
+      useEffect(()=>{
+        handleEvent()
+      },[])
   return (
     <>
     <div className="list-container">
@@ -78,7 +56,7 @@ function AllEvent() {
         >{clubEvent.map((event,i)=>{return  <SwiperSlide key={i}>
           <div  className={`event-card ${LightTheme ? "" : "dark"}`}>
             <div className="eventTitle"><p >{event.tittle}</p></div>
-            <div className="eventSection"><img className="event-image"src="./../../assets/images/club_event3.jpg" alt="Event Poster" />
+            <div className="eventSection"><img className="event-image"src="./../../assets/images/image1711797448530.jpg" alt="Event Poster" />
             <div className="event-Description">
               <p >
               {event.Description}

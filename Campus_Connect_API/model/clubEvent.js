@@ -22,13 +22,16 @@ const clubEventSchema = new mongoose.Schema({
   },
   time: {
     type: String,
-    validate: {
-      validator: function (value) {
-        const TimeFormat = /^\d{2}:\d{2}:\d{2}$/;
-        return TimeFormat.test(value);
-      },
-      message: "Invalid time format .Use HH:MM:SS",
-    },
+    // validate: {
+    //   validator: function (value) {
+    //     const TimeFormat = /^\d{2}:\d{2}$/;
+    //     return TimeFormat.test(value);
+    //   },
+    //   message: "Invalid time format .Use HH:MM:SS",
+    // },
+  },
+  image: {
+    type: String,
   },
   Description: {
     type: String,
@@ -36,19 +39,19 @@ const clubEventSchema = new mongoose.Schema({
     maxlength: 200,
   },
   queryContact: {
-    type: Number,
+    type: String,
     maxlength: 10,
   },
   Registrationlink: {
     type: String,
-    validate: {
-      validator: function (value) {
-        const registrationLinkRegex =
-          /^(https?:\/\/)?(www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/\S*)?$/;
-        return registrationLinkRegex.test(value);
-      },
-      message: "Invalid registration link ",
-    },
+    // validate: {
+    //   validator: function (value) {
+    //     const registrationLinkRegex =
+    //       /^(https?:\/\/)?(www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/\S*)?$/;
+    //     return registrationLinkRegex.test(value);
+    //   },
+    //   message: "Invalid registration link ",
+    // },
   },
   type: {
     type: String,

@@ -1,11 +1,10 @@
 import { IconButton } from "@mui/material";
-import DoneOutlineRoundedIcon from "@mui/icons-material/DoneOutlineRounded";
 import { useSelector } from "react-redux";
 import logo from "./../../assets/images/live-chat_16px.png";
 import SearchIcon from "@mui/icons-material/Search";
 import { AnimatePresence,motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { createGroup , fetchAllUser} from "../../service/chats/chats";
+import { fetchAllUser} from "../../service/chats/chats";
 import "./../../assets/style/myStyle.css"
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -13,21 +12,6 @@ function AllUsers() {
   const LightTheme = useSelector((state) => state.themeKey);
   const [searchQuery , setSearchQuery] = useState("");
   const [userId, setUserId] = useState([]);
-  const [groupName , setgroupName] = useState()
-
-  const fetchGroup = async () => {
-    try {
-      const response = await createGroup({name: groupName, users: userId});
-      if (response) {
-        const data = response.data.user;
-        setUsers(data);
-      } else {
-        console.error("Failed to fetch group");
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
 
   const toggleSelection = (id) => {
     // Check if the user ID is already selected
@@ -47,6 +31,7 @@ function AllUsers() {
       if (response) {
         const data = response.data.user;
         setUsers(data);
+        console.log(data);
       } else {
         console.log("Failed to fetch data");
       }
@@ -93,7 +78,6 @@ function AllUsers() {
           </div>
           <div className={`ag-list ${LightTheme ? "" : "con-dark"}`}>
             {filteredUsers.map((data, index) => {
-              console.log(users)
               const isSelected = userId.includes(data._id); 
               return (
                 <motion.div
@@ -109,7 +93,7 @@ function AllUsers() {
                     {data.name}
                   </p>
                     </div>
-                  <p className={`chatArea-text ${isSelected ? "selected" : ""} ${LightTheme ? "" : "dark"}`}>Mentor</p>
+                  <p className={`chatArea-text ${isSelected ? "selected" : ""} ${LightTheme ? "" : "dark"}`}>{data.role}</p>
                   <IconButton>
                     <DeleteIcon/>
                   </IconButton>

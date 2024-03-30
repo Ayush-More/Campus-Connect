@@ -2,46 +2,30 @@ import { useSelector } from "react-redux"
 import { IconButton } from "@mui/material"
 import logo from "./../../assets/images/live-chat_16px.png";
 import SearchIcon from '@mui/icons-material/Search';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { motion } from "framer-motion";
+import {SeeNotes} from "./../../service/admin/admin"
 
 function ViewNotes() {
-    const notes = [
-        {
-          Title: "Introduction to Algorithms",
-          Category: "Development",
-          SubCategory: ["Algorithms", "Data Structures"],
-          Pdf: "https://example.com/introduction-to-algorithms.pdf",
-          discription: "A comprehensive guide to algorithms and data structures.",
-          favourite: true,
-          createdAt: "2024-03-16T12:00:00.000Z"
-        },
-        {
-          Title: "Linear Algebra",
-          Category: "Subject",
-          SubCategory: ["Mathematics"],
-          Pdf: "https://example.com/linear-algebra.pdf",
-          discription: "Basic concepts and applications of linear algebra.",
-          favourite: false,
-          createdAt: "2024-03-15T12:00:00.000Z"
-        },
-        {
-          Title: "JavaScript: The Good Parts",
-          Category: "Development",
-          SubCategory: ["JavaScript"],
-          Pdf: "https://example.com/javascript-the-good-parts.pdf",
-          discription: "Exploring the good parts of the JavaScript language.",
-          favourite: true,
-          createdAt: "2024-03-14T12:00:00.000Z"
-        }
-      ]
+   const [notes , setNotes] = useState([]);
+      // console.log(SeeNotes())
+    const  HandleUser = async() =>{
+      const result = await SeeNotes()
+      if(result.data){
+        setNotes(result.data.data);
+        console.log(result);
+      }
+    }
     const LightTheme = useSelector((state) => state.themeKey)
     const [searchBar , setSearchBar] = useState(false);
     const handleSearchBar = async()=>{
       setSearchBar((prev)=> !prev);
     }
+    useEffect(()=>{
+      HandleUser()
+    },[])
   return (
     <>
     <div className="list-container">

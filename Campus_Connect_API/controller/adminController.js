@@ -1,3 +1,5 @@
+const multer = require("multer");
+const path = require("path");
 const Notes = require("../model/notesModel");
 const StudentMentor = require("../model/mentorModel");
 const User = require("../model/userModel");
@@ -26,6 +28,7 @@ exports.AllNotes = async (req, res) => {
 
 exports.AddMentor = async (req, res) => {
   try {
+    console.log(req.body);
     const result = await StudentMentor.create({
       users: req.body.users,
       programmingLanguages: req.body.programmingLanguages,
@@ -90,10 +93,39 @@ exports.AllUser = async (req, res) => {
     });
   }
 };
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(
+      null,
+      "F:/Workspace/Personel project/chat app/Campus-Connect/campus_connect-frontend/src/assets/images"
+    );
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now();
+    const extname = path.extname(file.originalname);
+    const filename = file.fieldname + uniqueSuffix + extname;
+    cb(null, filename);
+  },
+});
+const upload = multer({ storage: storage });
+exports.getimage = upload.single("image");
 
 exports.AddEvent = async (req, res) => {
   try {
-    const result = await Event.create(req.body);
+    const result = await Event.create({
+      tittle: req.body.tittle,
+      venue: req.body.venue,
+      date: req.body.date,
+      time: req.body.time,
+      Description: req.body.Description,
+      queryContact: req.body.queryContact,
+      Registrationlink: req.body.Registrationlink,
+      type: req.body.type,
+      mode: req.body.mode,
+      image: req.file.filename,
+      dressCode: req.body.dressCode,
+      Department: req.body.Department,
+    });
     if (!result) {
       throw new Error("The Event not added");
     }
