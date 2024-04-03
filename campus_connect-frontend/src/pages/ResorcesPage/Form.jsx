@@ -108,6 +108,12 @@ const handleSubChange =() =>{
     setSubCategory(DSA)
   }
 }
+
+useEffect(()=>{
+  handleSubChange()
+},[])
+
+
 const handleSubmit = async() =>{
   try{
     const result = await UploadPdf({
@@ -129,11 +135,6 @@ const handleSubmit = async() =>{
   }
 }
 
-
-
-  useEffect(()=>{
-    handleSubChange()
-  },[category])
   return (
     <>
     <div className={`personelEvent-container ${LightTheme ? "" : "dark"}`}>
@@ -214,7 +215,7 @@ const handleSubmit = async() =>{
           sx={{ width: '100%' }}
         />
         <div>
-          <Button style={{backgroundColor:"#63d7b0"}} variant="contained" size="large" onClick={handleSubmit()}>
+          <Button onClick={() => handleSubmit()} style={{backgroundColor:"#63d7b0"}} variant="contained" size="large"  >
           UPLOAD 
         </Button></div>
           

@@ -1,8 +1,9 @@
-import { axiosFormData } from "../axios/axios";
+import axiosAuth from "./../axios/axios";
 
 const getPersonelEvent = async (value) => {
   try {
-    const result = await axiosFormData.post("/calender/day", value, {
+    console.log(value);
+    const result = await axiosAuth.post("/calender/day", value, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
       },

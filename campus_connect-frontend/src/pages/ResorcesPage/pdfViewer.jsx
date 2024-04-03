@@ -1,58 +1,63 @@
-import { useState , useEffect , lazy , Suspense} from "react";
-import { Worker, Viewer } from '@react-pdf-viewer/core';
-import {defaultLayoutPlugin} from '@react-pdf-viewer/default-layout';
-import '@react-pdf-viewer/core/lib/styles/index.css';
-import '@react-pdf-viewer/default-layout/lib/styles/index.css';
-import PropTypes from 'prop-types';
+import { useState , lazy , useEffect } from "react";
+import { Document, Page } from "react-pdf";
 import { useParams } from "react-router-dom";
-import pdf from "./../../assets/pdf/Pdf1710172431881.pdf";
-
+// import pdf from "./Pdf1712085409263.pdf"
 
 function PdfViewer() {
+  const [numPages, setNumPages] = useState();
+  const [pageNumber, setPageNumber] = useState(1);
   const {name} = useParams();
-  console.log(name);
-    const newplugin = defaultLayoutPlugin();
-    const [ viewPdf , setViewPdf] = useState(true);
-    const [viewUrl , setPdfUrl] = useState(`./../../assets/pdf/Pdf1710172431881.pdf`);
-    console.log(viewUrl)
+  // const pdf = require(`./../../assets/pdf/${name}`);
+  
+//   lazy(() => {
+//   const pdfFile =  import("./Pdf1712085409263.pdf");
+//   console.log(pdfFile);
+//   return pdfFile
+// })
+useEffect(() => {
+  console.log("./Pdf1712085409263.pdf")
+  // Dynamically import the PDF file based on the name parameter
+  import("./../../assets/pdf/"+ name)
+    .then(pdf => {
+      setNumPages(null); // Reset numPages while loading new PDF
+      setPageNumber(1); // Reset pageNumber while loading new PDF
+      setPdf(pdf.default);
+    })
+    .catch(error => {
+      console.error("Error loading PDF:", error);
+    });
+}, []);
 
-  //  const pdf ="";
-  //   useEffect(() => {
-  //     const fetchPdf = async () => {
-  //       try {
-  //         // Dynamically import the PDF file based on the name parameter
-  //         /* @vite-ignore */
-  //         const pdfModule = await import(`./../../assets/pdf/${name}`);
-  //         setPdfUrl(pdfModule.default);
-  //       } catch (error) {
-  //         console.error("Error loading PDF:", error);
-  //       }
-  //     };
-  //     lazy(async() => {
-  //     pdf = await import(`./../../assets/pdf/${name}`)});
-  
-  //     fetchPdf();
-  //   }, [name]);
-  
+const [pdf, setPdf] = useState(null);
+  function onDocumentLoadSuccess({ numPages }) {
+    setNumPages(numPages);
+  }
+
   return (
     <>
-    <Suspense fallback={
-    <div className='pdfViewer'>
-   <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-   {viewPdf && <>
-   <Viewer fileUrl = {pdf} plugin = {[newplugin]} />
-   </>}
-   {!viewPdf && <>
-    No Pdf
-   </>}
-   </Worker>
-        
-    </div>}/>
+      <div className="pdfViewer">
+           <p>
+        Page {pageNumber} of {numPages}
+      </p>
+      <Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}>
+        {Array.apply(null, Array(numPages))
+          .map((x, i) => i + 1)
+          .map((page, i) => {
+            return (
+              <Page
+              key={i}
+                pageNumber={page}
+                renderTextLayer={false}
+                renderAnnotationLayer={false}
+              />
+            );
+          })}
+      </Document>
+   
+    </div>
     </>
-  )
+  );
 }
-PdfViewer.propTypes = {
-  pdfUrl: PropTypes.string.isRequired,
-};
+export default PdfViewer;
 
-export default PdfViewer
+

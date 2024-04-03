@@ -1,35 +1,37 @@
 import { IconButton } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import logo from "./../../assets/images/live-chat_16px.png";
 import SearchIcon from "@mui/icons-material/Search";
 import { useSelector } from "react-redux";
+import { fetchAllUser , AccessChat } from "../../service/chats/chats";
 import { AnimatePresence, motion } from "framer-motion";
-// import getToken from "./../utils/getToken";
 
-function Available_Users() {
+function Available_Users () {
   const [users, setUsers] = useState([]);
-
+  const [searchQuery , setSearchQuery] = useState("");
   const LightTheme = useSelector((state) => state.themeKey);
-  // useEffect(() => {
-  //   try {
-  //     const token = localStorage.getItem("token");
-  //     const response = fetch("http://localhost:5000/api/v1/chat/fetchUsers", {
-  //       method: "GET",
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
+  const fetchData = async () => {
+    try {
+      const response = await fetchAllUser();
+      if (response) {
+        const data = response.data.user;
+        setUsers(data);
+      } else {
+        console.log("Failed to fetch data");
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  const filteredUsers = users.filter((user) =>
+    user.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
-  //     if (response.ok) {
-  //       const data = response.json();
-  //       setUsers(data.data);
-  //     } else {
-  //       console.error("Failed to fetch data");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //   }
-  // }, []);
+ 
+  useEffect(() => {
+    fetchData()
+  }, []);
+
 
   return (
     <>
@@ -57,10 +59,12 @@ function Available_Users() {
               type="text"
               className={`Search-box ${LightTheme ? "" : "dark"}`}
               placeholder="Search..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
           <div className={`ag-list ${LightTheme ? "" : "con-dark"}`}>
-            {users.map((data, index) => {
+            {filteredUsers.map((data, index) => {
               return (
                 <motion.div
                   whileHover={{ scale: 1.01 }}
@@ -69,23 +73,12 @@ function Available_Users() {
                   key={index}
                   onClick={() => {
                     try {
-                      const token = localStorage.getItem("token");
-                      const response = fetch(
-                        "http://localhost:5000/api/v1/chat/",
-                        {
-                          method: "POST",
-                          headers: {
-                            Authorization: `Bearer ${token}`,
-                          },
-                          body: {
-                            userId: data._id,
-                          },
-                        }
-                      );
-
-                      if (response.ok) {
-                        const data = response.json();
-                        setUsers(data.data);
+                    
+                      const response = AccessChat({userId:data._id})
+                     
+                      if (response.data.status === "success") {
+                        const data = response.data.FullChat;
+                        setUsers(data);
                       } else {
                         console.error("Failed to fetch data");
                       }

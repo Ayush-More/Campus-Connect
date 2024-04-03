@@ -61,8 +61,8 @@ function Form() {
   console.log(formData);
   const handleSubmit = async()=>{
     try{
-      console.log(formData.Title);
-      const data = await getPersonelEvent({formData});
+      console.log(formData);
+      const data = await getPersonelEvent(formData);
       console.log(data);
       if(data){
         alert("details updated");
@@ -99,10 +99,10 @@ function Form() {
         ]}
       >
         <Box mb={1} className={`menuItem ${LightTheme ? "" : "dark"}`}><DemoItem className={`menuItem ${LightTheme ? "" : "dark"}`} label={<Label componentName="DatePicker" valueType="date" className={`menuItem ${LightTheme ? "" : "dark"}`} />}>
-          <DatePicker value={formData.date} onChange={(e)=> {handleInputChange("date" , e) ; console.log(e)}}  className={`menuItem ${LightTheme ? "" : "dark"}`}/>
+          <DatePicker  onChange={(e)=>{setFormData(prev => ({...prev , date:`${e.$D}/${e.$M+1}/${e.$y}`}))}}  className={`menuItem ${LightTheme ? "" : "dark"}`}/>
         </DemoItem></Box>
          <Box mb={1}> <DemoItem label={<Label componentName="TimePicker" valueType="time" />}>
-          <TimePicker value={formData.time} onChange={(e)=> handleInputChange("time" , e)}/>
+          <TimePicker  onChange={(e)=> {setFormData(prev => ({...prev , time:`${e.$H}:${e.$m}`}))}}/>
         </DemoItem></Box>
        
 

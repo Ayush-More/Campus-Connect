@@ -1,7 +1,7 @@
 const expressAsyncHandler = require("express-async-handler");
-const Message = require("./../model/messageModel");
-const User = require("./../model/userModel");
-const Chat = require("./../model/chatModel");
+const Message = require("../model/messageModel");
+const User = require("../model/userModel");
+const Chat = require("../model/chatModel");
 
 const allMessages = expressAsyncHandler(async (req, res) => {
   try {
@@ -17,6 +17,7 @@ const allMessages = expressAsyncHandler(async (req, res) => {
 });
 
 const sendMessage = expressAsyncHandler(async (req, res) => {
+  console.log(req.body);
   const { content, chatId } = req.body;
 
   if (!content || !chatId) {

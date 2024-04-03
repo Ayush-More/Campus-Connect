@@ -34,7 +34,12 @@ import AllEvent from "./pages/admin/AllEvent.jsx";
 import AddMentor from "./pages/admin/AddMentor.jsx";
 import AllUsers from "./pages/admin/AllUser.jsx";
 import ViewNotes from "./pages/admin/ViewNotes.jsx";
+import { pdfjs } from 'react-pdf';
 
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.js',
+  import.meta.url,
+).toString();
 export function PrivateRoute(props) {
   let { component: Component } = props;
   const {token} = useSelector((state) => state.auth);

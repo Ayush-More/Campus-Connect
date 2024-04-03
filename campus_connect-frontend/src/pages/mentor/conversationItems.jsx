@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import PropTypes from 'prop-types';
 
 function ConversationItems(props) {
   const LightTheme = useSelector((state) => state.themeKey);
@@ -12,10 +13,10 @@ function ConversationItems(props) {
         nav("chats");
       }}
     >
-      <p className="con-icon">{props.name[0]}</p>
-      <p className={`sb-title${LightTheme ? "" : "dark"}`}>{props.name}</p>
+      <p className="con-icon">{props.chatName[0]}</p>
+      <p className={`sb-title${LightTheme ? "" : "dark"}`}>{props.chatName}</p>
       <p className={`con-lastMessage ${LightTheme ? "" : "dark"}`}>
-        {props.lastMessage}
+        {props.latestMessage}
       </p>
       <p className={`con-timeStamp ${LightTheme ? "" : "dark"}`}>
         {props.timeStamp}
@@ -24,4 +25,9 @@ function ConversationItems(props) {
   );
 }
 
+ConversationItems.propTypes = {
+  chatName: PropTypes.string.isRequired,
+  latestMessage: PropTypes.string,
+  timeStamp: PropTypes.string,
+};
 export default ConversationItems;
