@@ -19,21 +19,24 @@ import CircleIcon from "@mui/icons-material/Circle";
 import { PickersDay } from '@mui/x-date-pickers';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import Badge from '@mui/material/Badge';
+import { getMonthEvent } from "../../service/calender/calender";
 
 function getRandomNumber(min, max) {
   return Math.round(Math.random() * (max - min) + min);
 }
 
-/**
- * Mimic fetch with abort controller https://developer.mozilla.org/en-US/docs/Web/API/AbortController/abort
- * ⚠️ No IE11 support
- */
-function fakeFetch(date, { signal }) {
+
+async function fakeFetch(date, { signal }) {
+  
+  const event = await getMonthEvent({month:date.$M+1 , year:date.$y})
+ 
   return new Promise((resolve, reject) => {
     const timeout = setTimeout(() => {
-      const daysInMonth = date.daysInMonth();
-      const daysToHighlight = [1, 2, 3].map(() => getRandomNumber(1, daysInMonth));
-
+      const daysToHighlight = [];
+      for(const eventDate of event.data.data.ClubEvents){
+        const daysOfMonth = new Date(eventDate.date).getDate();
+        daysToHighlight.push(daysOfMonth)
+      }
       resolve({ daysToHighlight });
     }, 500);
 
@@ -44,19 +47,34 @@ function fakeFetch(date, { signal }) {
   });
 }
 
-const initialValue = dayjs('2022-04-17');
+const initialValue = dayjs();
 
 function ServerDay(props) {
   const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
+  const personelDate = [1 ,2 , 3];
+  // const finalDay= {
+  //   club: highlightedDays,
+  //   personel : personelDate,
+  // }
 
   const isSelected =
     !props.outsideCurrentMonth && highlightedDays.indexOf(props.day.date()) >= 0;
 
+    const ispersonel =
+    !props.outsideCurrentMonth && personelDate.indexOf(props.day.date()) >= 0;
+    let badgeContent;
+  if (isSelected) {
+    badgeContent = "😊";
+  } else if (ispersonel) {
+    badgeContent = "😂";
+  } else {
+    badgeContent = undefined;
+  }
   return (
     <Badge
       key={props.day.toString()}
       overlap="circular"
-      badgeContent={isSelected ? '🌚' : undefined}
+      badgeContent={badgeContent}
     >
       <PickersDay {...other} outsideCurrentMonth={outsideCurrentMonth} day={day} />
     </Badge>
@@ -70,81 +88,7 @@ function Sidebar() {
   const LightTheme = useSelector((state) => state.themeKey);
   const dispatch = useDispatch();
 
-  const Academic = [{
-    date: "15-02-2022",
-    eventName: "SEMINAR ON MACHINE LEARNING"
-  }, {
-    "date": "28-03-2022",
-    "eventName": "WORKSHOP ON DATA ANALYSIS"
-  }, {
-    "date": "28-03-2022",
-    "eventName": "WORKSHOP ON DATA ANALYSIS"
-  }
-  ]
 
-  const clubEvent = [
-    {
-      tittle: "Tech Seminar on AI and ML",
-      venue: "Auditorium A",
-      date: "10-02-2024",
-      time: "10:00:00",
-      Description:
-        "A seminar on the latest advancements in Artificial Intelligence and Machine Learning technologies.",
-      queryContact: 1234567890,
-      Registrationlink: "https://example.com/seminar-registration",
-      type: "Seminar",
-      mode: "Offline",
-      dressCode: "Formal",
-      Department: "Computer Science",
-      EventImage: "./../../assets/images/club_event1.jpg",
-    },
-    {
-      tittle: "CodeFest Hackathon 2024",
-      venue: "Convention Center",
-      date: "15-03-2024",
-      time: "09:00:00",
-      Description:
-        "A 24-hour hackathon for developers to showcase their coding skills and build innovative projects.",
-      queryContact: 9876543210,
-      Registrationlink: "https://example.com/hackathon-registration",
-      type: "Hackathon",
-      mode: "Hybrid",
-      dressCode: "Casual",
-      Department: "Information Technology",
-      EventImage: "./../../assets/images/club_event2.jpg"
-    },
-    {
-      tittle: "Tech Company Recruitment Drive",
-      venue: "Campus Placement Office",
-      date: "20-04-2024",
-      time: "11:30:00",
-      Description:
-        "A recruitment drive conducted by a leading tech company to hire fresh talent from our institution.",
-      queryContact: 7654321098,
-      Registrationlink: "https://example.com/recruitment-registration",
-      type: "Recruitment",
-      mode: "Offline",
-      dressCode: "Business Casual",
-      Department: "All Departments",
-      EventImage: "./../../assets/images/club_event3.jpg"
-    },
-  ];
-
-  const Personel = [{
-    Title: "TEAM MEETING",
-    time: "09:00:00",
-    date: "15-02-2022",
-    conferenceLink: "https://example.com/meeting",
-    discription: "Weekly team meeting to discuss project updates."
-  }, {
-    Title: "TRAINING SESSION",
-    time: "13:30:00",
-    date: "28-03-2022",
-    conferenceLink: "https://example.com/training",
-    discription: "Training session on new software tools for the team."
-  }
-
-  ]
   const requestAbortController = React.useRef(null);
   const [isLoading, setIsLoading] = React.useState(false);
   const [highlightedDays, setHighlightedDays] = React.useState([1, 2, 15]);
@@ -185,7 +129,10 @@ function Sidebar() {
     setHighlightedDays([]);
     fetchHighlightedDays(date);
   };
-
+  const [onClickDate , setOnClickDate] = React.useState(null);
+  React.useEffect(()=>{
+    {onClickDate? nav("/calender/event?day="+onClickDate.$D + "&month="+onClickDate.$M+"&year="+onClickDate.$y):""}
+  },[onClickDate])
 
 
   return (
@@ -244,25 +191,19 @@ function Sidebar() {
         <div className={`sb-color ${LightTheme ? "" : "dark"}`}>
           <div className="con-color">
             <div className="con-colorName">
-              <div>
-                <CircleIcon
-                  style={{ color: "yellow" }}
-                  className="con-circle"
-                />
+            <div className="con-circle">
+                😒
               </div>
               <div className="con-den">Club Event</div>
             </div>
             <div className="con-colorName">
-              <div>
-                <CircleIcon
-                  style={{ color: "red" }}
-                  className="con-circle"
-                />
+              <div className="con-circle">
+                😂
               </div>
-              <div className="con-den">Academic</div>
+              <div className="con-den">Personel</div>
             </div>
           </div>
-          <div className="con-color">
+          {/* <div className="con-color">
             <div>
               <CircleIcon
                 style={{ color: "blue" }}
@@ -271,7 +212,7 @@ function Sidebar() {
             </div>
             <div className="con-den">personel Event</div>
 
-          </div>
+          </div> */}
         </div>
         <div className={`sb-conversation ${LightTheme ? "" : "dark"}`}>
           <LocalizationProvider dateAdapter={AdapterDayjs} className={`menuItem ${LightTheme ? "" : "dark"}`}>
@@ -279,10 +220,12 @@ function Sidebar() {
               className={`menuItem ${LightTheme ? "" : "dark"}`}
               defaultValue={initialValue}
               loading={isLoading}
+              onChange={(e)=> {setOnClickDate(e)}}
               onMonthChange={handleMonthChange}
               renderLoading={() => <DayCalendarSkeleton />}
               slots={{
                 day: ServerDay,
+                
               }}
               slotProps={{
                 day: {

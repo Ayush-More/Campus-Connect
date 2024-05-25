@@ -1,4 +1,4 @@
-import React from "react"
+import React , {useEffect} from "react"
 import { IconButton } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import "./../../assets/style/myStyle.css";
@@ -14,9 +14,10 @@ import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
-import { useNavigate } from "react-router-dom";
+import { useNavigate  } from "react-router-dom";
 import { useSelector } from "react-redux";
 import FavoriteIcon from '@mui/icons-material/Favorite';
+
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -58,6 +59,9 @@ const subject = [
 
 
 function Sidebar() {
+  const set = useSelector((state)=> state.pdfView.view);
+  const describe = useSelector((state)=> state.pdfView.discription)
+  console.log(set)
   const nav = useNavigate()
   const LightTheme = useSelector((state)=> state.themeKey)
   const [SubjectName, setSubjectName] = React.useState([]);
@@ -73,7 +77,7 @@ function Sidebar() {
       typeof value === 'string' ? value.split(',') : value,
     );
   };
-
+  
   const handleDsaChange = (event) => {
     const {
       target: { value },
@@ -94,9 +98,13 @@ function Sidebar() {
     );
   };
   
+  useEffect(()=>{
+    nav("/resource/search?dsa="+DsaName+"&subject="+SubjectName+"&development="+DevelopName)
+  },[SubjectName , DsaName , DevelopName])
   return (
-    <div className="sideBar">
-        <div className={`sb-header ${LightTheme ? "" : "dark"}`} >
+  <>
+     <div className="sideBar">
+     <div className={`sb-header ${LightTheme ? "" : "dark"}`} >
         <div>
             <IconButton>
               <AccountCircleIcon
@@ -122,8 +130,9 @@ function Sidebar() {
           </div>
         </div>
         <div className={`sb-conversation ${LightTheme ? "" : "dark"}`}>
-
-          <p  className={`eventTitle ${LightTheme ? "" : "dark"}`} style={{fontSize:"30px", paddingTop:"10px"}}>Category</p>
+        {!set? (
+          <div>
+           <p  className={`eventTitle ${LightTheme ? "" : "dark"}`} style={{fontSize:"30px", paddingTop:"10px"}}>Category</p>
           <div className={`dropDown ${LightTheme ? "" : "dark"}`}>
         <FormControl sx={{ m: 1, width: 300 }} sy={{m:2}}>
         <InputLabel id="demo-multiple-checkbox-label" className={`checkbox-label ${LightTheme ? "" : "dark"}`}>Subject</InputLabel>
@@ -214,10 +223,21 @@ function Sidebar() {
         </FormControl>
         </div>
         
-      
         </div>
+        ):(
+          <div>
+             <p  className={`eventTitle ${LightTheme ? "" : "dark"}`} style={{fontSize:"30px", paddingTop:"10px"}}>Discription</p>
+             <div className={` ${LightTheme ? "" : "dark"}`} style={{padding:"15px",flex:"1" , display:"flex" , justifyContent:"center" , alignItems:"center"}}>
+                <p style={{fontSize:"20px" , fontFamily: "Arimo-SemiBold" , color: "rgba(0, 0, 0, 0.667)"}}>{describe}</p>
+             </div>
+          </div>
+        )}
     </div>
+    </div>
+    </>
+   
   )
 }
+
 
 export default Sidebar

@@ -5,6 +5,7 @@ const Chat = require("../model/chatModel");
 
 const allMessages = expressAsyncHandler(async (req, res) => {
   try {
+    console.log(req.params);
     const messages = await Message.find({ chat: req.params.chatId })
       .populate("sender", "name email")
       .populate("reciever")
@@ -44,7 +45,10 @@ const sendMessage = expressAsyncHandler(async (req, res) => {
     });
 
     await Chat.findByIdAndUpdate(req.body.chatId, { latestMessage: message });
-    res.json(message);
+    res.status(200).json({
+      status: "success",
+      data: message,
+    });
   } catch (error) {
     res.status(400);
     throw new Error(error.message);

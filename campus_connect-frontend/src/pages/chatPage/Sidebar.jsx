@@ -129,7 +129,7 @@ function Sidebar() {
             // Assign latestMessage or default if it's undefined
           const latestMessage = conversation.latestMessage || "No Message";
             return <ConversationItems
-            chatName={chatName} latestMessage={latestMessage} timeStamp={conversation.timeStamp} key={i} />;
+            chatName={chatName} latestMessage={latestMessage} timeStamp={conversation.timeStamp} key={i} id={conversation._id} />;
           })}
         </div>
       </div>

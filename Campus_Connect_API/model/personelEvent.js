@@ -18,7 +18,7 @@ const personelEventSchema = new mongoose.Schema({
     required: [true, "The date is required"],
   },
   date: {
-    type: String,
+    type: Date,
     // validate: {
     //   validator: function (value) {
     //     const DateFormat = /^\d{2}-\d{2}-\d{4}$/;

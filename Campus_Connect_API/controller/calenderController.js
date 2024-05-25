@@ -1,5 +1,6 @@
 const academic = require("../model/acedemicEvent");
 const club = require("../model/clubEvent");
+const personel = require("../model/personelEvent");
 const personal = require("../model/personelEvent");
 const catchAsync = require("../utility/catchAsync");
 
@@ -10,65 +11,17 @@ exports.monthEvent = catchAsync(async (req, res) => {
   const clubEvents = await club.find({
     $expr: {
       $and: [
-        {
-          $eq: [
-            {
-              $month: {
-                $dateFromString: {
-                  dateString: "$date",
-                  format: "%d-%m-%Y",
-                },
-              },
-            },
-            parseInt(SelectedMonth, 10),
-          ],
-        },
-        {
-          $eq: [
-            {
-              $year: {
-                $dateFromString: {
-                  dateString: "$date",
-                  format: "%d-%m-%Y",
-                },
-              },
-            },
-            parseInt(SelectedYear, 10),
-          ],
-        },
+        { $eq: [{ $month: "$date" }, SelectedMonth] },
+        { $eq: [{ $year: "$date" }, SelectedYear] },
       ],
     },
   });
 
-  const academicEvents = await academic.find({
+  const personelEvents = await personel.find({
     $expr: {
       $and: [
-        {
-          $eq: [
-            {
-              $month: {
-                $dateFromString: {
-                  dateString: "$date",
-                  format: "%d-%m-%Y",
-                },
-              },
-            },
-            parseInt(SelectedMonth, 10),
-          ],
-        },
-        {
-          $eq: [
-            {
-              $year: {
-                $dateFromString: {
-                  dateString: "$date",
-                  format: "%d-%m-%Y",
-                },
-              },
-            },
-            parseInt(SelectedYear, 10),
-          ],
-        },
+        { $eq: [{ $month: "$date" }, SelectedMonth] },
+        { $eq: [{ $year: "$date" }, SelectedYear] },
       ],
     },
   });
@@ -76,9 +29,9 @@ exports.monthEvent = catchAsync(async (req, res) => {
   res.status(200).json({
     status: "Success",
     ClubEventLength: clubEvents.length,
-    AcademicEventLength: academicEvents.length,
+    PersonelEventLength: personelEvents.length,
     data: {
-      AcademicEvents: academicEvents,
+      PersonelEvents: personelEvents,
       ClubEvents: clubEvents,
     },
   });

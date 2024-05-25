@@ -1,12 +1,22 @@
-import { useState , lazy , useEffect } from "react";
+import { useState ,  useEffect } from "react";
 import { Document, Page } from "react-pdf";
-import { useParams } from "react-router-dom";
+import { useParams , useNavigate  } from "react-router-dom";
+import CloseIcon from '@mui/icons-material/Close';
+import { IconButton } from '@mui/material';
+import {pdfView} from "./../../store/Slice/pdfSlice";
+import { useDispatch} from "react-redux";
+import 'react-pdf/dist/Page/TextLayer.css';
+
+
 // import pdf from "./Pdf1712085409263.pdf"
 
 function PdfViewer() {
+  const nav = useNavigate();
+  const dispatch = useDispatch()
   const [numPages, setNumPages] = useState();
   const [pageNumber, setPageNumber] = useState(1);
   const {name} = useParams();
+ 
   // const pdf = require(`./../../assets/pdf/${name}`);
   
 //   lazy(() => {
@@ -53,8 +63,13 @@ const [pdf, setPdf] = useState(null);
             );
           })}
       </Document>
-   
+      <div style={{paddingLeft:"10px"}}>
+      <IconButton onClick={()=> { nav("/resource/search"); dispatch(pdfView())}}  >
+    <CloseIcon/>
+   </IconButton>
+      </div>
     </div>
+    
     </>
   );
 }

@@ -115,7 +115,7 @@ exports.AddEvent = async (req, res) => {
     const result = await Event.create({
       tittle: req.body.tittle,
       venue: req.body.venue,
-      date: req.body.date,
+      date: new Date(req.body.date),
       time: req.body.time,
       Description: req.body.Description,
       queryContact: req.body.queryContact,
@@ -146,6 +146,7 @@ exports.AllEvent = async (req, res) => {
   try {
     const date = new Date(Date.now());
     const today = date.toLocaleDateString();
+    console.log(today);
     await Event.deleteMany({
       date: { $lt: today },
     });

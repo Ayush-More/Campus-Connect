@@ -402,10 +402,7 @@
 }
 
 .con-circle {
-  height: 0.75em !important;
-  width: 0.75em !important;
-  border: 2px solid rgb(131, 130, 130);
-  border-radius: 50%;
+  font-size: larger;
   margin: 5px;
 }
 .con-den {
@@ -722,14 +719,11 @@ footer {
   padding: 3px 4px !important;
 }
 .pdfViewer {
+  overflow-y: scroll;
   flex: 0.7;
-  height: 100%;
-  width: 100%;
-  overflow-y: auto;
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin: 10px 0px;
+  margin: 10px 10px;
 }
 .RoadmapTag {
   display: flex;

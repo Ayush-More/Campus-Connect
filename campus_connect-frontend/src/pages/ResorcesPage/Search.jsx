@@ -7,11 +7,17 @@ import pdf from "./../../assets/images/pdf2.png";
 import DownloadIcon from '@mui/icons-material/Download';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import GradeIcon from '@mui/icons-material/Grade';
-import { useNavigate } from "react-router-dom";
+import { useNavigate , useLocation } from "react-router-dom";
 import { removeFavourities, setFavourities } from "../../store/Slice/FavouriteSlice";
 import { ViewPdf } from "../../service/Pdf/resource";
+import queryString from "query-string"
+import {pdfDiscription , pdfView} from "./../../store/Slice/pdfSlice"
+
 
 function Search() {
+  let location = useLocation();
+  const queryParams = queryString.parse(location.search);
+  console.log(queryParams)
   const nav = useNavigate()
   const dispatch = useDispatch();
     const [pdfList , setPdfList] = useState([])
@@ -24,6 +30,33 @@ function Search() {
       const result = await ViewPdf();
       setPdfList(result.data.data);
     }
+    const filteredpdf = pdfList.filter((pdf) => {
+      const matchesSearchQuery = searchQuery ? pdf.Title.toLowerCase().includes(searchQuery.toLowerCase()) : true;
+    
+      const hasDevelopmentQuery = queryParams.development ? queryParams.development.split(",") : [];
+const hasSubjectQuery = queryParams.subject ? queryParams.subject.split(",") : [];
+const hasDsaQuery = queryParams.dsa ? queryParams.dsa.split(",") : [];
+
+    
+      let matchDevelopmentQuery = true;
+      let matchSubjectQuery = true;
+      let matchDsaQuery = true;
+     console.log(hasDevelopmentQuery.length)
+      if (pdf.Category === "Development" && hasDevelopmentQuery.length > 0) {
+        matchDevelopmentQuery = hasDevelopmentQuery.some(query => pdf.SubCategory.includes(query));
+      }
+    
+      if (pdf.Category === "Subject" && hasSubjectQuery.length > 0) {
+        matchSubjectQuery = hasSubjectQuery.some(query => pdf.SubCategory.includes(query));
+      }
+    
+      if (pdf.Category === "DSA" && hasDsaQuery.length > 0) {
+        matchDsaQuery = hasDsaQuery.some(query => pdf.SubCategory.includes(query));
+      }
+    
+      return matchesSearchQuery && matchDevelopmentQuery && matchSubjectQuery && matchDsaQuery;
+    });
+    
     useEffect(()=>{
       AllPdf();
     },[])
@@ -34,6 +67,8 @@ function Search() {
         dispatch(setFavourities(pdfItemId));
       }
     };
+
+  
   return (
     <>
     <div className="PdfSearch">
@@ -50,10 +85,13 @@ function Search() {
             />
           </div>
           <div className="pdfcol" style={{display:"flex", flex:1 , flexWrap:"wrap" , overflow:"scroll"}}>
-          {pdfList.map((pdfItem, index) => (
+          {filteredpdf.map((pdfItem, index) => {
+            dispatch(pdfDiscription(pdfItem.discription))
+         
+            return(
   <div className="pdf" key={index}>
     <div style={{ display: "flex", justifyContent: "center", height: "80%" }}>
-      <img onClick={() => nav(`/resource/view/${pdfItem.Pdf}`)} src={pdf} height={100} width={100} alt="pdf" />
+      <img onClick={() => {nav(`/resource/view/${pdfItem.Pdf}`); dispatch(pdfView())}} src={pdf} height={100} width={100} alt="pdf" />
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
         <IconButton className="specialIcon"><DownloadIcon className="specialIcon" /></IconButton>
         <IconButton className="specialIcon" onClick={() => toggleFavorite(pdfItem._id)}>
@@ -67,8 +105,7 @@ function Search() {
     </p>
     
   </div>
-))}
-            
+)})}            
           </div>
           
     </div>

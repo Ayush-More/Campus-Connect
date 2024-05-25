@@ -6,8 +6,9 @@ import "./../../assets/style/myStyle.css";
 import "swiper/css";
 import "swiper/css/effect-creative";
 import "./../../assets/style/myStyle.css";
+import DeleteIcon from '@mui/icons-material/Delete';
 import {Mousewheel, EffectCreative } from "swiper/modules";
-import {SeeEvent} from "./../../service/admin/admin"
+import {SeeEvent , deleteEvent} from "./../../service/admin/admin"
 import { useEffect , useState} from "react";
 // import image from "./../../assets/images/image1711797448530.jpg";
 
@@ -55,7 +56,12 @@ function AllEvent() {
           className="mySwiper"
         >{clubEvent.map((event,i)=>{return  <SwiperSlide key={i}>
           <div  className={`event-card ${LightTheme ? "" : "dark"}`}>
-            <div className="eventTitle"><p >{event.tittle}</p></div>
+            <div className="eventTitle">
+            <div style={{flex:"0.95", display:"flex",justifyContent:"center"}}><p >{event.tittle}</p></div>
+            <IconButton style={{flex:"0.05" }} onClick={()=> {deleteEvent(event._id)}}>
+              <DeleteIcon/>
+            </IconButton>
+            </div>
             <div className="eventSection"><img className="event-image"src="./../../assets/images/image1711797448530.jpg" alt="Event Poster" />
             <div className="event-Description">
               <p >

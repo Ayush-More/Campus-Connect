@@ -10,7 +10,7 @@ function ConversationItems(props) {
     <div
       className={`conversation-container ${LightTheme ? "" : "dark"}`}
       onClick={() => {
-        nav("chats");
+        nav("chats/"+ props.id );
       }}
     >
       <p className="con-icon">{props.chatName[0]}</p>
@@ -29,5 +29,6 @@ ConversationItems.propTypes = {
   chatName: PropTypes.string.isRequired,
   latestMessage: PropTypes.string,
   timeStamp: PropTypes.string,
+  id : PropTypes.string
 };
 export default ConversationItems;

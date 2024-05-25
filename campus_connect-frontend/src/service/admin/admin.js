@@ -68,4 +68,51 @@ const SeeEvent = async () => {
   }
 };
 
-export { createMentor, createEvent, SeeUsers, SeeNotes, SeeEvent };
+const deleteNotes = async (value) => {
+  try {
+    const result = await axiosAuth.get("/admin/delete_notes/" + value, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+      },
+    });
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const deleteUser = async (value) => {
+  try {
+    const result = await axiosAuth.get("/admin/delete_user/" + value, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+      },
+    });
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const deleteEvent = async (value) => {
+  try {
+    const result = await axiosAuth.get("/admin/delete_event/" + value, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+      },
+    });
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export {
+  createMentor,
+  createEvent,
+  SeeUsers,
+  SeeNotes,
+  SeeEvent,
+  deleteNotes,
+  deleteUser,
+  deleteEvent,
+};

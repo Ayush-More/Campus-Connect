@@ -13,17 +13,17 @@ const sendMessage = async (value) => {
   }
 };
 
-// const allMessages = async (id) => {
-//   try {
-//     const result = await axiosAuth.get("/messages/" + id, {
-//       headers: {
-//         Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
-//       },
-//     });
-//     return result;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+const allMessages = async (id) => {
+  try {
+    const result = await axiosAuth.get("/messages/" + id, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+      },
+    });
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-export { sendMessage };
+export { sendMessage, allMessages };

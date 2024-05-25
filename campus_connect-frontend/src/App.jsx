@@ -95,7 +95,7 @@ function App() {
                     element:  <PrivateRoute  component={MentorWelcome}/>,
                   
                 }, {
-                    path: "chats",
+                    path: "chats/:chat_id",
                     element: <PrivateRoute  component={ChatArea}/>,
                    
                 }, {

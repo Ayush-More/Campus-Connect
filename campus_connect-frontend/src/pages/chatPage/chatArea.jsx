@@ -1,16 +1,18 @@
 import { useParams } from "react-router-dom"
-import { useState  } from "react";
+import { useEffect, useState  } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { IconButton } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
-import MessageOther from "./MessageOther";
-import Messageself from "./Messageself";
+// import MessageOther from "./MessageOther";
+// import Messageself from "./Messageself";
 import { useSelector } from "react-redux";
 import { AnimatePresence, motion } from "framer-motion";
-import { sendMessage } from "../../service/chats/message";
+import { sendMessage , allMessages } from "../../service/chats/message";
 
 function ChatArea() {
+  const userData = JSON.parse(localStorage.getItem("user"));
   const {chat_id} = useParams();
+  // const [allContent , setAllContent] = useState([]);
   const [messageContent, setMessageContent] = useState({
     content:"",
     chatId:chat_id,
@@ -18,17 +20,26 @@ function ChatArea() {
   console.log(chat_id)
   const LightTheme = useSelector((state) => state.themeKey);
   const data = { name: "Ayush" };
-  const handleSubmit = async() => {
-    const data = await sendMessage(messageContent);
-    if(data){
-      console.log(data);
-      setMessageContent({
-        ...messageContent,
-        content: ""
-      });
-    }
-  }
+  // const handleSubmit = async() => {
+  //   const data = await sendMessage(messageContent);
+  //   if(data){
+  //     console.log(data);
+  //     setMessageContent({
+  //       ...messageContent,
+  //       content: ""
+  //     });
+  //   }
+  // }
+
+  // const handleAllMessages = async() =>{
+  //   const result = await allMessages(chat_id);
+  //   console.log(result.data.data.sender._id);
+  //   // setAllContent(result.data.data)
+  // }
   
+  // useEffect(()=>{
+  //   handleAllMessages()
+  // },[])
   return (
     <AnimatePresence>
       <motion.div
@@ -50,14 +61,29 @@ function ChatArea() {
           </IconButton>
         </div>
         <div className={`chatArea-messages ${LightTheme ? "" : "dark"}`}>
-          <MessageOther />
-          <Messageself />
+        {/* {allContent
+            .slice(0)
+            .reverse()
+            .map((message, index) => {
+              const sender = message.sender;
+              const self_id = userData.data._id;
+              <Messageself props={message} key={index} />
+            //   if (sender._id === self_id) {
+            //     // console.log("I sent it ");
+            //     return <Messageself props={message} key={index} />;
+            //   } else {
+            //     // console.log("Someone Sent it");
+            //     return <MessageOther props={message} key={index} />;
+            //   }
+            })} */}
+      
         </div>
         <div className={`text-input-area ${LightTheme ? "" : "dark"}`}>
           <input
             className={`Search-box ${LightTheme ? "" : "dark"}`}
             type="text"
             placeholder="Type Message"
+            value={messageContent.content}
             onChange={(e) => {
               setMessageContent({
                 ...messageContent,
@@ -65,7 +91,7 @@ function ChatArea() {
             }}
             onKeyDown={(event)=>{
               if(event.code === "Enter"){
-                handleSubmit()
+                // handleSubmit()
                 setMessageContent({
                   ...messageContent,
                   content:""
@@ -73,7 +99,7 @@ function ChatArea() {
               }
             }}
           />
-          <IconButton onClick={()=> handleSubmit()}>
+          <IconButton >
             <SendIcon className={`icon ${LightTheme ? "" : "dark"}`} />
           </IconButton>
         </div>

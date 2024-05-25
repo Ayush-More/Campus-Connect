@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { motion } from "framer-motion";
-import {SeeNotes} from "./../../service/admin/admin"
+import {SeeNotes , deleteNotes} from "./../../service/admin/admin"
 
 function ViewNotes() {
    const [notes , setNotes] = useState([]);
@@ -52,6 +52,7 @@ function ViewNotes() {
           </div>
           <div className="ag-list">
             {notes.map((data , index)=>{
+              console.log(data.Category , data.createdBy.email)
           return(<motion.div
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
@@ -61,10 +62,10 @@ function ViewNotes() {
           <IconButton>
             <PictureAsPdfIcon/>
           </IconButton>
-          <p className="chatArea-text">DSA</p>
+          <p className="chatArea-text">{data.Category}</p>
           </div>
-            <p className="chatArea-text">ayushmore8652@gmail.com</p>
-            <IconButton>
+            <p className="chatArea-text">{data.createdBy.email}</p>
+            <IconButton onClick={()=> {deleteNotes(data._id)}}>
               <DeleteIcon/>
             </IconButton>       
         </motion.div>)

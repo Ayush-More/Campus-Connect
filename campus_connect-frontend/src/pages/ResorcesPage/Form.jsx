@@ -111,7 +111,7 @@ const handleSubChange =() =>{
 
 useEffect(()=>{
   handleSubChange()
-},[])
+},[category])
 
 
 const handleSubmit = async() =>{

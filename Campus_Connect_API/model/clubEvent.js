@@ -11,7 +11,7 @@ const clubEventSchema = new mongoose.Schema({
     maxlength: 100,
   },
   date: {
-    type: String,
+    type: Date,
     // validate: {
     //   validator: function (value) {
     //     const DateFormat = /^\d{2}/\d{2}/\d{4}$/;

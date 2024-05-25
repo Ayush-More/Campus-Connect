@@ -4,7 +4,8 @@ import logo from "./../../assets/images/live-chat_16px.png";
 import SearchIcon from "@mui/icons-material/Search";
 import { AnimatePresence,motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { fetchAllUser} from "../../service/chats/chats";
+import { fetchAllUser } from "../../service/chats/chats";
+import { deleteUser } from "../../service/admin/admin";
 import "./../../assets/style/myStyle.css"
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -94,7 +95,7 @@ function AllUsers() {
                   </p>
                     </div>
                   <p className={`chatArea-text ${isSelected ? "selected" : ""} ${LightTheme ? "" : "dark"}`}>{data.role}</p>
-                  <IconButton>
+                  <IconButton onClick={()=> {deleteUser(data._id)}}>
                     <DeleteIcon/>
                   </IconButton>
                 </motion.div>

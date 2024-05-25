@@ -14,4 +14,20 @@ const getPersonelEvent = async (value) => {
   }
 };
 
-export { getPersonelEvent };
+const getMonthEvent = async (value) => {
+  try {
+    const result = await axiosAuth.get(
+      "/calender/month/" + value.year + "/" + value.month,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+        },
+      }
+    );
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { getPersonelEvent, getMonthEvent };

@@ -12,8 +12,8 @@ Router.get("/notes", adminController.AllNotes)
   .get("/user", adminController.AllUser)
   .post("/add_event", adminController.getimage, adminController.AddEvent)
   .get("/event", adminController.AllEvent)
-  .get("/delete_notes", adminController.deleteNotes)
-  .get("/delete_user", adminController.deleteUser)
-  .get("/delete_event", adminController.deleteEvent);
+  .get("/delete_notes/:id", adminController.deleteNotes)
+  .get("/delete_user/:id", adminController.deleteUser)
+  .get("/delete_event/:id", adminController.deleteEvent);
 
 module.exports = Router;
