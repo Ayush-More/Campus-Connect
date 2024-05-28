@@ -107,6 +107,8 @@ function Sidebar() {
         if (error.name !== 'AbortError') {
           throw error;
         }
+
+        
       });
 
     requestAbortController.current = controller;
