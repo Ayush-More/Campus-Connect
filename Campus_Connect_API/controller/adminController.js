@@ -5,6 +5,7 @@ const StudentMentor = require("../model/mentorModel");
 const User = require("../model/userModel");
 const Event = require("../model/clubEvent");
 const factory = require("./handleFactory");
+// const cloudinary = require("../utility/cloudinary");
 
 exports.AllNotes = async (req, res) => {
   try {

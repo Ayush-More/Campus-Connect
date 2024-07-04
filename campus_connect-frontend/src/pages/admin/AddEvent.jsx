@@ -117,6 +117,7 @@ function AddEvent() {
       noValidate
       autoComplete="off"
       className='eventDetails'
+      style={{display:"flex" , alignItems:"center" , justifyContent:"center"}}
     >
       <TextField name="tittle" onChange={Change} id="standard-basic" label="Add Tittle" variant="standard" className={`menuItem ${LightTheme ? "" : "dark"}`} />
      
@@ -174,6 +175,7 @@ function AddEvent() {
             noValidate
             autoComplete="off"
             className='eventDetails'
+            style={{display:"flex" , alignItems:"center" , justifyContent:"center"}}
           ><div style={{display:"flex", width:"100%", justifyContent:"center"}}>
                <Box  className={`menuItem ${LightTheme ? "" : "dark"}`}>
                <FormControl sx={{ mx: 1, width: 230 }}>

@@ -15,6 +15,21 @@ const fetchAllUser = async () => {
 
 const AccessChat = async (value) => {
   try {
+    console.log(value);
+    const resData = await axiosAuth.get("/chat/chatsdetail/" + value, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+      },
+    });
+    console.log(resData);
+    return resData;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const CreateOneToOne = async (value) => {
+  try {
     const resData = await axiosAuth.post("/chat", value, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
@@ -57,7 +72,7 @@ const FetchAllGroup = async () => {
 
 const addSelfGroup = async (value) => {
   try {
-    const resData = await axiosAuth.post("/chat", value, {
+    const resData = await axiosAuth.post("/chat/addSelf", value, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
       },
@@ -91,4 +106,5 @@ export {
   FetchAllGroup,
   addSelfGroup,
   createGroup,
+  CreateOneToOne,
 };

@@ -12,7 +12,6 @@ const pdfSlice = createSlice({
         },
         pdfDiscription: (state , action) =>{
             state.discription = action.payload;
-            console.log(action.payload)
             
         }
     }

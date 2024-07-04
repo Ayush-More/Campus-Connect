@@ -9,7 +9,7 @@ function MessageOther(props) {
         <div className="other-text-content">
           <p className="con-title">{props.name}</p>
           <p className="con-lastMessage">{props.message}</p>
-          {/* <p className="self-timeStamp">12:00am</p> */}
+          <p className="self-timeStamp">12:00am</p>
         </div>
       </div>
     </div>

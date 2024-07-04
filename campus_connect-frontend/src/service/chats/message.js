@@ -2,6 +2,7 @@ import axiosAuth from "./../axios/axios";
 
 const sendMessage = async (value) => {
   try {
+    console.log(value);
     const resData = await axiosAuth.post("/messages", value, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,

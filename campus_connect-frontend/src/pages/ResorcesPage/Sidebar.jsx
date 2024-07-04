@@ -61,7 +61,6 @@ const subject = [
 function Sidebar() {
   const set = useSelector((state)=> state.pdfView.view);
   const describe = useSelector((state)=> state.pdfView.discription)
-  console.log(set)
   const nav = useNavigate()
   const LightTheme = useSelector((state)=> state.themeKey)
   const [SubjectName, setSubjectName] = React.useState([]);

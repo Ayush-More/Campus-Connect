@@ -86,7 +86,8 @@ function Form() {
       }}
       noValidate
       autoComplete="off"
-      className='eventDetails'
+      style={{display:"flex" , padding:"15px 10px",flexDirection:"column" , alignItems:"center" , justifyContent:"center"}}
+
     >
       <TextField id="standard-basic" label="Add Tittle" variant="standard" className={`menuItem ${LightTheme ? "" : "dark"}`} onChange={(e)=> {handleInputChange("Title" , e.target.value)}} />
      

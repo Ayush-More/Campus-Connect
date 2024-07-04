@@ -1,9 +1,6 @@
 const express = require("express");
-const {
-  allMessages,
-  sendMessage,
-} = require("./../controller/messageController");
-const { protect } = require("./../controller/authController");
+const { allMessages, sendMessage } = require("../controller/messageController");
+const { protect } = require("../controller/authController");
 
 const router = express.Router();
 

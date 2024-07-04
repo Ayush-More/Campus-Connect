@@ -25,7 +25,7 @@ function ViewNotes() {
     }
     useEffect(()=>{
       HandleUser()
-    },[])
+    },[notes])
   return (
     <>
     <div className="list-container">

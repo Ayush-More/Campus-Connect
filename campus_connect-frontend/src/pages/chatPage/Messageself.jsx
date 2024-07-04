@@ -2,6 +2,7 @@ import PropTypes from "prop-types"
 
 function Messageself(props) {
   // const data = { content: "My Name is Ayush More" };
+  console.log(props.message)
   return (
     <div className="self-message-container">
       <div className="messageBox">

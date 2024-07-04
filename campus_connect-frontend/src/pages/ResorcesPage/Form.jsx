@@ -146,7 +146,7 @@ const handleSubmit = async() =>{
       }}
       noValidate
       autoComplete="off"
-      className='eventDetails'
+      style={{display:"flex" , padding:"15px 10px",flexDirection:"column" , alignItems:"center" , justifyContent:"center"}}
     >
       <TextField id="standard-basic" label="Add Tittle" variant="standard" onChange={(e)=>{setTitle(e.target.value)}} className={`menuItem ${LightTheme ? "" : "dark"}`} />
      

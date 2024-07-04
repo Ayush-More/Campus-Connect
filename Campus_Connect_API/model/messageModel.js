@@ -9,6 +9,7 @@ const messageModel = mongoose.Schema(
     content: {
       type: String,
       trim: true,
+      default: "No Message",
     },
     reciever: {
       type: mongoose.Schema.Types.ObjectId,

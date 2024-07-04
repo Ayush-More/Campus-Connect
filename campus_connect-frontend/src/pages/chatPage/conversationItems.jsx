@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 function ConversationItems(props) {
   const LightTheme = useSelector((state) => state.themeKey);
   const nav = useNavigate();
-  
+  console.log(props.latestMessage.content)
   return (
     <div
       className={`conversation-container ${LightTheme ? "" : "dark"}`}
@@ -16,7 +16,7 @@ function ConversationItems(props) {
       <p className="con-icon">{props.chatName[0]}</p>
       <p className={`sb-title${LightTheme ? "" : "dark"}`}>{props.chatName}</p>
       <p className={`con-lastMessage ${LightTheme ? "" : "dark"}`}>
-        {props.latestMessage}
+         {props.latestMessage.content}
       </p>
       <p className={`con-timeStamp ${LightTheme ? "" : "dark"}`}>
         {props.timeStamp}

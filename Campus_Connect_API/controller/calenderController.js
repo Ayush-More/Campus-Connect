@@ -1,7 +1,6 @@
 const academic = require("../model/acedemicEvent");
 const club = require("../model/clubEvent");
 const personel = require("../model/personelEvent");
-const personal = require("../model/personelEvent");
 const catchAsync = require("../utility/catchAsync");
 
 exports.monthEvent = catchAsync(async (req, res) => {
@@ -39,11 +38,13 @@ exports.monthEvent = catchAsync(async (req, res) => {
 
 exports.AllEvents = catchAsync(async (req, res) => {
   const allClub = await club.find();
+  const allPersonel = await personel.find();
 
   res.status(200).json({
     status: "Success",
     data: {
       ClubEvents: allClub,
+      Personel: allPersonel,
     },
   });
 });

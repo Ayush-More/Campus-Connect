@@ -124,7 +124,7 @@ function Sidebar() {
           {filteredUsers.map((conversation, i) => {
             
             // Assign chatName based on conversation type
-          const chatName = conversation.isGroupChat ? conversation.chatName : conversation.users[0].name;
+          const chatName = conversation.chatName;
 
             // Assign latestMessage or default if it's undefined
           const latestMessage = conversation.latestMessage || "No Message";

@@ -24,20 +24,26 @@ import { getMonthEvent } from "../../service/calender/calender";
 function getRandomNumber(min, max) {
   return Math.round(Math.random() * (max - min) + min);
 }
-
+let event = null;
 
 async function fakeFetch(date, { signal }) {
   
-  const event = await getMonthEvent({month:date.$M+1 , year:date.$y})
+   event = await getMonthEvent({month:date.$M+1 , year:date.$y})
  
   return new Promise((resolve, reject) => {
     const timeout = setTimeout(() => {
       const daysToHighlight = [];
+      const personelEvent = [];
       for(const eventDate of event.data.data.ClubEvents){
         const daysOfMonth = new Date(eventDate.date).getDate();
         daysToHighlight.push(daysOfMonth)
       }
-      resolve({ daysToHighlight });
+      for(const eventDate of event.data.data.PersonelEvents){
+        const daysOfMonth = new Date(eventDate.date).getDate();
+        personelEvent.push(daysOfMonth)
+      }
+      console.log(personelEvent)
+      resolve({ daysToHighlight  , personelEvent});
     }, 500);
 
     signal.onabort = () => {
@@ -46,12 +52,12 @@ async function fakeFetch(date, { signal }) {
     };
   });
 }
-
+console.log(event);
 const initialValue = dayjs();
 
 function ServerDay(props) {
-  const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
-  const personelDate = [1 ,2 , 3];
+  const { highlightedDays = [],personelEvent=[], day, outsideCurrentMonth, ...other } = props;
+  // const personelDate = [1 ,2 , 3];
   // const finalDay= {
   //   club: highlightedDays,
   //   personel : personelDate,
@@ -61,7 +67,7 @@ function ServerDay(props) {
     !props.outsideCurrentMonth && highlightedDays.indexOf(props.day.date()) >= 0;
 
     const ispersonel =
-    !props.outsideCurrentMonth && personelDate.indexOf(props.day.date()) >= 0;
+    !props.outsideCurrentMonth && personelEvent.indexOf(props.day.date()) >= 0;
     let badgeContent;
   if (isSelected) {
     badgeContent = "😊";
@@ -91,15 +97,17 @@ function Sidebar() {
 
   const requestAbortController = React.useRef(null);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [highlightedDays, setHighlightedDays] = React.useState([1, 2, 15]);
+  const [highlightedDays, setHighlightedDays] = React.useState([]);
+  const [personelEvent, setPersonelEvent] = React.useState([]);
 
   const fetchHighlightedDays = (date) => {
     const controller = new AbortController();
     fakeFetch(date, {
       signal: controller.signal,
     })
-      .then(({ daysToHighlight }) => {
+      .then(({ daysToHighlight , personelEvent }) => {
         setHighlightedDays(daysToHighlight);
+        setPersonelEvent(personelEvent);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -129,6 +137,7 @@ function Sidebar() {
 
     setIsLoading(true);
     setHighlightedDays([]);
+    setPersonelEvent([])
     fetchHighlightedDays(date);
   };
   const [onClickDate , setOnClickDate] = React.useState(null);

@@ -3,7 +3,7 @@ import  { useEffect, useState } from "react";
 import logo from "./../../assets/images/live-chat_16px.png";
 import SearchIcon from "@mui/icons-material/Search";
 import { useSelector } from "react-redux";
-import { fetchAllUser , AccessChat } from "../../service/chats/chats";
+import { fetchAllUser , CreateOneToOne } from "../../service/chats/chats";
 import { AnimatePresence, motion } from "framer-motion";
 
 function Available_Users () {
@@ -49,7 +49,7 @@ function Available_Users () {
             <IconButton>
               <img src={logo} alt="logo" />
             </IconButton>
-            <p className="chatArea-text ">Online User</p>
+            <p className="chatArea-text ">Available Mentor</p>
           </div>
           <div className={`sb-search ${LightTheme ? "" : "dark"}`}>
             <IconButton>
@@ -74,7 +74,7 @@ function Available_Users () {
                   onClick={() => {
                     try {
                     
-                      const response = AccessChat({userId:data._id})
+                      const response = CreateOneToOne({userId:data._id})
                      
                       if (response.data.status === "success") {
                         const data = response.data.FullChat;

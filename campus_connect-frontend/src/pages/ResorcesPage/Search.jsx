@@ -17,14 +17,13 @@ import {pdfDiscription , pdfView} from "./../../store/Slice/pdfSlice"
 function Search() {
   let location = useLocation();
   const queryParams = queryString.parse(location.search);
-  console.log(queryParams)
   const nav = useNavigate()
   const dispatch = useDispatch();
     const [pdfList , setPdfList] = useState([])
     const LightTheme = useSelector((state) => state.themeKey)
     const [searchQuery , setSearchQuery] = useState("");
     const favoriteList = useSelector((state) => state.favourite.id);
-   
+  
 
     const AllPdf = async()=>{
       const result = await ViewPdf();
@@ -34,29 +33,19 @@ function Search() {
       const matchesSearchQuery = searchQuery ? pdf.Title.toLowerCase().includes(searchQuery.toLowerCase()) : true;
     
       const hasDevelopmentQuery = queryParams.development ? queryParams.development.split(",") : [];
-const hasSubjectQuery = queryParams.subject ? queryParams.subject.split(",") : [];
-const hasDsaQuery = queryParams.dsa ? queryParams.dsa.split(",") : [];
+      const hasSubjectQuery = queryParams.subject ? queryParams.subject.split(",") : [];
+      const hasDsaQuery = queryParams.dsa ? queryParams.dsa.split(",") : [];
 
     
-      let matchDevelopmentQuery = true;
-      let matchSubjectQuery = true;
-      let matchDsaQuery = true;
-     console.log(hasDevelopmentQuery.length)
-      if (pdf.Category === "Development" && hasDevelopmentQuery.length > 0) {
-        matchDevelopmentQuery = hasDevelopmentQuery.some(query => pdf.SubCategory.includes(query));
-      }
-    
-      if (pdf.Category === "Subject" && hasSubjectQuery.length > 0) {
-        matchSubjectQuery = hasSubjectQuery.some(query => pdf.SubCategory.includes(query));
-      }
-    
-      if (pdf.Category === "DSA" && hasDsaQuery.length > 0) {
-        matchDsaQuery = hasDsaQuery.some(query => pdf.SubCategory.includes(query));
-      }
-    
+      let matchDevelopmentQuery;
+      let matchSubjectQuery;
+      let matchDsaQuery;
+
+      matchDevelopmentQuery = hasDevelopmentQuery.length? hasDevelopmentQuery.some(query => pdf.SubCategory.includes(query)): true;
+      matchSubjectQuery = hasSubjectQuery.length ? hasSubjectQuery.some(query => pdf.SubCategory.includes(query)): true;
+      matchDsaQuery = hasDsaQuery.length ? hasDsaQuery.some(query => pdf.SubCategory.includes(query)):true;
       return matchesSearchQuery && matchDevelopmentQuery && matchSubjectQuery && matchDsaQuery;
     });
-    
     useEffect(()=>{
       AllPdf();
     },[])
@@ -68,6 +57,16 @@ const hasDsaQuery = queryParams.dsa ? queryParams.dsa.split(",") : [];
       }
     };
 
+    const onDownloadClick = () => {
+      console.log("download");
+      const pdfUrl = "/assets/Climb_Stairs.pdf";
+      const link = document.createElement("a");
+      link.href = pdfUrl;
+      link.download = "document.pdf"; // specify the filename
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+  };
   
   return (
     <>
@@ -86,14 +85,13 @@ const hasDsaQuery = queryParams.dsa ? queryParams.dsa.split(",") : [];
           </div>
           <div className="pdfcol" style={{display:"flex", flex:1 , flexWrap:"wrap" , overflow:"scroll"}}>
           {filteredpdf.map((pdfItem, index) => {
-            dispatch(pdfDiscription(pdfItem.discription))
-         
+            dispatch(pdfDiscription(pdfItem.discription))  
             return(
   <div className="pdf" key={index}>
     <div style={{ display: "flex", justifyContent: "center", height: "80%" }}>
       <img onClick={() => {nav(`/resource/view/${pdfItem.Pdf}`); dispatch(pdfView())}} src={pdf} height={100} width={100} alt="pdf" />
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <IconButton className="specialIcon"><DownloadIcon className="specialIcon" /></IconButton>
+        <IconButton className="specialIcon" onClick={()=>{onDownloadClick()}}><DownloadIcon className="specialIcon" /></IconButton>
         <IconButton className="specialIcon" onClick={() => toggleFavorite(pdfItem._id)}>
                     {favoriteList.includes(pdfItem._id) ? <GradeIcon /> :<StarOutlineIcon /> }
                   </IconButton>

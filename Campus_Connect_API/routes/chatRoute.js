@@ -1,21 +1,24 @@
 const express = require("express");
 const {
-  fetchAllUser,
+  fetchAvailableMentors,
   AccessChat,
+  CreateOneToOneChat,
   fetchChats,
   createGroupChat,
   groupExit,
   fetchGroups,
+  addSelfToTheGroup,
 } = require("../controller/chatController");
 const { protect } = require("../controller/authController");
 
 const router = express.Router();
 
-router.post("/", protect, AccessChat);
+router.post("/", protect, CreateOneToOneChat);
+router.get("/chatsdetail/:chat_id", protect, AccessChat);
 router.get("/", protect, fetchChats);
 router.post("/createGroup", protect, createGroupChat);
 router.get("/fetchGroups", protect, fetchGroups);
 router.put("/groupExit", protect, groupExit);
-router.get("/fetchUsers", protect, fetchAllUser);
-
+router.get("/fetchUsers", protect, fetchAvailableMentors);
+router.post("/addSelf", protect, addSelfToTheGroup);
 module.exports = router;

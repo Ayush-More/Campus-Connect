@@ -13,10 +13,9 @@ function Online_Group() {
 
   const fetchData = async () => {
     try {
-      
       const response = await FetchAllGroup();
       if (response) {
-        const confirm = response.data.allGroups;
+        const confirm = response.data.group;
         setGroup(confirm);
       } else {
         console.log("Failed to fetch data");
@@ -72,8 +71,8 @@ fetchData()
                   className={`item-list ${LightTheme ? "" : "dark"}`}
                   onClick={() => {
                     try {
-                      const id = localStorage.getItem("userId");
-                      const response = addSelfGroup({chatId : group._id , userId:id })
+                      
+                      const response = addSelfGroup({chatId : data._id  })
                      
                       if (response.data.status === "success") {
                         console.log(response.data.added);
