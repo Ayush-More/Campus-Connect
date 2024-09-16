@@ -96,22 +96,6 @@ exports.AllUser = async (req, res) => {
     });
   }
 };
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(
-//       null,
-//       "F:/Workspace/Personel project/chat app/Campus-Connect/campus_connect-frontend/public/assets"
-//     );
-//   },
-//   filename: function (req, file, cb) {
-//     const uniqueSuffix = Date.now();
-//     const extname = path.extname(file.originalname);
-//     const filename = file.fieldname + uniqueSuffix + extname;
-//     cb(null, filename);
-//   },
-// });
-// const upload = multer({ storage: storage });
-// exports.getimage = upload.single("image");
 
 exports.AddEvent = async (req, res) => {
   console.log(req.body);

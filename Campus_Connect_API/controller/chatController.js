@@ -53,6 +53,7 @@ const CreateOneToOneChat = async (req, res) => {
     throw new Error(error.message);
   }
 };
+
 const AccessChat = async (req, res) => {
   try {
     const { chat_id } = req.params;
