@@ -1,5 +1,5 @@
 import  { useEffect, useState } from "react";
-import ConversationItems from "./conversationItems";
+import ConversationItems from "./../chatPage/conversationItems";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleTheme } from "../../store/Slice/themeSlice";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -15,17 +15,13 @@ import NightlightIcon from "@mui/icons-material/Nightlight";
 import { FetchChat } from "../../service/chats/chats";
 
 function Sidebar() {
+  const userData = JSON.parse(localStorage.getItem("user"));
   const nav = useNavigate();
   const [searchQuery , setSearchQuery] = useState("");
   const LightTheme = useSelector((state) => state.themeKey);
   const dispatch = useDispatch();
   const [conversations , setConversation] = useState([]);
-  // const [conversations,setConversation]= useState([
-  //   { chatName: "Test#1", latestMessage: "Message #1", timeStamp: "today" },
-  //   { chatName: "Test#2", latestMessage: "Message #2", timeStamp: "today" },
-  //   { chatName: "Test#3", latestMessage: "Message #3", timeStamp: "today" },
-  // ]);
-
+  
   const fetchData = async () => {
     try {
       const response = await FetchChat();
@@ -99,13 +95,13 @@ function Sidebar() {
                 />
               )}
             </IconButton>
-            <IconButton
+            {/* <IconButton
               onClick={() => {
                 nav("/");
               }}
             >
               <ExitToAppIcon className={`icon ${LightTheme ? "" : "dark"}`} />
-            </IconButton>
+            </IconButton> */}
           </div>
         </div>
         <div className={`sb-search ${LightTheme ? "" : "dark"}`}>
@@ -122,13 +118,14 @@ function Sidebar() {
         </div>
         <div className={`sb-conversation ${LightTheme ? "" : "dark"}`}>
           {filteredUsers.map((conversation, i) => {
+            
             // Assign chatName based on conversation type
-          const chatName = conversation.isGroupChat ? conversation.chatName : conversation.users[0].name;
+            const chatName = conversation.isGroupChat?conversation.chatName:conversation.users[0]._id === userData._id ? conversation.users[1].name: conversation.users[0].name;
 
             // Assign latestMessage or default if it's undefined
           const latestMessage = conversation.latestMessage || "No Message";
             return <ConversationItems
-            chatName={chatName} latestMessage={latestMessage} timeStamp={conversation.timeStamp} key={i} />;
+            chatName={chatName} latestMessage={latestMessage} timeStamp={conversation.timeStamp} key={i} id={conversation._id} />;
           })}
         </div>
       </div>

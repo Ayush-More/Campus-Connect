@@ -99,6 +99,21 @@ const createGroup = async (value) => {
   }
 };
 
+const AllUser = async (value) => {
+  try {
+    console.log(value);
+    const resData = await axiosAuth.get("/chat/alluser", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+      },
+    });
+    console.log(resData);
+    return resData;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export {
   fetchAllUser,
   AccessChat,
@@ -107,4 +122,5 @@ export {
   addSelfGroup,
   createGroup,
   CreateOneToOne,
+  AllUser,
 };

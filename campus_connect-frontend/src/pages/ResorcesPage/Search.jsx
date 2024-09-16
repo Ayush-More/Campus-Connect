@@ -29,23 +29,37 @@ function Search() {
       const result = await ViewPdf();
       setPdfList(result.data.data);
     }
-    const filteredpdf = pdfList.filter((pdf) => {
-      const matchesSearchQuery = searchQuery ? pdf.Title.toLowerCase().includes(searchQuery.toLowerCase()) : true;
-    
+
       const hasDevelopmentQuery = queryParams.development ? queryParams.development.split(",") : [];
       const hasSubjectQuery = queryParams.subject ? queryParams.subject.split(",") : [];
       const hasDsaQuery = queryParams.dsa ? queryParams.dsa.split(",") : [];
 
+    const filteredpdf = pdfList.filter((pdf) => {
+      console.log("Filter called")
+      const matchesSearchQuery = searchQuery ? pdf.Title.toLowerCase().includes(searchQuery.toLowerCase()) : true;
+      console.log(hasDevelopmentQuery + "and" + hasDsaQuery)
     
       let matchDevelopmentQuery;
       let matchSubjectQuery;
       let matchDsaQuery;
 
-      matchDevelopmentQuery = hasDevelopmentQuery.length? hasDevelopmentQuery.some(query => pdf.SubCategory.includes(query)): true;
-      matchSubjectQuery = hasSubjectQuery.length ? hasSubjectQuery.some(query => pdf.SubCategory.includes(query)): true;
-      matchDsaQuery = hasDsaQuery.length ? hasDsaQuery.some(query => pdf.SubCategory.includes(query)):true;
-      return matchesSearchQuery && matchDevelopmentQuery && matchSubjectQuery && matchDsaQuery;
+      if( hasDevelopmentQuery.length >0 || hasSubjectQuery.length > 0 || hasDsaQuery.length>0){
+        matchDevelopmentQuery = hasDevelopmentQuery.length? hasDevelopmentQuery.some(query => pdf.SubCategory.includes(query)): false;
+      matchSubjectQuery = hasSubjectQuery.length ? hasSubjectQuery.some(query => pdf.SubCategory.includes(query)): false;
+      matchDsaQuery = hasDsaQuery.length ? hasDsaQuery.some(query => pdf.SubCategory.includes(query)):false;
+      return matchesSearchQuery && (matchDevelopmentQuery || matchSubjectQuery || matchDsaQuery);
+      }else{
+        matchDevelopmentQuery = hasDevelopmentQuery.length? hasDevelopmentQuery.some(query => pdf.SubCategory.includes(query)): true;
+        matchSubjectQuery = hasSubjectQuery.length ? hasSubjectQuery.some(query => pdf.SubCategory.includes(query)): true;
+        matchDsaQuery = hasDsaQuery.length ? hasDsaQuery.some(query => pdf.SubCategory.includes(query)):true;
+        return matchesSearchQuery && matchDevelopmentQuery && matchSubjectQuery && matchDsaQuery; 
+      }
     });
+
+    useEffect(()=>{
+      filteredpdf
+      console.log("useFffect")
+    },[hasDevelopmentQuery , hasSubjectQuery , hasDsaQuery])
     useEffect(()=>{
       AllPdf();
     },[])
@@ -85,23 +99,21 @@ function Search() {
           </div>
           <div className="pdfcol" style={{display:"flex", flex:1 , flexWrap:"wrap" , overflow:"scroll"}}>
           {filteredpdf.map((pdfItem, index) => {
-            dispatch(pdfDiscription(pdfItem.discription))  
+            dispatch(pdfDiscription(pdfItem.discription))
+            console.log(pdfItem)  
             return(
-  <div className="pdf" key={index}>
-    <div style={{ display: "flex", justifyContent: "center", height: "80%" }}>
-      <img onClick={() => {nav(`/resource/view/${pdfItem.Pdf}`); dispatch(pdfView())}} src={pdf} height={100} width={100} alt="pdf" />
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <IconButton className="specialIcon" onClick={()=>{onDownloadClick()}}><DownloadIcon className="specialIcon" /></IconButton>
-        <IconButton className="specialIcon" onClick={() => toggleFavorite(pdfItem._id)}>
-                    {favoriteList.includes(pdfItem._id) ? <GradeIcon /> :<StarOutlineIcon /> }
-                  </IconButton>
-        <IconButton className="specialIcon"><GradeIcon /></IconButton>
-      </div>
+  <div className={`pdf ${LightTheme ? "" : "dark"}`} key={index}>
+    <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
+      <img onClick={() => {nav(`/resource/view/${pdfItem.Pdf.version}/${pdfItem.Pdf.public_id}`); dispatch(pdfView())}} src={pdf} height={100} width={100} alt="pdf" />
     </div>
+    <div style={{display:"flex" , justifyContent:"space-between"}}>
     <p style={{ display: "flex", color: "#909090", justifyContent: "center", alignItems: "center", padding: "0px 10px", fontWeight: "bold" }}>
       {pdfItem.Title}
     </p>
-    
+    <IconButton className="specialIcon" onClick={() => toggleFavorite(pdfItem._id)}>
+                    {favoriteList.includes(pdfItem._id) ? <GradeIcon /> :<StarOutlineIcon /> }
+                  </IconButton>
+    </div>    
   </div>
 )})}            
           </div>

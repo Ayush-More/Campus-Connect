@@ -35,7 +35,11 @@ const clubEventSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
-    url: {
+    secure_url: {
+      type: String,
+      required: true,
+    },
+    version: {
       type: String,
       required: true,
     },

@@ -6,6 +6,7 @@ const logger = require("morgan");
 const cors = require("cors");
 
 const notesRoute = require("./routes/notesRoutes");
+const mentorRoute = require("./routes/mentorRoute");
 const userRoute = require("./routes/userRoute");
 const calenderRoute = require("./routes/calenderRouts");
 const tnpRoute = require("./routes/t&pRoute");
@@ -42,6 +43,7 @@ app.use("/api/v1/internship", tnpRoute);
 app.use("/api/v1/chat", chatRoute);
 app.use("/api/v1/messages", messageRoute);
 app.use("/api/v1/admin", adminRoute);
+app.use("/api/v1/mentor", mentorRoute);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

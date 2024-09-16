@@ -1,6 +1,7 @@
 const express = require("express");
 const adminController = require("../controller/adminController");
 const authController = require("../controller/authController");
+const SingleUpload = require("../middleware/multer");
 
 const Router = express.Router();
 
@@ -10,7 +11,7 @@ Router.get("/notes", adminController.AllNotes)
   .post("/add_mentor", adminController.AddMentor)
   .get("/mentor", adminController.AllMentor)
   .get("/user", adminController.AllUser)
-  .post("/add_event", adminController.getimage, adminController.AddEvent)
+  .post("/add_event", SingleUpload.SingleImage, adminController.AddEvent)
   .get("/event", adminController.AllEvent)
   .get("/delete_notes/:id", adminController.deleteNotes)
   .get("/delete_user/:id", adminController.deleteUser)

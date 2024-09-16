@@ -4,7 +4,7 @@ import logo from "./../../assets/images/live-chat_16px.png";
 import SearchIcon from "@mui/icons-material/Search";
 import { AnimatePresence,motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { fetchAllUser } from "../../service/chats/chats";
+import { AllUser } from "../../service/chats/chats";
 import { deleteUser } from "../../service/admin/admin";
 import "./../../assets/style/myStyle.css"
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -28,9 +28,9 @@ function AllUsers() {
   const [ users , setUsers] = useState([])
   const fetchData = async () => {
     try {
-      const response = await fetchAllUser();
+      const response = await AllUser();
       if (response) {
-        const data = response.data.user;
+        const data = response.data.allUser;
         setUsers(data);
         console.log(data);
       } else {
@@ -63,7 +63,7 @@ function AllUsers() {
             <IconButton>
               <img src={logo} alt="logo" />
             </IconButton>
-            <p className="chatArea-text ">Available Groups</p>
+            <p className="chatArea-text ">Users</p>
           </div>
           <div className={`sb-search ${LightTheme ? "" : "dark"}`}>
             <IconButton>

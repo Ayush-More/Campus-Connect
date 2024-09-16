@@ -31,7 +31,7 @@ const createEvent = async (value) => {
 
 const SeeUsers = async () => {
   try {
-    const result = await axiosAuth.get("", {
+    const result = await axiosAuth.get("/chat/alluser", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
       },

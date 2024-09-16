@@ -1,4 +1,5 @@
 import {TextField , Box , Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
@@ -51,6 +52,7 @@ function Label({ componentName,valueType,isProOnly }) {
 }
 
 function Form() {
+  const nav = useNavigate()
   const [formData , setFormData] = useState({
     Title:"",
     date:"",
@@ -66,6 +68,7 @@ function Form() {
       console.log(data);
       if(data){
         alert("details updated");
+        nav("/calender/event")
       }
     }catch(error){
       console.log(error)
@@ -100,7 +103,7 @@ function Form() {
         ]}
       >
         <Box mb={1} className={`menuItem ${LightTheme ? "" : "dark"}`}><DemoItem className={`menuItem ${LightTheme ? "" : "dark"}`} label={<Label componentName="DatePicker" valueType="date" className={`menuItem ${LightTheme ? "" : "dark"}`} />}>
-          <DatePicker  onChange={(e)=>{setFormData(prev => ({...prev , date:`${e.$D}/${e.$M+1}/${e.$y}`}))}}  className={`menuItem ${LightTheme ? "" : "dark"}`}/>
+          <DatePicker  onChange={(e)=>{setFormData(prev => ({...prev , date:`${e.$M+1}-${e.$D}-${e.$y}`}))}}  className={`menuItem ${LightTheme ? "" : "dark"}`}/>
         </DemoItem></Box>
          <Box mb={1}> <DemoItem label={<Label componentName="TimePicker" valueType="time" />}>
           <TimePicker  onChange={(e)=> {setFormData(prev => ({...prev , time:`${e.$H}:${e.$m}`}))}}/>
@@ -120,7 +123,6 @@ function Form() {
           defaultValue="Meeting"
           sx={{ width: '100%' }}
         />
-
 <Box sx={{ display: 'flex' }}>
         <GroupsIcon sx={{ color: 'action.active', mr: 1, my: 1 }} className={`menuItem ${LightTheme ? "" : "dark"}`} />
         <TextField onChange={(e)=> handleInputChange("conferenceLink" , e.target.value)}  sx={{ width: '100%' }} id="outlined-required" className={`menuItem ${LightTheme ? "" : "dark"}`} label="Meet Link" variant="outlined" />

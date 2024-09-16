@@ -1,25 +1,30 @@
 import { IconButton } from "@mui/material";
 import DoneOutlineRoundedIcon from "@mui/icons-material/DoneOutlineRounded";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import { AnimatePresence,motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { createGroup , fetchAllUser} from "../../service/chats/chats";
+import { createGroup , AllUser} from "../../service/chats/chats";
 import "./../../assets/style/myStyle.css"
 
 
 function Group() {
+  const navigate = useNavigate()
   const LightTheme = useSelector((state) => state.themeKey);
   const [searchQuery , setSearchQuery] = useState("");
   const [userId, setUserId] = useState([]);
   const [groupName , setgroupName] = useState()
+  const [selected , setSelected] = useState([])
 
-  const fetchGroup = async () => {
+  const NewGroup = async () => {
     try {
       const response = await createGroup({name: groupName, users: userId});
+
       if (response) {
-        const data = response.data.user;
-        setUsers(data);
+        console.log(response)
+        const data = response.data.fullGroupChat;
+        navigate("/chat/chats/"+ data._id)
       } else {
         console.error("Failed to fetch group");
       }
@@ -29,6 +34,7 @@ function Group() {
   };
 
   const toggleSelection = (id) => {
+    setSelected(selected => [...selected  , id]);
     // Check if the user ID is already selected
     if (userId.includes(id)) {
       // If already selected, remove it from the state
@@ -42,9 +48,9 @@ function Group() {
   const [ users , setUsers] = useState([])
   const fetchData = async () => {
     try {
-      const response = await fetchAllUser();
+      const response = await AllUser();
       if (response) {
-        const data = response.data.user;
+        const data = response.data.allUser;
         setUsers(data);
       } else {
         console.log("Failed to fetch data");
@@ -53,7 +59,7 @@ function Group() {
       console.error("Error fetching data:", error);
     }
   };
-  const filteredUsers = users.filter((user) =>
+  const filteredUsers = users?.filter((user) =>
   user.name.toLowerCase().includes(searchQuery.toLowerCase())
 );
   useEffect(()=>{
@@ -78,7 +84,7 @@ function Group() {
         onChange={(e) => {setgroupName(e.target.value)}}
         placeholder="Enter your Group Name"
       />
-      <IconButton className={`icon ${LightTheme ? "" : "dark"}`} onClick={()=> fetchGroup()}>
+      <IconButton className={`icon ${LightTheme ? "" : "dark"}`} onClick={()=> NewGroup()}>
         <DoneOutlineRoundedIcon />
       </IconButton>
     </div>
@@ -95,20 +101,20 @@ function Group() {
             />
           </div>
           <div className={`ag-list ${LightTheme ? "" : "con-dark"}`}>
-            {filteredUsers.map((data, index) => {
+            {filteredUsers?.map((data, index) => {
               console.log(users)
               const isSelected = userId.includes(data._id); 
               return (
                 <motion.div
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.98 }}
-                  className={`item-list ${LightTheme ? "" : "dark"}`}
+                  className={`item-list ${LightTheme ? "" : "dark"} ${selected.includes(data._id ? "con-dark":"")}`}
                   key={index}
                   onClick={() => toggleSelection(data._id)}
                 >
                   <p className="con-icon">{data.name[0]}</p>
                   <p className={`chatArea-text ${isSelected ? "selected" : ""} ${LightTheme ? "" : "dark"}`}>
-                    {data.name}
+                    {data.name} -  <span style={{fontSize:"15px" ,fontWeight:"none"}}>{data.role !== "user"? data.role: "student"}</span>
                   </p>
                 </motion.div>
               );

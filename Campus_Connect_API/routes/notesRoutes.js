@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const notesController = require("../controller/notesController");
 const authController = require("../controller/authController");
+const SingleUpload = require("../middleware/multer");
 
 router.use(authController.protect);
 
@@ -10,7 +11,7 @@ router.use(authController.protect);
 router
   .get("/:type", notesController.GetNotesBytype)
   .get("/", notesController.getAllNotess)
-  .post("/addNotes", notesController.getPdf, notesController.uploadPdf)
+  .post("/addNotes", SingleUpload.SingleUpload, notesController.uploadPdf)
   .post("/favourite", notesController.FavouritePdf);
 
 router.use(authController.restrictTo("admin"));

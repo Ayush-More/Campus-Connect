@@ -1,54 +1,31 @@
-const multer = require("multer");
-const path = require("path");
+const cloudinary = require("cloudinary");
 const notes = require("../model/notesModel");
-//const AppError = require("../utility/AppError");
 const catchAsync = require("../utility/catchAsync");
 const factory = require("./handleFactory");
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(
-      null,
-      "F:/Workspace/Personel project/chat app/Campus-Connect/campus_connect-frontend/src/assets/pdf"
-    );
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now();
-    const extname = path.extname(file.originalname);
-
-    const filename = file.fieldname + uniqueSuffix + extname;
-    cb(null, filename);
-  },
-});
-const upload = multer({ storage: storage });
-exports.getPdf = upload.single("Pdf");
+const uri = require("../utility/DataParser");
 
 exports.uploadPdf = catchAsync(async (req, res) => {
-  console.log(
-    req.body.Title,
-    req.body.Category,
-    req.body.SubCategory,
-    req.file.filename,
-    req.body.discription,
-    req.body.createdBy
-  );
-  if (
-    req.body.Title &&
-    req.body.Category &&
-    req.body.SubCategory &&
-    req.file.filename
-  ) {
+  if (req.body.Title && req.body.Category && req.body.SubCategory && req.file) {
     console.log("All value exist");
+  } else {
+    console.log("All value does not exist");
   }
+  console.log(req.file);
+  const fileUri = uri.getDataUri(req.file);
+  const mycloud = await cloudinary.uploader.upload(fileUri.content);
+  console.log(mycloud);
   const note = await notes.create({
     Title: req.body.Title,
     Category: req.body.Category,
     SubCategory: req.body.SubCategory,
-    Pdf: req.file.filename,
+    Pdf: {
+      public_id: mycloud.public_id,
+      secure_url: mycloud.secure_url,
+      version: mycloud.version,
+    },
     discription: req.body.discription,
     createdBy: req.body.createdBy,
   });
-  console.log(note);
   res.status(200).json({
     status: "success",
     data: note,

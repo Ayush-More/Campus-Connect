@@ -35,6 +35,10 @@ const personelEventSchema = new mongoose.Schema({
     trim: true,
     maxlength: 200,
   },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 const personel = mongoose.model("personel", personelEventSchema);

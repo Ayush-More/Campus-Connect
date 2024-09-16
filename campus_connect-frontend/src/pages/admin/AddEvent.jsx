@@ -92,7 +92,7 @@ function AddEvent() {
   const handleSubmit = async()=>{
     console.log(eventDetail)
     const result = createEvent(eventDetail)
-    if(result.data){
+    if(result){
       console.log(result)
       alert("Successful");
     }
@@ -131,7 +131,7 @@ function AddEvent() {
       >
         <Box mb={1} className={`menuItem ${LightTheme ? "" : "dark"}`}>
           <DemoItem className={`menuItem ${LightTheme ? "" : "dark"}`} label={<Label text="Pick up the event date" className={`menuItem ${LightTheme ? "" : "dark"}`} />}>
-          <DatePicker  onChange={(e)=>{setEventDetail(prev => ({...prev , date:`${e.$D}/${e.$M+1}/${e.$y}`}))}} className={`menuItem ${LightTheme ? "" : "dark"}`}/>
+          <DatePicker  onChange={(e)=>{setEventDetail(prev => ({...prev , date:`${e.$M+1}-${e.$D+1}-${e.$y}`}))}} className={`menuItem ${LightTheme ? "" : "dark"}`}/>
         </DemoItem></Box>
          <Box mb={1}> 
          <DemoItem  label={<Label text="Pick up the event time" />}>

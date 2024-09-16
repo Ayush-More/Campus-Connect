@@ -17,7 +17,18 @@ const notesSchema = new mongoose.Schema({
     isRequired: true,
   },
   Pdf: {
-    type: String,
+    public_id: {
+      type: String,
+      required: true,
+    },
+    secure_url: {
+      type: String,
+      required: true,
+    },
+    version: {
+      type: String,
+      required: true,
+    },
   },
   discription: {
     type: String,

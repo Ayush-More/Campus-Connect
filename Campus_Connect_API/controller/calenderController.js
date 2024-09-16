@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const academic = require("../model/acedemicEvent");
 const club = require("../model/clubEvent");
 const personel = require("../model/personelEvent");
@@ -17,14 +18,18 @@ exports.monthEvent = catchAsync(async (req, res) => {
   });
 
   const personelEvents = await personel.find({
-    $expr: {
-      $and: [
-        { $eq: [{ $month: "$date" }, SelectedMonth] },
-        { $eq: [{ $year: "$date" }, SelectedYear] },
-      ],
-    },
+    $and: [
+      {
+        $expr: {
+          $and: [
+            { $eq: [{ $month: "$date" }, SelectedMonth] },
+            { $eq: [{ $year: "$date" }, SelectedYear] },
+          ],
+        },
+      },
+      { createdBy: new mongoose.Types.ObjectId(req.user._id) },
+    ],
   });
-
   res.status(200).json({
     status: "Success",
     ClubEventLength: clubEvents.length,
@@ -38,7 +43,9 @@ exports.monthEvent = catchAsync(async (req, res) => {
 
 exports.AllEvents = catchAsync(async (req, res) => {
   const allClub = await club.find();
-  const allPersonel = await personel.find();
+  const allPersonel = await personel.find({
+    createdBy: { $eq: new mongoose.Types.ObjectId(req.user._id) },
+  });
 
   res.status(200).json({
     status: "Success",
@@ -76,9 +83,17 @@ exports.dayEvent = catchAsync(async (req, res) => {
   });
 });
 
-exports.createPersonelEvent = catchAsync(async (req, res, next) => {
-  const newEvent = await personal.create(req.body);
+exports.createPersonelEvent = catchAsync(async (req, res) => {
   console.log(req.body);
+  const { Title, time, date, conferenceLink, discription } = req.body;
+  const newEvent = await personel.create({
+    Title: Title,
+    time: time,
+    date: new Date(date),
+    conferenceLink: conferenceLink,
+    discription: discription,
+    createdBy: new mongoose.Types.ObjectId(req.user._id),
+  });
   if (!newEvent) {
     return res.status(400).json({
       status: "Error",

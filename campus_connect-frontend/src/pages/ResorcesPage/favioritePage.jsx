@@ -10,7 +10,7 @@ import { favouritePdf } from '../../service/Pdf/resource';
 import { useEffect , useState } from 'react';
 import { removeFavourities, setFavourities } from "../../store/Slice/FavouriteSlice";
 import PdfViewer from './pdfViewer';
-
+import {pdfDiscription , pdfView} from "./../../store/Slice/pdfSlice"
 function FavioritePage () {
     const List = useSelector((state)=> state.favourite.id);
     const favoriteList = useSelector((state) => state.favourite.id);
@@ -46,22 +46,21 @@ function FavioritePage () {
           </div>
     <div className="pdfcol" style={{display:"flex", flex:1 , flexWrap:"wrap" , overflow:"scroll"}}>
       {Pdf.map((favItem , index)=>{
+        dispatch(pdfDiscription(favItem.discription))
         console.log(favItem.Pdf);
       return(
         <div className="pdf" key={index}>
-        <div style={{ display: "flex", justifyContent: "center", height: "80%" }}>
-          <img onClick={() => nav("/resource/view")} src={pdf} height={100} width={100} alt="pdf" />
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <IconButton className="specialIcon"><DownloadIcon className="specialIcon" /></IconButton>
-            <IconButton className="specialIcon" onClick={() => toggleFavorite(favItem._id)}>
-                        {favoriteList.includes(favItem._id) ? <GradeIcon /> :<StarOutlineIcon /> }
-                      </IconButton>
-            <IconButton className="specialIcon"><GradeIcon /></IconButton>
-          </div>
+        <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
+          <img onClick={() => {nav(`/resource/view/${favItem.Pdf.version}/${favItem.Pdf.public_id}`); dispatch(pdfView())}} src={pdf} height={100} width={100} alt="pdf" />
         </div>
+        <div style={{display:"flex" , justifyContent:"space-between"}}>
         <p style={{ display: "flex", color: "#909090", justifyContent: "center", alignItems: "center", padding: "0px 10px", fontWeight: "bold" }}>
           {favItem.Title}
         </p>
+        <IconButton className="specialIcon" onClick={() => toggleFavorite(favItem._id)}>
+                        {favoriteList.includes(favItem._id) ? <GradeIcon /> :<StarOutlineIcon /> }
+                      </IconButton>
+        </div>    
       </div>
       )})}
             

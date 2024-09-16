@@ -1,10 +1,12 @@
 const multer = require("multer");
 const path = require("path");
+const cloudinary = require("cloudinary");
 const Notes = require("../model/notesModel");
 const StudentMentor = require("../model/mentorModel");
 const User = require("../model/userModel");
 const Event = require("../model/clubEvent");
 const factory = require("./handleFactory");
+const uri = require("../utility/DataParser");
 // const cloudinary = require("../utility/cloudinary");
 
 exports.AllNotes = async (req, res) => {
@@ -94,24 +96,29 @@ exports.AllUser = async (req, res) => {
     });
   }
 };
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(
-      null,
-      "F:/Workspace/Personel project/chat app/Campus-Connect/campus_connect-frontend/src/assets/images"
-    );
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now();
-    const extname = path.extname(file.originalname);
-    const filename = file.fieldname + uniqueSuffix + extname;
-    cb(null, filename);
-  },
-});
-const upload = multer({ storage: storage });
-exports.getimage = upload.single("image");
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(
+//       null,
+//       "F:/Workspace/Personel project/chat app/Campus-Connect/campus_connect-frontend/public/assets"
+//     );
+//   },
+//   filename: function (req, file, cb) {
+//     const uniqueSuffix = Date.now();
+//     const extname = path.extname(file.originalname);
+//     const filename = file.fieldname + uniqueSuffix + extname;
+//     cb(null, filename);
+//   },
+// });
+// const upload = multer({ storage: storage });
+// exports.getimage = upload.single("image");
 
 exports.AddEvent = async (req, res) => {
+  console.log(req.body);
+  console.log(req.file);
+  const fileUri = uri.getDataUri(req.file);
+  const mycloud = await cloudinary.uploader.upload(fileUri.content);
+  console.log(mycloud);
   try {
     const result = await Event.create({
       tittle: req.body.tittle,
@@ -123,7 +130,11 @@ exports.AddEvent = async (req, res) => {
       Registrationlink: req.body.Registrationlink,
       type: req.body.type,
       mode: req.body.mode,
-      image: req.file.filename,
+      image: {
+        public_id: mycloud.public_id,
+        secure_url: mycloud.secure_url,
+        version: mycloud.version,
+      },
       dressCode: req.body.dressCode,
       Department: req.body.Department,
     });

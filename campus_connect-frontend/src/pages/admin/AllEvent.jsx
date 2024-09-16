@@ -13,6 +13,7 @@ import { useEffect , useState} from "react";
 // import image from "./../../assets/images/image1711797448530.jpg";
 
 function AllEvent() {
+  const [remove , setRemove] = useState(0);
     const LightTheme = useSelector((state)=> state.themeKey);
     const [clubEvent , setClubEvent] = useState([]);
       const handleEvent = async() =>{
@@ -26,7 +27,7 @@ function AllEvent() {
 
       useEffect(()=>{
         handleEvent()
-      },[])
+      },[remove])
   return (
     <>
     <div className="list-container">
@@ -35,7 +36,7 @@ function AllEvent() {
               <img src={logo} alt="logo" />
             </IconButton>
           <p className={`chatArea-text ${LightTheme ? "" : "dark"}`}>
-            CREATE EVENT
+            ALL EVENT
           </p>
     </div >
     <div className="event-cards">
@@ -58,11 +59,11 @@ function AllEvent() {
           <div  className={`event-card ${LightTheme ? "" : "dark"}`}>
             <div className="eventTitle">
             <div style={{flex:"0.95", display:"flex",justifyContent:"center"}}><p >{event.tittle}</p></div>
-            <IconButton style={{flex:"0.05" }} onClick={()=> {deleteEvent(event._id)}}>
+            <IconButton style={{flex:"0.05" }} onClick={()=> {deleteEvent(event._id); setRemove(!remove)}}>
               <DeleteIcon/>
             </IconButton>
             </div>
-            <div className="eventSection"><img className="event-image"src="./../../assets/images/image1711797448530.jpg" alt="Event Poster" />
+            <div className="eventSection"><img className="event-image"src={`/assets/${event.image}`} alt="Event Poster" />
             <div className="event-Description">
               <p >
               {event.Description}

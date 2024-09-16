@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const asyncHandler = require("express-async-handler");
 const Chat = require("../model/chatModel");
 const User = require("../model/userModel");
@@ -45,7 +44,7 @@ const CreateOneToOneChat = async (req, res) => {
       "users",
       "-password"
     );
-    res.status(400).json({
+    res.status(200).json({
       status: "success",
       FullChat,
     });
@@ -80,7 +79,7 @@ const AccessChat = async (req, res) => {
 
 const fetchChats = asyncHandler(async (req, res) => {
   try {
-    console.log("Fetch Chats aPI : ", req);
+    // console.log("Fetch Chats aPI : ", req);
     Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
       .populate("users", "-password")
       .populate("groupAdmin", "-password")
@@ -152,6 +151,18 @@ const createGroupChat = asyncHandler(async (req, res) => {
   }
 });
 
+const fetchAllUser = async (req, res) => {
+  try {
+    const allUser = await User.find({ _id: { $ne: req.user._id } });
+    res.status(200).json({
+      status: "success",
+      allUser,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const groupExit = asyncHandler(async (req, res) => {
   const { chatId, userId } = req.body;
 
@@ -216,4 +227,5 @@ module.exports = {
   fetchAvailableMentors,
   addSelfToTheGroup,
   CreateOneToOneChat,
+  fetchAllUser,
 };

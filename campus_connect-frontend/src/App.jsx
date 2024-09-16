@@ -5,7 +5,7 @@ import ChatArea from "./pages/chatPage/chatArea";
 import Welcome from "./pages/chatPage/Welcome";
 import Groups from "./pages/chatPage/Groups";
 import CreateGroup from "./pages/chatPage/createGroup";
-import OnlineUser from "./pages/chatPage/Users.jsx";
+import OnlineMentor from "./pages/chatPage/Users.jsx";
 import CalanderOverview from "./pages/calender/calenderOverview.jsx"
 import CalenderWelcome from "./pages/calender/welcome.jsx";
 import { createBrowserRouter } from "react-router-dom";
@@ -20,7 +20,7 @@ import CalenderForm from "./pages/calender/form.jsx";
 import ErrorPage from "./Components/error-page/error.jsx";
 import MentorOverview from "./pages/mentor/ChatOverview.jsx";
 import Adminoverview from "./pages/admin/adminOverview.jsx";
-import MentorWelcome from "./pages/mentor/Welcome.jsx";
+// import MentorWelcome from "./pages/mentor/Welcome.jsx";
 import { Navigate } from "react-router-dom";
 import PdfSearch from "./pages/ResorcesPage/Search.jsx";
 import PdfViewer from "./pages/ResorcesPage/pdfViewer.jsx";
@@ -34,6 +34,9 @@ import AllEvent from "./pages/admin/AllEvent.jsx";
 import AddMentor from "./pages/admin/AddMentor.jsx";
 import AllUsers from "./pages/admin/AllUser.jsx";
 import ViewNotes from "./pages/admin/ViewNotes.jsx";
+import OnlineUser from "./pages/mentor/Users.jsx";
+import pdfView from "./pages/admin/pdfView.jsx"
+
 import { pdfjs } from 'react-pdf';
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -92,7 +95,7 @@ function App() {
                
                 {
                     path: "",
-                    element:  <PrivateRoute  component={MentorWelcome}/>,
+                    element:  <PrivateRoute  component={Welcome}/>,
                   
                 }, {
                     path: "chats/:chat_id",
@@ -104,7 +107,7 @@ function App() {
                    
                 }, {
                     path: "online",
-                    element:  <PrivateRoute  component={OnlineUser}/>, 
+                    element:  <PrivateRoute  component={OnlineMentor}/>, 
                    
                 },{
                   path: "create-group",
@@ -154,7 +157,7 @@ function App() {
                     element:  <PrivateRoute  component={PdfSearch}/>,               
                 },
                 {
-                  path: "view/:name",
+                  path: "view/:version/:id",
                   element:  <PrivateRoute  component={PdfViewer}/>,               
               },{
                 path: "favourite",
@@ -171,10 +174,10 @@ function App() {
                    
                     {
                         path: "",
-                        element: <Welcome/>,
+                        element: <PrivateRoute  component={Welcome}/>,
                       
                     }, {
-                        path: "chats",
+                        path: "chats/:chat_id",
                         element: <PrivateRoute  component={ChatArea}/>,
                        
                     }, {
@@ -216,7 +219,11 @@ function App() {
                     {
                       path:"addMentor",
                       element:  <PrivateRoute component={AddMentor}/>
-                    }
+                    },
+                    {
+                      path: "view/:version/:id",
+                      element:  <PrivateRoute  component={PdfViewer}/>,               
+                  }
                   ]
                 },
                 {

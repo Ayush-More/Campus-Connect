@@ -171,7 +171,7 @@ function AddMentor() {
                   label="Password"
                 />
               </FormControl>
-              <Button style={{backgroundColor:"#63d7b0"}} variant="contained" size="large" onClick={() => handlementor()}>
+              <Button style={{backgroundColor:"#63d7b0"}} variant="contained" size="large" onClick={() => {handlementor(formData); console.log()}}>
                 UPLOAD 
               </Button>
           </Box>
@@ -231,7 +231,7 @@ function AddMentor() {
             </Box>
             </div>
             <div style={{display:"flex", width:"100%", justifyContent:"center"}}>
-            <Box
+            {/* <Box
               component="form"
               sx={{
                 '& > :not(style)': { m: 1, width: '15ch' },
@@ -239,8 +239,8 @@ function AddMentor() {
               noValidate
               autoComplete="off"
             >
-                <TextField disabled id="outlined-basic" label="CGPA" variant="outlined" />
-            </Box>
+                <TextField  onChange={detailChange} id="outlined-basic" label="CGPA" variant="outlined" />
+            </Box> */}
             <Box
               component="form"
               sx={{
@@ -253,8 +253,8 @@ function AddMentor() {
             </Box>
             </div>
             
-            <div className={`dropDown ${LightTheme ? "" : "dark"}`}>
-        <FormControl sx={{ m: 1, width: 500 }} sy={{m:2}}>
+            <div  style={{display:"flex", width:"100%", justifyContent:"center"}} className={`dropDown ${LightTheme ? "" : "dark"}`}>
+        <FormControl>
         <InputLabel id="demo-multiple-checkbox-label" className={`checkbox-label ${LightTheme ? "" : "dark"}`}>Programming Languages</InputLabel>
         <Select
         className={`multiple-checkbox ${LightTheme ? "" : "dark"}`}
@@ -283,7 +283,7 @@ function AddMentor() {
         </Select>
         </FormControl>
         </div>
-              <div style={{display:"flex" , justifyContent:"space-between"}}>
+              <div style={{display:"flex", width:"100%", justifyContent:"center"}}>
             
                 <Button variant="contained" size="large" onClick={handlementordetails}>
                   SUBMIT

@@ -3,7 +3,7 @@ import  { useEffect, useState } from "react";
 import logo from "./../../assets/images/live-chat_16px.png";
 import SearchIcon from "@mui/icons-material/Search";
 import { useSelector } from "react-redux";
-import { fetchAllUser , AccessChat } from "../../service/chats/chats";
+import { fetchAllUser } from "../../service/mentor/mentor";
 import { AnimatePresence, motion } from "framer-motion";
 
 function Available_Users () {
@@ -15,6 +15,7 @@ function Available_Users () {
       const response = await fetchAllUser();
       if (response) {
         const data = response.data.user;
+        console.log(data)
         setUsers(data);
       } else {
         console.log("Failed to fetch data");

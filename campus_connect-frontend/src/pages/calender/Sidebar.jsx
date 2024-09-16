@@ -42,7 +42,7 @@ async function fakeFetch(date, { signal }) {
         const daysOfMonth = new Date(eventDate.date).getDate();
         personelEvent.push(daysOfMonth)
       }
-      console.log(personelEvent)
+      
       resolve({ daysToHighlight  , personelEvent});
     }, 500);
 
@@ -52,9 +52,8 @@ async function fakeFetch(date, { signal }) {
     };
   });
 }
-console.log(event);
-const initialValue = dayjs();
 
+const initialValue = dayjs();
 function ServerDay(props) {
   const { highlightedDays = [],personelEvent=[], day, outsideCurrentMonth, ...other } = props;
   // const personelDate = [1 ,2 , 3];
@@ -62,17 +61,17 @@ function ServerDay(props) {
   //   club: highlightedDays,
   //   personel : personelDate,
   // }
-
   const isSelected =
     !props.outsideCurrentMonth && highlightedDays.indexOf(props.day.date()) >= 0;
-
     const ispersonel =
     !props.outsideCurrentMonth && personelEvent.indexOf(props.day.date()) >= 0;
+    // console.log(ispersonel);
     let badgeContent;
   if (isSelected) {
-    badgeContent = "😊";
+    badgeContent = "🥳";
   } else if (ispersonel) {
-    badgeContent = "😂";
+    badgeContent = "🤔";
+  
   } else {
     badgeContent = undefined;
   }
@@ -203,13 +202,13 @@ function Sidebar() {
           <div className="con-color">
             <div className="con-colorName">
             <div className="con-circle">
-                😒
+                🥳
               </div>
               <div className="con-den">Club Event</div>
             </div>
             <div className="con-colorName">
               <div className="con-circle">
-                😂
+                🤔
               </div>
               <div className="con-den">Personel</div>
             </div>
@@ -241,6 +240,7 @@ function Sidebar() {
               slotProps={{
                 day: {
                   highlightedDays,
+                  personelEvent
                 },
               }}
             />

@@ -92,8 +92,8 @@
     {
       "date": "02-02-2023",
       "eventName": "February Event 2",
-            "discription": "Description for February Event 2",
-            "attachment": "https://example.com/february_event2_attachment.pdf"
+        "discription": "Description for February Event 2",
+        "attachment": "https://example.com/february_event2_attachment.pdf"
     },
     {
             "date": "03-02-2023",
