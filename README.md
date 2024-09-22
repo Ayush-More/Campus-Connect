@@ -23,10 +23,10 @@ By integrating these features, "CampusConnect" aims to create a more connected a
 
 # SnapShots:
 <img src="https://drive.google.com/uc?export=view&id=1D6-Uk_knXW8O43MGC1U_Gx6yNSBgQaqH" alt="Snapshot"  width="400" &nbsp;&nbsp;&nbsp>
-<img src="https://drive.google.com/uc?export=view&id=1D6-Uk_knXW8O43MGC1U_Gx6yNSBgQaqH" alt="Snapshot"  width="500" >
-<img src="https://drive.google.com/uc?export=view&id=1dNHeIqxUk1mCgCA9E-wE3g7jnrpSOZ3j" alt="Snapshot"  width="500">
-<img src="https://drive.google.com/uc?export=view&id=1Li6Wa9J8OEmMYlci9nzOsKZeE_icAGd4" alt="Snapshot" width="500">
-<img src="https://drive.google.com/uc?export=view&id=1yYZwEmc280dQNgD2wvDNCXA2-8SFDx24" alt="Snapshot" width="500">
+<img src="https://drive.google.com/uc?export=view&id=1D6-Uk_knXW8O43MGC1U_Gx6yNSBgQaqH" alt="Snapshot"  width="400" >
+<img src="https://drive.google.com/uc?export=view&id=1dNHeIqxUk1mCgCA9E-wE3g7jnrpSOZ3j" alt="Snapshot"  width="400">
+<img src="https://drive.google.com/uc?export=view&id=1Li6Wa9J8OEmMYlci9nzOsKZeE_icAGd4" alt="Snapshot" width="400">
+<img src="https://drive.google.com/uc?export=view&id=1yYZwEmc280dQNgD2wvDNCXA2-8SFDx24" alt="Snapshot" width="400">
 <img src="https://drive.google.com/uc?export=view&id=1gh7q3eRIVXKSo6CFAvee7WKq1tQYX_Do" alt="Snapshot" width="500">
 <img src="https://drive.google.com/uc?export=view&id=1WFwJm2jeK5mF9k6PYG_6TBbeKx2Z6wud" alt="Snapshot" width="500">
 <img src="https://drive.google.com/uc?export=view&id=1WFwJm2jeK5mF9k6PYG_6TBbeKx2Z6wud" alt="Snapshot" width="500">
