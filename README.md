@@ -23,25 +23,19 @@ By integrating these features, "CampusConnect" aims to create a more connected a
 
 # SnapShots:
 <img src="https://drive.google.com/uc?export=view&id=1D6-Uk_knXW8O43MGC1U_Gx6yNSBgQaqH" alt="Snapshot"  width="400" &nbsp;&nbsp;&nbsp>
-<img src="https://drive.google.com/uc?export=view&id=1D6-Uk_knXW8O43MGC1U_Gx6yNSBgQaqH" alt="Snapshot"  width="400" >
-<img src="https://drive.google.com/uc?export=view&id=1dNHeIqxUk1mCgCA9E-wE3g7jnrpSOZ3j" alt="Snapshot"  width="400">
-<img src="https://drive.google.com/uc?export=view&id=1Li6Wa9J8OEmMYlci9nzOsKZeE_icAGd4" alt="Snapshot" width="400">
-<img src="https://drive.google.com/uc?export=view&id=1yYZwEmc280dQNgD2wvDNCXA2-8SFDx24" alt="Snapshot" width="400">
-<img src="https://drive.google.com/uc?export=view&id=1gh7q3eRIVXKSo6CFAvee7WKq1tQYX_Do" alt="Snapshot" width="400">
-<img src="https://drive.google.com/uc?export=view&id=1WFwJm2jeK5mF9k6PYG_6TBbeKx2Z6wud" alt="Snapshot" width="400">
-<img src="https://drive.google.com/uc?export=view&id=1WFwJm2jeK5mF9k6PYG_6TBbeKx2Z6wud" alt="Snapshot" width="400">
-<img src="https://drive.google.com/uc?export=view&id=1cbOsezTdhWJpyHXrKyyMnKmq7qp_XgUX" alt="Snapshot" width="400">
-<img src="https://drive.google.com/uc?export=view&id=1wtTRy-JMdedqLLr9EWkJh1hRIKz-ZtFs" alt="Snapshot" width="400">
-
+<img src="https://drive.google.com/uc?export=view&id=1UzSEJ7jMAuRo-7qJEBrnX-4gjmgQi96X" alt="Snapshot"  width="400" >
+<img src="https://drive.google.com/uc?export=view&id=1HnWRYWi0pE0AvVgEE9kg89FEJHXd7EKI" alt="Snapshot"  width="400">
+<img src="https://drive.google.com/uc?export=view&id=1lFzfd7iCcqa1Eq6ztrvpkyuPlOeIrNgw" alt="Snapshot" width="400">
+<img src="https://drive.google.com/uc?export=view&id=1h9E45wn-Dxh93j0z7Ung3CjB8mxYmaHf" alt="Snapshot" width="400">
  
 # How to set it up locally?:
 1. Fork the Repository.
 2. Clone the Repository.
-3. use ```cd campus_connect-frontend```
+3. use ```cd Rental_Book_Frontend```
 4. use ```npm install```.
-5. use ```npm run dev```.
+5. use ```npm start```.
 6. use ```cd ..```.
-7. use ```cd Campus_Connect_API```.
+7. use ```cd Rental book API```.
 8. use ```npm install```.
 9. use ```npm start```
 
