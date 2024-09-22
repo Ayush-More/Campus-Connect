@@ -27,11 +27,11 @@ By integrating these features, "CampusConnect" aims to create a more connected a
 <img src="https://drive.google.com/uc?export=view&id=1dNHeIqxUk1mCgCA9E-wE3g7jnrpSOZ3j" alt="Snapshot"  width="400">
 <img src="https://drive.google.com/uc?export=view&id=1Li6Wa9J8OEmMYlci9nzOsKZeE_icAGd4" alt="Snapshot" width="400">
 <img src="https://drive.google.com/uc?export=view&id=1yYZwEmc280dQNgD2wvDNCXA2-8SFDx24" alt="Snapshot" width="400">
-<img src="https://drive.google.com/uc?export=view&id=1gh7q3eRIVXKSo6CFAvee7WKq1tQYX_Do" alt="Snapshot" width="500">
-<img src="https://drive.google.com/uc?export=view&id=1WFwJm2jeK5mF9k6PYG_6TBbeKx2Z6wud" alt="Snapshot" width="500">
-<img src="https://drive.google.com/uc?export=view&id=1WFwJm2jeK5mF9k6PYG_6TBbeKx2Z6wud" alt="Snapshot" width="500">
-<img src="https://drive.google.com/uc?export=view&id=1cbOsezTdhWJpyHXrKyyMnKmq7qp_XgUX" alt="Snapshot" width="500">
-<img src="https://drive.google.com/uc?export=view&id=1wtTRy-JMdedqLLr9EWkJh1hRIKz-ZtFs" alt="Snapshot" width="500">
+<img src="https://drive.google.com/uc?export=view&id=1gh7q3eRIVXKSo6CFAvee7WKq1tQYX_Do" alt="Snapshot" width="400">
+<img src="https://drive.google.com/uc?export=view&id=1WFwJm2jeK5mF9k6PYG_6TBbeKx2Z6wud" alt="Snapshot" width="400">
+<img src="https://drive.google.com/uc?export=view&id=1WFwJm2jeK5mF9k6PYG_6TBbeKx2Z6wud" alt="Snapshot" width="400">
+<img src="https://drive.google.com/uc?export=view&id=1cbOsezTdhWJpyHXrKyyMnKmq7qp_XgUX" alt="Snapshot" width="400">
+<img src="https://drive.google.com/uc?export=view&id=1wtTRy-JMdedqLLr9EWkJh1hRIKz-ZtFs" alt="Snapshot" width="400">
 
  
 # How to set it up locally?:
