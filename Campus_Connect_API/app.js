@@ -1,9 +1,17 @@
 const createError = require("http-errors");
+const cors = require("cors");
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const cors = require("cors");
+
+const app = express();
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true, //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 
 const notesRoute = require("./routes/notesRoutes");
 const mentorRoute = require("./routes/mentorRoute");
@@ -15,9 +23,6 @@ const AppError = require("./utility/catchAsync");
 const chatRoute = require("./routes/chatRoute");
 const messageRoute = require("./routes/messageRoute");
 const adminRoute = require("./routes/adminRoute");
-
-const app = express();
-app.use(cors());
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));

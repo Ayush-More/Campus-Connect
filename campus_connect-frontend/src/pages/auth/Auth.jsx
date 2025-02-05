@@ -1,8 +1,12 @@
-import{ useState } from "react";
+import { useState } from "react";
 import { Backdrop, CircularProgress } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthLogin , AuthSignUp , AuthforgotPassword } from "./../../service/auth/authorization";
+import {
+  AuthLogin,
+  AuthSignUp,
+  AuthforgotPassword,
+} from "./../../service/auth/authorization";
 import { setCredentials } from "./../../store/Slice/AuthSlice";
 import AlertDialog from "./../../Components/dialog/Dialog";
 
@@ -29,54 +33,57 @@ function Login() {
   });
   const LightTheme = useSelector((state) => state.themeKey);
   const nav = useNavigate();
- 
+
   const Change = (e) => {
     setSignUpFormData({ ...signUpFormData, [e.target.name]: e.target.value });
   };
 
-
   const handleSignupSubmit = async () => {
     setLoading(true);
-   
-      var result = await AuthSignUp({name:signUpFormData.name ,email: signUpFormData.email,password: signUpFormData.password, passwordConfirm:signUpFormData.passwordConfirm}).then((res)=>{
-        if (res.data.user && res.data.token) {
-          setLoading(false);
-          setForm(true);
-          dispatch(setCredentials(res.data.token));
-          setAlert({ severity: "success", message: "Welcome" });
-          return res.data;
-        }
-        return null;
-      });
-      return result;
+
+    var result = await AuthSignUp({
+      name: signUpFormData.name,
+      email: signUpFormData.email,
+      password: signUpFormData.password,
+      passwordConfirm: signUpFormData.passwordConfirm,
+    }).then((res) => {
+      if (res.data.user && res.data.token) {
+        setLoading(false);
+        setForm(true);
+        dispatch(setCredentials(res.data.token));
+        setAlert({ severity: "success", message: "Welcome" });
+        return res.data;
+      }
+      return null;
+    });
+    return result;
   };
 
   const handleLoginSubmit = async () => {
     setLoading(true);
-      var result = await AuthLogin({email: email, password: password}).then((res)=>{
+    var result = await AuthLogin({ email: email, password: password }).then(
+      (res) => {
         if (res.data.user && res.data.token) {
           setLoading(false);
-          localStorage.setItem("user" , JSON.stringify(res.data.user));
-          if( res.data.user.role === "mentor"){
+          localStorage.setItem("user", JSON.stringify(res.data.user));
+          if (res.data.user.role === "mentor") {
             nav("/mentor");
-          }
-          else if(res.data .user.role === "admin"){
-            nav("/admin")
-          }
-          else{
-            nav("/")
+          } else if (res.data.user.role === "admin") {
+            nav("/admin");
+          } else {
+            nav("/");
           }
           dispatch(setCredentials(res.data.token));
           setAlert({ severity: "success", message: "Welcome" });
           return res.data;
-        }
-        else{
+        } else {
           setLoading(false);
           setAlert({ severity: "error", message: "Invalid user" });
         }
         return null;
-      });
-      return result;
+      }
+    );
+    return result;
   };
 
   return (
@@ -87,111 +94,121 @@ function Login() {
       >
         <CircularProgress color="secondary" />
       </Backdrop>
-    
+
       {/*<div className={`login-container ${LightTheme ? "" : "con-dark"}`}>
         <div className="image-container">
           <img src={logo} alt="Logo" className="welcome-logo" />
         </div>
         <div className={`form-box ${LightTheme ? "" : "dark"}`}> */}
-          {form ? (
-            <div className={`login-form ${LightTheme ? "" : "con-dark"}`}>
-              <h3 style={{ marginBottom: "10px", color: "#00005C" }}>LOGIN</h3>
-              <input
-                name="email"
-                onChange={(e)=>{setEmail(e.target.value)}}
-                className={`text-box ${LightTheme ? "" : "dark"}`}
-                placeholder="Enter email"
-              />
-              <input
-                name="password"
-                onChange={(e)=>{setPassword(e.target.value)}}
-                className={`text-box ${LightTheme ? "" : "dark"}`}
-                placeholder="Password"
-              />
-              <h5>
-                <Link onClick={() => setShowDialog(true)} href="#">Forgot password?</Link>
-              </h5>
-              <button
-                className="enter-btn"
-                type="submit"
-                onClick={handleLoginSubmit}
+      {form ? (
+        <div className={`login-form ${LightTheme ? "" : "con-dark"}`}>
+          <h3 style={{ marginBottom: "10px", color: "#00005C" }}>LOGIN</h3>
+          <input
+            name="email"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            className={`text-box ${LightTheme ? "" : "dark"}`}
+            placeholder="Enter email"
+          />
+          <input
+            name="password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            className={`text-box ${LightTheme ? "" : "dark"}`}
+            placeholder="Password"
+          />
+          <h5>
+            <Link onClick={() => setShowDialog(true)} href="#">
+              Forgot password?
+            </Link>
+          </h5>
+          <button
+            className="enter-btn"
+            type="submit"
+            onClick={handleLoginSubmit}
+          >
+            Enter
+          </button>
+          <h5 style={{ color: "#00005C" }}>
+            Dont have an account?
+            <span>
+              <Link
+                href="#"
+                onClick={handleForm}
+                style={{ cursor: "pointer", color: "gray" }}
               >
-                Enter
-              </button>
-              <h5 style={{ color: "#00005C" }}>
-                Dont have an account?
-                <span>
-                  <Link
-                    href="#"
-                    onClick={handleForm}
-                    style={{ cursor: "pointer", color: "gray" }}
-                  >
-                    Signup
-                  </Link>
-                </span>
-              </h5>
-            </div>
-          ) : (
-            <div className={`login-form ${LightTheme ? "" : "con-dark"}`}>
-              <h3 style={{ marginBottom: "10px", color: "#00005C" }}>
-                SIGN UP
-              </h3>
-              <input
-                className={`text-box ${LightTheme ? "" : "dark"}`}
-                placeholder="Name"
-                name="name"
-                value={signUpFormData.name}
-                onChange={Change}
-              />
-              <input
-                className={`text-box ${LightTheme ? "" : "dark"}`}
-                placeholder="Enter email"
-                name="email"
-                value={signUpFormData.email}
-                onChange={Change}
-              />
-               <input
-                className={`text-box ${LightTheme ? "" : "dark"}`}
-                placeholder="password"
-                name="password"
-                value={signUpFormData.password}
-                onChange={Change}
-              />
-              <input
-                className={`text-box ${LightTheme ? "" : "dark"}`}
-                placeholder="Confirm password"
-                name="passwordConfirm"
-                value={signUpFormData.passwordConfirm}
-                onChange={Change}
-              />
-              <button
-                className="enter-btn"
-                type="submit"
-                onClick={handleSignupSubmit}
+                Signup
+              </Link>
+            </span>
+          </h5>
+        </div>
+      ) : (
+        <div className={`login-form ${LightTheme ? "" : "con-dark"}`}>
+          <h3 style={{ marginBottom: "10px", color: "#00005C" }}>SIGN UP</h3>
+          <input
+            className={`text-box ${LightTheme ? "" : "dark"}`}
+            placeholder="Name"
+            name="name"
+            value={signUpFormData.name}
+            onChange={Change}
+          />
+          <input
+            className={`text-box ${LightTheme ? "" : "dark"}`}
+            placeholder="Enter email"
+            name="email"
+            value={signUpFormData.email}
+            onChange={Change}
+          />
+          <input
+            className={`text-box ${LightTheme ? "" : "dark"}`}
+            placeholder="password"
+            name="password"
+            value={signUpFormData.password}
+            onChange={Change}
+          />
+          <input
+            className={`text-box ${LightTheme ? "" : "dark"}`}
+            placeholder="Confirm password"
+            name="passwordConfirm"
+            value={signUpFormData.passwordConfirm}
+            onChange={Change}
+          />
+          <button
+            className="enter-btn"
+            type="submit"
+            onClick={handleSignupSubmit}
+          >
+            Enter
+          </button>
+          <h5>
+            Already have an account?
+            <span>
+              <Link
+                href="#"
+                onClick={handleForm}
+                style={{ cursor: "pointer", color: "gray" }}
               >
-                Enter
-              </button>
-              <h5>
-                Already have an account?
-                <span>
-                  <Link
-                    href="#"
-                    onClick={handleForm}
-                    style={{ cursor: "pointer", color: "gray" }}
-                  >
-                    login
-                  </Link>
-                </span>
-              </h5>
-            </div>
-          )}
+                login
+              </Link>
+            </span>
+          </h5>
+        </div>
+      )}
       {showDialog && (
-    <AlertDialog open={showDialog} onClose={() => setShowDialog(false)} content="Type the email that you entered dueing login so that we can send the email" head="Forgot Password" onSubmit ={async(email) => {
-      console.log(email);
-      const result = await AuthforgotPassword({email: email});
-      console.log(result.data.resetToken);
-    }} />
-  )}
+        <AlertDialog
+          open={showDialog}
+          onClose={() => setShowDialog(false)}
+          content="Type the email that you entered dueing login so that we can send the email"
+          head="Forgot Password"
+          onSubmit={async (email) => {
+            console.log(email);
+            const result = await AuthforgotPassword({ email: email });
+            console.log(result.data.resetToken);
+          }}
+        />
+      )}
     </>
   );
 }
