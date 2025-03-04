@@ -1,5 +1,5 @@
 import axios from "axios";
-const SERVER_URL = "http://127.0.0.1:5000/api/v1";
+const SERVER_URL = "https://campus-connect-1-u67z.onrender.com";
 
 const axiosAuth = axios.create({
   baseURL: SERVER_URL,

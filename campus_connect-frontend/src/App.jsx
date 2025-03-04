@@ -48,7 +48,7 @@ export function PrivateRoute(props) {
   const { token } = useSelector((state) => state.auth);
   const isLoggedIn = token != null && token != undefined;
 
-  return isLoggedIn ? <Component /> : <Navigate to="/login" />;
+  return isLoggedIn ? <Component /> : <Navigate to="/auth" />;
 }
 
 function App() {
