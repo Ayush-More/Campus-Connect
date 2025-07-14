@@ -37,12 +37,14 @@ const io = socketio(server, {
     origin: "http://localhost:3000",
   },
 });
+// const users = {}; // Store connected users
 
 io.on("connection", (socket) => {
   console.log("A new user has connected", socket.id);
   socket.on("setup", (userId) => {
     console.log("Setup received:", userId);
     socket.join(userId);
+    // users[userId] = socket.id; // Store socket ID of users
     socket.emit("connected");
   });
 
@@ -52,21 +54,37 @@ io.on("connection", (socket) => {
   });
 
   socket.on("new_messages", (newMessageStatus) => {
-    const chat = newMessageStatus.chat;
+    console.log("New Messages catched", newMessageStatus);
+    const { chat } = newMessageStatus;
     if (!chat.users) {
       return console.log("chat users not defined");
     }
     chat.users.forEach((user) => {
+      console.log(user._id);
       if (user._id === newMessageStatus.sender._id) {
         return;
       }
-      socket.in(user._id).emit("message recieved", newMessageStatus);
+      socket.in(user._id).emit("message_received", newMessageStatus);
     });
   });
 
   socket.on("disconnect", () => {
     console.log("User disconnected", socket.id);
   });
+
+  // // Video call signaling
+  // socket.on("callUser", ({ userToCall, signalData, from, name }) => {
+  //   io.to(userToCall).emit("callIncoming", { signal: signalData, from, name });
+  // });
+
+  // socket.on("answerCall", (data) => {
+  //   io.to(data.to).emit("callAccepted", data.signal);
+  // });
+
+  // // Handle disconnections and call endings
+  // socket.on("endCall", ({ to }) => {
+  //   io.to(to).emit("callEnded");
+  // });
 });
 
 server.listen(port, () => {

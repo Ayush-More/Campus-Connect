@@ -110,6 +110,7 @@ exports.createPersonelEvent = catchAsync(async (req, res) => {
 });
 
 exports.createClubEvent = catchAsync(async (req, res, next) => {
+  console.log(req.body);
   const newEvent = await club.create(req.body);
 
   if (!newEvent) {

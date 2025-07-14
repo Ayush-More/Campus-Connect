@@ -13,10 +13,37 @@ const fetchAllUser = async () => {
   }
 };
 
+const fetchMentorDetail = async (value) => {
+  try {
+    const resData = await axiosAuth.get("/chat/mentorDetail/" + value, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+      },
+    });
+    return resData;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const AccessChat = async (value) => {
   try {
     console.log(value);
     const resData = await axiosAuth.get("/chat/chatsdetail/" + value, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
+      },
+    });
+    console.log(resData);
+    return resData;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const GroupExit = async (value) => {
+  try {
+    const resData = await axiosAuth.put("/chat/groupExit", value, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("jwt-token")}`,
       },
@@ -123,4 +150,6 @@ export {
   createGroup,
   CreateOneToOne,
   AllUser,
+  fetchMentorDetail,
+  GroupExit,
 };

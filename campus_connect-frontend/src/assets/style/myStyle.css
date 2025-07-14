@@ -41,6 +41,10 @@
 .con-dark {
   background-color: #353e43 !important;
 }
+.opp-dark {
+  background-color: #353e43 !important;
+  color: lightgray !important;
+}
 
 .main-container {
   background-color: #f4f5f8;
@@ -172,7 +176,7 @@
   margin: 5px;
   padding: 10px;
   display: grid;
-  grid-template-columns: 32px auto 35px;
+  grid-template-columns: 32px auto 50px;
   grid-template-rows: auto auto;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
     rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
@@ -454,44 +458,57 @@
   font-size: 32px;
   font-family: "Arimo-SemiBold";
   display: flex;
-  text-decoration: underline;
   justify-content: center;
-  margin: 5px 0px;
+  /* margin: 5px 0px; */
   color: rgba(0, 0, 0, 0.667);
+  border-radius: 15px;
+  margin: 5px 10px;
+  padding: 5px 15px;
+  box-shadow: inset rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    inset rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
 .event-Description {
   font-family: "Poppins";
-  padding: 20px 15px;
+  padding: 10px 15px;
+  height: fit-content;
   font-size: 18px;
   color: rgba(0, 0, 0, 0.54);
 }
 .event-image {
-  height: 90%;
-  width: 40%;
-  margin: 10px;
+  height: 200px;
+  width: 35%;
+  margin: 5px;
   border-radius: 10px;
 }
 .eventSection {
-  margin: 0px 20px;
+  margin: 0px 10px;
+  height: fit-content;
   display: flex;
-  justify-content: space-between;
+
+  /* justify-content: space-between; */
 }
 .eventDetails {
-  padding: 15px 10px;
+  padding: 15px 5px;
   display: flex;
+  height: fit-content;
   flex-direction: column;
   align-items: start;
   justify-content: start;
 }
 .Event-head {
   color: rgba(0, 0, 0, 0.667);
-  font-size: 20px;
-  padding: 0px 5px;
+  font-size: 17px;
+  /* padding: 0px 5px; */
+  border-radius: 15px;
+  margin: 10px 10px;
+  padding: 10px 15px;
+  box-shadow: inset rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    inset rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 .Event-ans {
   color: rgba(0, 0, 0, 0.887);
-  font-size: 20px;
+  font-size: 17px;
 }
 .personelEvent-container {
   flex: 0.7;
@@ -670,7 +687,13 @@ footer {
 .right form .btn button:hover {
   background: #000;
 }
-
+.profile {
+  background-color: #f4f5f8;
+  height: fit-content;
+  width: fit-content;
+  border-radius: 20px;
+  display: flex;
+}
 .profilePic {
   border-radius: 50%;
   margin: 90px 70px;
@@ -678,13 +701,11 @@ footer {
 .profile-head {
   font-size: 25px;
   font-weight: 600;
-  font-family: "Courier New", Courier, monospace;
   color: #909090;
 }
 .profile-ans {
   font-size: 25px;
   font-weight: 600;
-  font-family: "Courier New", Courier, monospace;
 }
 
 .dropDown {
@@ -773,4 +794,25 @@ footer {
 
 .display {
   display: none;
+}
+
+.mentor-details {
+  padding: 16px;
+}
+.mentor-details p {
+  margin: 8px 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.mentor-details strong {
+  color: #35373a;
+}
+
+.profile-detail {
+  margin: 10px 10px;
+  border-radius: 15px;
+  padding: 10px 15px;
+  box-shadow: inset rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    inset rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }

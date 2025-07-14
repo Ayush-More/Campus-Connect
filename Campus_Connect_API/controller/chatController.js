@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Chat = require("../model/chatModel");
 const User = require("../model/userModel");
+const Mentor = require("../model/mentorModel");
 
 const fetchAvailableMentors = asyncHandler(async (req, res) => {
   try {
@@ -56,8 +57,8 @@ const CreateOneToOneChat = async (req, res) => {
 
 const AccessChat = async (req, res) => {
   try {
-    const { chat_id } = req.params;
-    let isChat = await Chat.findById(chat_id)
+    const chatId = req.params.chat_id;
+    let isChat = await Chat.findById(chatId)
       .populate({
         path: "users",
         select: "-password", // Exclude password field from users
@@ -123,6 +124,25 @@ const fetchGroups = asyncHandler(async (req, res) => {
   }
 });
 
+const fetchMentorDetail = asyncHandler(async (req, res) => {
+  try {
+    if (!req.params.mentor_id) {
+      return res.status(400).send({ message: "Data is insufficient" });
+    }
+    const mentorId = req.params.mentor_id;
+    const mentorDetail = await Mentor.findOne({ users: mentorId }).populate(
+      "users"
+    );
+    res.status(200).json({
+      status: "success",
+      mentorDetail,
+    });
+  } catch (error) {
+    res.status(400);
+    throw new Error(error.message);
+  }
+});
+
 const createGroupChat = asyncHandler(async (req, res) => {
   if (!req.body.users || !req.body.name) {
     return res.status(400).send({ message: "Data is insufficient" });
@@ -165,27 +185,43 @@ const fetchAllUser = async (req, res) => {
 };
 
 const groupExit = asyncHandler(async (req, res) => {
-  const { chatId, userId } = req.body;
+  try {
+    console.log(req.body);
+    const { chatId } = req.body;
+    const userId = req.user._id;
 
-  // check if the requester is admin
-
-  const removed = await Chat.findByIdAndUpdate(
-    chatId,
-    {
-      $pull: { users: userId },
-    },
-    {
-      new: true,
+    if (!chatId || !userId) {
+      return res
+        .status(400)
+        .json({ message: "chatId and userId are required" });
     }
-  )
-    .populate("users", "-password")
-    .populate("groupAdmin", "-password");
 
-  if (!removed) {
-    res.status(404);
-    throw new Error("Chat Not Found");
-  } else {
-    res.json(removed);
+    const chat = await Chat.findById(chatId);
+
+    if (!chat) {
+      return res.status(404).json({ message: "Chat not found" });
+    }
+
+    if (chat.isGroupChat) {
+      // Remove user from group
+      const updatedChat = await Chat.findByIdAndUpdate(
+        chatId,
+        { $pull: { users: userId } },
+        { new: true }
+      )
+        .populate("users", "-password")
+        .populate("groupAdmin", "-password");
+
+      return res
+        .status(200)
+        .json({ message: "Chat updated successfully", updatedChat });
+    }
+
+    // Delete one-on-one chat
+    await Chat.findByIdAndDelete(chatId);
+    return res.status(200).json({ message: "Chat deleted successfully" });
+  } catch (error) {
+    console.log(error);
   }
 });
 
@@ -229,4 +265,5 @@ module.exports = {
   addSelfToTheGroup,
   CreateOneToOneChat,
   fetchAllUser,
+  fetchMentorDetail,
 };

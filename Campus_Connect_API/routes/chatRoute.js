@@ -9,6 +9,7 @@ const {
   fetchGroups,
   addSelfToTheGroup,
   fetchAllUser,
+  fetchMentorDetail,
 } = require("../controller/chatController");
 const { protect } = require("../controller/authController");
 
@@ -23,4 +24,5 @@ router.put("/groupExit", protect, groupExit);
 router.get("/fetchUsers", protect, fetchAvailableMentors);
 router.post("/addSelf", protect, addSelfToTheGroup);
 router.get("/alluser", protect, fetchAllUser);
+router.get("/mentorDetail/:mentor_id", protect, fetchMentorDetail);
 module.exports = router;

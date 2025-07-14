@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { AccessChat } from "../../service/chats/chats.js";
+import { AccessChat, GroupExit } from "../../service/chats/chats.js";
 import { sendMessage, allMessages } from "../../service/chats/message.js";
 import { useEffect, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -8,13 +8,16 @@ import SendIcon from "@mui/icons-material/Send";
 import MessageOther from "./MessageOther";
 import Messageself from "./Messageself";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { io } from "socket.io-client";
 
-const ENDPOINT = "http://localhost:8080";
+const ENDPOINT = "http://localhost:5000";
+var socket;
 
 function ChatArea() {
   const userData = JSON.parse(localStorage.getItem("user"));
+  const nav = useNavigate();
   const [chatDetail, setChatDetail] = useState({
     latestMessage: null,
     _id: "",
@@ -24,19 +27,21 @@ function ChatArea() {
   });
   const { chat_id } = useParams();
   const [allContent, setAllContent] = useState([]);
-  const [socket, setSocket] = useState(null);
   const [socketConnectionStatus, setSocketConnectionStatus] = useState(false);
   const [allContentCopy, setAllContentCopy] = useState([]);
   const [messageContent, setMessageContent] = useState({
     content: "",
     chatId: chat_id,
   });
+  // const [chatDetail, setChatDetail] = useState({
+  //   chatId: chat_id,
+  // });
   const LightTheme = useSelector((state) => state.themeKey);
 
   useEffect(() => {
-    const newSocket = io(ENDPOINT);
-    setSocket(newSocket);
-    return () => newSocket.close();
+    socket = io(ENDPOINT);
+    // setSocket(newSocket);
+    return () => socket.close();
   }, []);
 
   useEffect(() => {
@@ -52,15 +57,16 @@ function ChatArea() {
 
   useEffect(() => {
     if (!socket) return;
-    socket.on("message recieved", (newMessage) => {
+    socket.on("message_received", (newMessage) => {
+      console.log("Message recieved newMessage");
       if (!allContentCopy.some((message) => message._id === newMessage._id)) {
         setAllContent((prev) => [...prev, newMessage]);
       }
     });
     return () => {
-      socket.off("message recieved");
+      socket.off("message_received");
     };
-  }, [socket, allContentCopy]);
+  });
 
   const handleChat = async () => {
     try {
@@ -75,10 +81,24 @@ function ChatArea() {
     handleChat();
   }, [chat_id]);
 
+  const handleDelete = async () => {
+    try {
+      const deletedChat = await GroupExit({ chatId: chat_id });
+      if (deletedChat.status === 200) {
+        nav("/chat/");
+      }
+    } catch (error) {
+      console.error("Failed to fetch chat data", error);
+    }
+  };
+
   const handleSubmit = async () => {
     const data = await sendMessage(messageContent);
     if (socketConnectionStatus) {
+      console.log("connected");
       socket.emit("new_messages", data.data.data);
+
+      setAllContent((prev) => [...prev, data.data.data]);
     }
     setMessageContent({
       ...messageContent,
@@ -96,6 +116,7 @@ function ChatArea() {
     handleAllMessages();
     if (socket) {
       socket.emit("join chat", chat_id);
+      console.log("client side chat joined", chat_id);
     }
   }, [chat_id, socket]);
 
@@ -127,7 +148,19 @@ function ChatArea() {
                 : chatDetail.users[0].name
               : ""}
           </p>
-          <IconButton>
+          {/* <IconButton>
+            <VideocamIcon
+              className={`icon ${LightTheme ? "" : "dark"}`}
+              onClick={() => setShowVideoCall(true)}
+            />
+          </IconButton>
+          {showVideoCall && (
+            <VideoCall
+              userId={userData._id}
+              partnerId={chatDetail.users[1]._id}
+            />
+          )} */}
+          <IconButton onClick={() => handleDelete()}>
             <DeleteIcon className={`icon ${LightTheme ? "" : "dark"}`} />
           </IconButton>
         </div>
@@ -158,11 +191,14 @@ function ChatArea() {
               setMessageContent({
                 ...messageContent,
                 content: e.target.value,
+                chatId: chat_id,
               })
             }
             onKeyDown={(event) => {
               if (event.code === "Enter") {
                 handleSubmit();
+
+                // setAllContent((prev) => [...prev, messageContent.content]);
               }
             }}
           />

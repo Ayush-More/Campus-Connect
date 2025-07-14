@@ -35,6 +35,7 @@ import AddMentor from "./pages/admin/AddMentor.jsx";
 import AllUsers from "./pages/admin/AllUser.jsx";
 import ViewNotes from "./pages/admin/ViewNotes.jsx";
 import OnlineUser from "./pages/mentor/Users.jsx";
+import ProfileDetail from "./pages/chatPage/profileDetails.jsx";
 import pdfView from "./pages/admin/pdfView.jsx";
 
 import { pdfjs } from "react-pdf";
@@ -109,6 +110,10 @@ function App() {
         {
           path: "create-group",
           element: <PrivateRoute component={CreateGroup} />,
+        },
+        {
+          path: "mentor/:mentor_id",
+          element: <PrivateRoute component={ProfileDetail} />,
         },
       ],
     },

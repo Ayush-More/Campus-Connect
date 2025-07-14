@@ -106,7 +106,9 @@ function ClubEvent() {
               return (
                 <SwiperSlide key={i}>
                   <div className={`event-card ${LightTheme ? "" : "dark"}`}>
-                    <div className={`eventTitle ${LightTheme ? "" : "dark"}`}>
+                    <div
+                      className={`eventTitle ${LightTheme ? "" : "opp-dark"}`}
+                    >
                       <p>{event.tittle}</p>
                     </div>
                     <div className="eventSection">
@@ -123,24 +125,59 @@ function ClubEvent() {
                         <p>{event.Description}</p>
                       </div>
                     </div>
+
                     <div className="eventSection">
                       <div className="eventDetails">
-                        <p>
-                          <span className="Event-head ">Venue:</span>
+                        <p style={{ margin: "10px 0px" }}>
+                          <span
+                            className={`Event-head ${
+                              LightTheme ? "" : "opp-dark"
+                            }`}
+                          >
+                            Venue:
+                          </span>
                           <span
                             className={`Event-ans ${LightTheme ? "" : "dark"}`}
                           >
                             {event.venue}
                           </span>
                         </p>
-                        <p>
-                          <span className="Event-head ">Date:</span>
+                        <p style={{ margin: "10px 0px" }}>
+                          <span
+                            className={`Event-head ${
+                              LightTheme ? "" : "opp-dark"
+                            }`}
+                          >
+                            Date:
+                          </span>
                           <span
                             className={`Event-ans ${LightTheme ? "" : "dark"}`}
                           >{`${DateObject.getDate()}-${DateObject.getMonth()}-${DateObject.getFullYear()}`}</span>
                         </p>
-                        <p>
-                          <span className="Event-head ">Time:</span>
+                      </div>
+                      <div className="eventDetails">
+                        <p style={{ margin: "10px 0px" }}>
+                          <span
+                            className={`Event-head ${
+                              LightTheme ? "" : "opp-dark"
+                            }`}
+                          >
+                            Mode:
+                          </span>
+                          <span
+                            className={`Event-ans ${LightTheme ? "" : "dark"}`}
+                          >
+                            {event.mode}
+                          </span>
+                        </p>
+                        <p style={{ margin: "10px 0px" }}>
+                          <span
+                            className={`Event-head ${
+                              LightTheme ? "" : "opp-dark"
+                            }`}
+                          >
+                            Time:
+                          </span>
                           <span
                             className={`Event-ans ${LightTheme ? "" : "dark"}`}
                           >
@@ -149,24 +186,28 @@ function ClubEvent() {
                         </p>
                       </div>
                       <div className="eventDetails">
-                        <p>
-                          <span className="Event-head">Mode:</span>
+                        <p style={{ margin: "10px 0px" }}>
                           <span
-                            className={`Event-ans ${LightTheme ? "" : "dark"}`}
+                            className={`Event-head ${
+                              LightTheme ? "" : "opp-dark"
+                            }`}
                           >
-                            {event.mode}
+                            Department:
                           </span>
-                        </p>
-                        <p>
-                          <span className="Event-head">Department:</span>
                           <span
                             className={`Event-ans ${LightTheme ? "" : "dark"}`}
                           >
                             {event.Department}
                           </span>
                         </p>
-                        <p>
-                          <span className="Event-head">Phone Number:</span>
+                        <p style={{ margin: "5px 0px" }}>
+                          <span
+                            className={`Event-head ${
+                              LightTheme ? "" : "opp-dark"
+                            }`}
+                          >
+                            Phone Number:
+                          </span>
                           <span
                             className={`Event-ans ${LightTheme ? "" : "dark"}`}
                           >

@@ -1,7 +1,6 @@
-
 import "./../../assets/style/myStyle.css";
-import dayjs from 'dayjs';
-import React from "react"
+import dayjs from "dayjs";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleTheme } from "../../store/Slice/themeSlice";
 import { IconButton } from "@mui/material";
@@ -16,9 +15,9 @@ import { DayCalendarSkeleton } from "@mui/x-date-pickers/DayCalendarSkeleton";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import CircleIcon from "@mui/icons-material/Circle";
-import { PickersDay } from '@mui/x-date-pickers';
-import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
-import Badge from '@mui/material/Badge';
+import { PickersDay } from "@mui/x-date-pickers";
+import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
+import Badge from "@mui/material/Badge";
 import { getMonthEvent } from "../../service/calender/calender";
 
 function getRandomNumber(min, max) {
@@ -27,51 +26,56 @@ function getRandomNumber(min, max) {
 let event = null;
 
 async function fakeFetch(date, { signal }) {
-  
-   event = await getMonthEvent({month:date.$M+1 , year:date.$y})
- 
+  event = await getMonthEvent({ month: date.$M + 1, year: date.$y });
+
   return new Promise((resolve, reject) => {
     const timeout = setTimeout(() => {
       const daysToHighlight = [];
       const personelEvent = [];
-      for(const eventDate of event.data.data.ClubEvents){
+      for (const eventDate of event.data.data.ClubEvents) {
         const daysOfMonth = new Date(eventDate.date).getDate();
-        daysToHighlight.push(daysOfMonth)
+        daysToHighlight.push(daysOfMonth);
       }
-      for(const eventDate of event.data.data.PersonelEvents){
+      for (const eventDate of event.data.data.PersonelEvents) {
         const daysOfMonth = new Date(eventDate.date).getDate();
-        personelEvent.push(daysOfMonth)
+        personelEvent.push(daysOfMonth);
       }
-      
-      resolve({ daysToHighlight  , personelEvent});
+
+      resolve({ daysToHighlight, personelEvent });
     }, 500);
 
     signal.onabort = () => {
       clearTimeout(timeout);
-      reject(new DOMException('aborted', 'AbortError'));
+      reject(new DOMException("aborted", "AbortError"));
     };
   });
 }
 
 const initialValue = dayjs();
 function ServerDay(props) {
-  const { highlightedDays = [],personelEvent=[], day, outsideCurrentMonth, ...other } = props;
+  const {
+    highlightedDays = [],
+    personelEvent = [],
+    day,
+    outsideCurrentMonth,
+    ...other
+  } = props;
   // const personelDate = [1 ,2 , 3];
   // const finalDay= {
   //   club: highlightedDays,
   //   personel : personelDate,
   // }
   const isSelected =
-    !props.outsideCurrentMonth && highlightedDays.indexOf(props.day.date()) >= 0;
-    const ispersonel =
+    !props.outsideCurrentMonth &&
+    highlightedDays.indexOf(props.day.date()) >= 0;
+  const ispersonel =
     !props.outsideCurrentMonth && personelEvent.indexOf(props.day.date()) >= 0;
-    // console.log(ispersonel);
-    let badgeContent;
+  // console.log(ispersonel);
+  let badgeContent;
   if (isSelected) {
-    badgeContent = "🥳";
+    badgeContent = "📅";
   } else if (ispersonel) {
-    badgeContent = "🤔";
-  
+    badgeContent = "👤";
   } else {
     badgeContent = undefined;
   }
@@ -81,18 +85,19 @@ function ServerDay(props) {
       overlap="circular"
       badgeContent={badgeContent}
     >
-      <PickersDay {...other} outsideCurrentMonth={outsideCurrentMonth} day={day} />
+      <PickersDay
+        {...other}
+        outsideCurrentMonth={outsideCurrentMonth}
+        day={day}
+      />
     </Badge>
   );
 }
 
-
 function Sidebar() {
-
   const nav = useNavigate();
   const LightTheme = useSelector((state) => state.themeKey);
   const dispatch = useDispatch();
-
 
   const requestAbortController = React.useRef(null);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -104,18 +109,16 @@ function Sidebar() {
     fakeFetch(date, {
       signal: controller.signal,
     })
-      .then(({ daysToHighlight , personelEvent }) => {
+      .then(({ daysToHighlight, personelEvent }) => {
         setHighlightedDays(daysToHighlight);
         setPersonelEvent(personelEvent);
         setIsLoading(false);
       })
       .catch((error) => {
         // ignore the error if it's caused by `controller.abort`
-        if (error.name !== 'AbortError') {
+        if (error.name !== "AbortError") {
           throw error;
         }
-
-        
       });
 
     requestAbortController.current = controller;
@@ -136,14 +139,24 @@ function Sidebar() {
 
     setIsLoading(true);
     setHighlightedDays([]);
-    setPersonelEvent([])
+    setPersonelEvent([]);
     fetchHighlightedDays(date);
   };
-  const [onClickDate , setOnClickDate] = React.useState(null);
-  React.useEffect(()=>{
-    {onClickDate? nav("/calender/event?day="+onClickDate.$D + "&month="+onClickDate.$M+"&year="+onClickDate.$y):""}
-  },[onClickDate])
-
+  const [onClickDate, setOnClickDate] = React.useState(null);
+  React.useEffect(() => {
+    {
+      onClickDate
+        ? nav(
+            "/calender/event?day=" +
+              onClickDate.$D +
+              "&month=" +
+              onClickDate.$M +
+              "&year=" +
+              onClickDate.$y
+          )
+        : "";
+    }
+  }, [onClickDate]);
 
   return (
     <>
@@ -152,13 +165,14 @@ function Sidebar() {
           <div>
             <IconButton>
               <AccountCircleIcon
-                onClick={() => { nav("/profile") }}
+                onClick={() => {
+                  nav("/profile");
+                }}
                 className={`icon ${LightTheme ? "" : "dark"}`}
               />
             </IconButton>
           </div>
           <div>
-
             <IconButton
               onClick={() => {
                 nav("event");
@@ -201,15 +215,11 @@ function Sidebar() {
         <div className={`sb-color ${LightTheme ? "" : "dark"}`}>
           <div className="con-color">
             <div className="con-colorName">
-            <div className="con-circle">
-                🥳
-              </div>
+              <div className="con-circle">📅</div>
               <div className="con-den">Club Event</div>
             </div>
             <div className="con-colorName">
-              <div className="con-circle">
-                🤔
-              </div>
+              <div className="con-circle">👤</div>
               <div className="con-den">Personel</div>
             </div>
           </div>
@@ -225,22 +235,26 @@ function Sidebar() {
           </div> */}
         </div>
         <div className={`sb-conversation ${LightTheme ? "" : "dark"}`}>
-          <LocalizationProvider dateAdapter={AdapterDayjs} className={`menuItem ${LightTheme ? "" : "dark"}`}>
+          <LocalizationProvider
+            dateAdapter={AdapterDayjs}
+            className={`menuItem ${LightTheme ? "" : "dark"}`}
+          >
             <StaticDatePicker
               className={`menuItem ${LightTheme ? "" : "dark"}`}
               defaultValue={initialValue}
               loading={isLoading}
-              onChange={(e)=> {setOnClickDate(e)}}
+              onChange={(e) => {
+                setOnClickDate(e);
+              }}
               onMonthChange={handleMonthChange}
               renderLoading={() => <DayCalendarSkeleton />}
               slots={{
                 day: ServerDay,
-                
               }}
               slotProps={{
                 day: {
                   highlightedDays,
-                  personelEvent
+                  personelEvent,
                 },
               }}
             />
