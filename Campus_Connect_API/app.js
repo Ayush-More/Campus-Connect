@@ -7,8 +7,8 @@ const logger = require("morgan");
 
 const app = express();
 const corsOptions = {
-  origin: "http://localhost:3000",
-  credentials: true, //access-control-allow-credentials:true
+  origin: ["http://localhost:3000", "http://localhost:5173", "https://campus-connect-ebon.vercel.app"],
+  credentials: true,
   optionSuccessStatus: 200,
 };
 app.use(cors(corsOptions));

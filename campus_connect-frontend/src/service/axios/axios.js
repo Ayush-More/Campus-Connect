@@ -7,6 +7,7 @@ const axiosAuth = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true
 });
 
 export const axiosFormData = axios.create({
@@ -14,6 +15,7 @@ export const axiosFormData = axios.create({
   headers: {
     "Content-Type": "multipart/form-data",
   },
+  withCredentials: true
 });
 
 export default axiosAuth;
