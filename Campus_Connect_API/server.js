@@ -15,7 +15,10 @@ const DB = process.env.DATABASE.replace(
   "<PASSWORD>",
   process.env.DATABASE_PASSWORD
 );
-app.use(cors());
+
+// Remove duplicate CORS middleware
+// app.use(cors());
+
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLIENT_NAME,
   api_key: process.env.CLOUDINARY_CLIENT_API,
@@ -34,7 +37,8 @@ const server = http.createServer(app);
 
 const io = socketio(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "http://localhost:5173", "https://campus-connect-ebon.vercel.app"],
+    credentials: true
   },
 });
 // const users = {}; // Store connected users
