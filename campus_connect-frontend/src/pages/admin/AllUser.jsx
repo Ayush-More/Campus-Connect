@@ -40,9 +40,9 @@ function AllUsers() {
       console.error("Error fetching data:", error);
     }
   };
-  const filteredUsers = users.filter((user) =>
-  user.name.toLowerCase().includes(searchQuery.toLowerCase())
-);
+  const filteredUsers = users?.filter((user) =>
+    user?.name?.toLowerCase().includes(searchQuery?.toLowerCase() || '')
+  ) || [];
   useEffect(()=>{
   fetchData()
   },[])

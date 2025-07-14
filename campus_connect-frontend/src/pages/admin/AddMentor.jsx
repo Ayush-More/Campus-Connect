@@ -172,7 +172,7 @@ function AddMentor() {
                 />
               </FormControl>
               <Button style={{backgroundColor:"#63d7b0"}} variant="contained" size="large" onClick={() => {handlementor(formData); console.log()}}>
-                UPLOAD 
+                SAVE
               </Button>
           </Box>
           );
@@ -231,30 +231,20 @@ function AddMentor() {
             </Box>
             </div>
             <div style={{display:"flex", width:"100%", justifyContent:"center"}}>
-            {/* <Box
-              component="form"
-              sx={{
-                '& > :not(style)': { m: 1, width: '15ch' },
-              }}
-              noValidate
-              autoComplete="off"
-            >
-                <TextField  onChange={detailChange} id="outlined-basic" label="CGPA" variant="outlined" />
-            </Box> */}
             <Box
               component="form"
               sx={{
-                '& > :not(style)': { m: 1, width: '10ch' },
+                '& > :not(style)': { m: 1, width: '52ch' },
               }}
               noValidate
               autoComplete="off"
             >
-                 <TextField onChange={detailChange} name="Cgpa" id="outlined-basic"  variant="outlined" />
+                 <TextField onChange={detailChange} name="Cgpa" id="outlined-basic" label="CGPA" variant="outlined" />
             </Box>
             </div>
             
             <div  style={{display:"flex", width:"100%", justifyContent:"center"}} className={`dropDown ${LightTheme ? "" : "dark"}`}>
-        <FormControl>
+        <FormControl sx={{ width: '52ch' }}>
         <InputLabel id="demo-multiple-checkbox-label" className={`checkbox-label ${LightTheme ? "" : "dark"}`}>Programming Languages</InputLabel>
         <Select
         className={`multiple-checkbox ${LightTheme ? "" : "dark"}`}
@@ -302,7 +292,7 @@ function AddMentor() {
               <img src={logo} alt="logo" />
             </IconButton>
           <p className={`chatArea-text ${LightTheme ? "" : "dark"}`}>
-            CREATE EVENT
+            CREATE MENTOR
           </p>
     </div>
     <div className={`personelEvent-container ${LightTheme ? "" : "dark"}`}>

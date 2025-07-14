@@ -63,7 +63,7 @@ function AllEvent() {
               <DeleteIcon/>
             </IconButton>
             </div>
-            <div className="eventSection"><img className="event-image"src={`/assets/${event.image}`} alt="Event Poster" />
+            <div className="eventSection"><img className="event-image" src={event.image.secure_url} alt="Event Poster" />
             <div className="event-Description">
               <p >
               {event.Description}
@@ -72,16 +72,16 @@ function AllEvent() {
             </div>
             <div className="eventSection">
               <div className="eventDetails">
-                <p><span className="Event-head">Venue:</span><span className="Event-ans">{event.venue}</span></p>
-                <p><span className="Event-head">date:</span><span className="Event-ans">{event.date}</span></p>
-                <p><span className="Event-head">Time:</span><span className="Event-ans">{event.time}</span></p>
+                <p><span className="Event-head">Venue: </span><span className="Event-ans">{event.venue}</span></p>
+                <p><span className="Event-head">Date: </span><span className="Event-ans">{event.date}</span></p>
+                <p><span className="Event-head">Time: </span><span className="Event-ans">{event.time}</span></p>
                 </div>
                 <div className="eventDetails">
-                  <p><span className="Event-head">Mode:</span><span className="Event-ans">{event.mode}</span></p>
-                  <p><span className="Event-head">Department:</span><span className="Event-ans">{event.Department}</span></p>
-                  <p><span className="Event-head">Phone Number:</span><span className="Event-ans">{event.queryContact}</span></p>
+                  <p><span className="Event-head">Mode: </span><span className="Event-ans">{event.mode}</span></p>
+                  <p><span className="Event-head">Department: </span><span className="Event-ans">{event.Department}</span></p>
+                  <p><span className="Event-head">Phone Number: </span><span className="Event-ans">{event.queryContact}</span></p>
                   </div>
-                  </div>
+            </div>
           </div>
         </SwiperSlide> })}
         </Swiper>

@@ -60,8 +60,8 @@ function Group() {
     }
   };
   const filteredUsers = users?.filter((user) =>
-  user.name.toLowerCase().includes(searchQuery.toLowerCase())
-);
+    user?.name?.toLowerCase().includes(searchQuery?.toLowerCase() || '')
+  );
   useEffect(()=>{
   fetchData()
   },[])
